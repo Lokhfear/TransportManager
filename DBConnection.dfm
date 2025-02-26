@@ -53,7 +53,7 @@ object Form2: TForm2
     UpdateOptions.AutoCommitUpdates = True
     SQL.Strings = (
       'select'
-      'id, type_name as RRR'
+      'id, type_name'
       'from vehicle_type')
     Left = 560
     Top = 32

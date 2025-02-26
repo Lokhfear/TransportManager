@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl: TPageControl
@@ -18,7 +19,7 @@ object Form1: TForm1
     Top = 0
     Width = 812
     Height = 542
-    ActivePage = tripPage
+    ActivePage = VehicleTypePage
     Align = alClient
     TabOrder = 0
     object TripRequestPage: TTabSheet
@@ -254,8 +255,6 @@ object Form1: TForm1
     object transportPage: TTabSheet
       Caption = #1058#1088#1072#1085#1089#1087#1086#1088#1090
       ImageIndex = 2
-      ExplicitLeft = 8
-      ExplicitTop = 28
       object Panel1: TPanel
         Left = 0
         Top = 240
@@ -356,100 +355,11 @@ object Form1: TForm1
         end
       end
     end
-    object vehicleTypePage: TTabSheet
-      Caption = #1058#1080#1087' '#1090#1088#1072#1089#1087#1086#1088#1090#1072
+    object VehicleTypePage: TTabSheet
+      Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
       ImageIndex = 4
-      object searchLabel: TLabel
-        Left = 3
-        Top = 82
-        Width = 44
-        Height = 19
-        Caption = #1055#1086#1080#1089#1082
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
-      end
-      object addLabel: TLabel
-        Left = 3
-        Top = 18
-        Width = 59
-        Height = 19
-        Caption = #1057#1086#1079#1076#1072#1090#1100
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Panel2: TPanel
-        Left = 0
-        Top = 184
-        Width = 804
-        Height = 330
-        Align = alBottom
-        Caption = 'Panel2'
-        TabOrder = 0
-        object DBGrid2: TDBGrid
-          Left = 1
-          Top = 1
-          Width = 802
-          Height = 328
-          Align = alClient
-          DataSource = Form2.VehicleTypeDataSource
-          ReadOnly = True
-          TabOrder = 0
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
-          Columns = <
-            item
-              Expanded = False
-              FieldName = 'ID'
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = 'RRR'
-              Visible = True
-            end>
-        end
-      end
-      object CreateVehicleTypeButton: TButton
-        Left = 347
-        Top = 49
-        Width = 75
-        Height = 25
-        Caption = #1057#1086#1079#1076#1072#1090#1100
-        TabOrder = 1
-      end
-      object searchVehicleTypeEdit: TEdit
-        Left = 16
-        Top = 107
-        Width = 305
-        Height = 21
-        TabOrder = 2
-      end
-      object CreateVehicleTypeLabel: TEdit
-        Left = 16
-        Top = 51
-        Width = 305
-        Height = 21
-        TabOrder = 3
-      end
-      object DBNavigator1: TDBNavigator
-        Left = 264
-        Top = 161
-        Width = 240
-        Height = 25
-        DataSource = Form2.VehicleTypeDataSource
-        TabOrder = 4
-      end
+      ExplicitLeft = 8
+      ExplicitTop = 28
     end
   end
 end

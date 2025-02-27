@@ -7,6 +7,8 @@ uses
 
 type
   TManagerCRUD = class
+    procedure DisableFilter;
+
   protected
     FQuery: TFDQuery;
 
@@ -37,7 +39,10 @@ begin
   FQuery := AQuery;
 end;
 
-
+procedure TManagerCRUD.DisableFilter;
+begin
+  FQuery.Filtered := False;
+end;
 (*
   procedure TManagerCRUD.RefreshGrid(AQuery: string);
   (procedure TManagerCRUD.Delete(AID: Integer; ShowMessage: Boolean;

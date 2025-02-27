@@ -3,7 +3,7 @@ unit VehicleTypeManager;
 interface
 
 uses
-  ManagerCRUD, FireDAC.Comp.Client, Data.DB, Vcl.Dialogs;
+  ManagerCRUD, FireDAC.Comp.Client, Data.DB, Vcl.Dialogs, SysUtils;
 
 type
   TVehicleTypeManager = class(TManagerCRUD)
@@ -13,6 +13,7 @@ type
     procedure Delete(AID: integer; ShowMessage: Boolean);
     procedure Update(AID: integer; NewTypeName: String);
     procedure Add(typeName: String);
+    procedure Search(SearchID: Integer; SearchTypeName : string);
   end;
 
 implementation
@@ -61,6 +62,21 @@ begin
 
   LoadAll;
 end;
+
+procedure TVehicleTypeManager.Search(SearchID: integer; SearchTypeName: string);
+begin
+  FQuery.Filtered := False;
+
+  FQuery.Filter := Format(
+    '(id = %d) and (Тип транспорта LIKE ''%%%s%%'')',
+    [SearchID, LowerCase(SearchTypeName)]
+  );
+
+  FQuery.Filtered := True;
+end;
+
+
+
 
 end.
 

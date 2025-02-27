@@ -1,0 +1,44 @@
+unit DBConnection;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.Oracle,
+  FireDAC.Phys.OracleDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TDBConnect = class(TForm)
+    FDConnection1: TFDConnection;
+    pendingRequest: TFDQuery;
+    tripRequestDataSource: TDataSource;
+    vehicleType: TFDQuery;
+    VehicleTypeDataSource: TDataSource;
+    TransportQuery: TFDQuery;
+    ShortDriverQuery: TFDQuery;
+    TransportDataSource: TDataSource;
+    ShortDriverDataSource: TDataSource;
+    DriverQuery: TFDQuery;
+    tripQuery: TFDQuery;
+    FDQuery3: TFDQuery;
+    DriverDataSource: TDataSource;
+    tripDataSource: TDataSource;
+    DataSource3: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DBConnect: TDBConnect;
+
+implementation
+
+{$R *.dfm}
+
+end.

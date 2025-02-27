@@ -47,6 +47,7 @@ object VehicleTypeFr: TVehicleTypeFr
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = [fsBold]
+      OnCellClick = DBGrid5CellClick
       Columns = <
         item
           Expanded = False
@@ -78,7 +79,7 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
-    object Edit2: TEdit
+    object typeNameSearchEdit: TEdit
       AlignWithMargins = True
       Left = 263
       Top = 18
@@ -91,10 +92,11 @@ object VehicleTypeFr: TVehicleTypeFr
       Align = alRight
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
-      OnChange = Edit2Change
-      ExplicitHeight = 24
+      OnChange = typeNameSearchEditChange
+      ExplicitLeft = 265
+      ExplicitTop = 17
     end
-    object Edit3: TEdit
+    object idSearchEdit: TEdit
       AlignWithMargins = True
       Left = 7
       Top = 18
@@ -108,7 +110,8 @@ object VehicleTypeFr: TVehicleTypeFr
       Anchors = [akLeft, akTop, akRight, akBottom]
       TabOrder = 1
       TextHint = 'id'
-      ExplicitHeight = 24
+      OnChange = idSearchEditChange
+      ExplicitTop = 17
     end
   end
   object GroupBox1: TGroupBox
@@ -162,11 +165,11 @@ object VehicleTypeFr: TVehicleTypeFr
       82)
     object CongfirmButton: TButton
       Left = 336
-      Top = 16
+      Top = 19
       Width = 231
-      Height = 27
+      Height = 24
       Anchors = [akLeft, akTop, akRight, akBottom]
-      Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100' '#1074#1089#1077' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
+      Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100
       TabOrder = 0
       OnClick = CongfirmButtonClick
     end
@@ -182,7 +185,7 @@ object VehicleTypeFr: TVehicleTypeFr
     end
     object typenameChangeEdit: TEdit
       Left = 32
-      Top = 19
+      Top = 22
       Width = 298
       Height = 21
       TabOrder = 2

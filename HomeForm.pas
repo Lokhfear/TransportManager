@@ -3,10 +3,9 @@ unit HomeForm;
 interface
 
 uses
-  DBConnection,
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.ExtCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.DBCtrls, VehicleTypeFrame;
+  DBConnection, VehicleTypeFrame, TripFrame, TransportFrame, DriverFrame, TripRequestFrame, Data.DB, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
+  Vcl.ComCtrls, System.Classes, Vcl.Forms, Vcl.Dialogs;
+
 
 type
   TForm1 = class(TForm)
@@ -24,13 +23,7 @@ type
     GridPanel1: TGridPanel;
     DBGrid4: TDBGrid;
     DBGrid3: TDBGrid;
-    TripPanel: TPanel;
-    DBGrid5: TDBGrid;
-    DBNavigator2: TDBNavigator;
     Panel3: TPanel;
-    DBGrid7: TDBGrid;
-    Panel1: TPanel;
-    DBGrid6: TDBGrid;
     VehicleTypePage: TTabSheet;
     procedure FormCreate(Sender: TObject);
 
@@ -51,12 +44,31 @@ implementation
 
 procedure TForm1.FormCreate(Sender: TObject);
 var
-  VehicleTypeFrame: TVehicleTypeFrameForm;
-begin
- VehicleTypeFrame := TVehicleTypeFrameForm.Create(Self);  // Создаём фрейм внутри формы
+  VehicleTypeFrame: TVehicleTypeFr;
+  TripFrame: TTripFr;
+  TransportFrame: TTransportFr;
+  DriverFrame: TDriverFr;
+  TriptRequestFrame: TTripRequestFr;
 
-  // Добавляем фрейм в вкладку VehicleTypePage
+  DBConnect: TDBConnect;
+begin
+  DBConnect := TDBConnect.Create(nil);
+
+
+
+  VehicleTypeFrame := TVehicleTypeFr.Create(Self, DBConnect.VehicleType);
+  TripFrame := TTripFr.Create(Self);
+  TransportFrame := TTransportFr.Create(Self);
+  DriverFrame := TDriverFr.Create(Self);
+  TriptRequestFrame := TTripRequestFr.Create(Self);
+
+
   VehicleTypeFrame.Parent := VehicleTypePage;
+  TripFrame.Parent := TripPage;
+  TransportFrame.Parent := TransportPage;
+  DriverFrame.Parent := DriverPage;
+//TriptRequestFrame := TTripRequestFr;
+
 end;
 
 end.

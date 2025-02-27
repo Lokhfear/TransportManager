@@ -19,7 +19,7 @@ object Form1: TForm1
     Top = 0
     Width = 812
     Height = 542
-    ActivePage = VehicleTypePage
+    ActivePage = tripPage
     Align = alClient
     TabOrder = 0
     object TripRequestPage: TTabSheet
@@ -34,6 +34,7 @@ object Form1: TForm1
         TabOrder = 0
         object TabSheet6: TTabSheet
           Caption = 'TabSheet6'
+          ExplicitLeft = 0
           object PendingTripRequest: TPanel
             Left = 0
             Top = 291
@@ -196,112 +197,10 @@ object Form1: TForm1
     object tripPage: TTabSheet
       Caption = #1052#1072#1088#1096#1088#1091#1090#1099
       ImageIndex = 1
-      object TripPanel: TPanel
-        Left = 0
-        Top = 240
-        Width = 804
-        Height = 274
-        Align = alBottom
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        TabOrder = 0
-        object DBGrid5: TDBGrid
-          Left = 1
-          Top = 1
-          Width = 802
-          Height = 272
-          Align = alClient
-          Color = clWhite
-          DataSource = Form2.tripDataSource
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
-          ReadOnly = True
-          TabOrder = 0
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
-          Columns = <
-            item
-              Expanded = False
-              FieldName = #1042#1088#1077#1084#1103' '#1086#1090#1098#1077#1079#1076#1072
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1042#1088#1077#1084#1103' '#1087#1088#1080#1073#1099#1090#1080#1103
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-              Width = 180
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1060#1048#1054' '#1074#1086#1076#1080#1090#1077#1083#1103
-              Visible = True
-            end>
-        end
-      end
-      object DBNavigator2: TDBNavigator
-        Left = 288
-        Top = 209
-        Width = 240
-        Height = 25
-        TabOrder = 1
-      end
     end
     object transportPage: TTabSheet
       Caption = #1058#1088#1072#1085#1089#1087#1086#1088#1090
       ImageIndex = 2
-      object Panel1: TPanel
-        Left = 0
-        Top = 240
-        Width = 804
-        Height = 274
-        Align = alBottom
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        TabOrder = 0
-        object DBGrid6: TDBGrid
-          Left = 1
-          Top = 1
-          Width = 802
-          Height = 272
-          Align = alClient
-          Color = clWhite
-          DataSource = Form2.TransportDataSource
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
-          ReadOnly = True
-          TabOrder = 0
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
-          Columns = <
-            item
-              Expanded = False
-              FieldName = #1053#1054#1052#1045#1056
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
-              Visible = True
-            end>
-        end
-      end
     end
     object driverPage: TTabSheet
       Caption = #1042#1086#1076#1080#1090#1077#1083#1080
@@ -314,45 +213,6 @@ object Form1: TForm1
         Align = alBottom
         Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
-        object DBGrid7: TDBGrid
-          Left = 1
-          Top = 1
-          Width = 802
-          Height = 272
-          Align = alClient
-          Color = clWhite
-          DataSource = Form2.tripDataSource
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
-          ReadOnly = True
-          TabOrder = 0
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
-          Columns = <
-            item
-              Expanded = False
-              FieldName = #1042#1088#1077#1084#1103' '#1086#1090#1098#1077#1079#1076#1072
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1042#1088#1077#1084#1103' '#1087#1088#1080#1073#1099#1090#1080#1103
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-              Width = 180
-              Visible = True
-            end
-            item
-              Expanded = False
-              FieldName = #1060#1048#1054' '#1074#1086#1076#1080#1090#1077#1083#1103
-              Visible = True
-            end>
-        end
       end
     end
     object VehicleTypePage: TTabSheet

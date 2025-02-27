@@ -1,7 +1,7 @@
-object Form2: TForm2
+object DBConnect: TDBConnect
   Left = 0
   Top = 0
-  Caption = 'Form2'
+  Caption = 'DBConnect'
   ClientHeight = 458
   ClientWidth = 776
   Color = clBtnFace
@@ -50,7 +50,6 @@ object Form2: TForm2
     Active = True
     Connection = FDConnection1
     UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
-    UpdateOptions.AutoCommitUpdates = True
     SQL.Strings = (
       'select'
       'id, type_name'

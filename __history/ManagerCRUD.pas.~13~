@@ -12,22 +12,23 @@ type
     FTableName: String;
     FCustomSQL: String;
   public
-    constructor Create(AQuery: TFDQuery; ATableName: String; ACustomSQL: String = '');
-
+    constructor Create(AQuery: TFDQuery; ATableName: String;
+      ACustomSQL: String = '');
 
     procedure LoadAll;
     procedure Add(AFields, AValues: array of String);
-    procedure Delete(AID: Integer);
+    procedure Delete(AID: Integer; ShowMessage: Boolean);
     procedure Update(AFields, AValues: array of String; AID: Integer);
     procedure Search(AField, AKeyword: String);
     procedure SaveChanges;
     procedure RefreshGrid;
+    procedure Commit;
   end;
 
 implementation
 
-
-constructor TManagerCRUD.Create(AQuery: TFDQuery; ATableName: String; ACustomSQL: String);
+constructor TManagerCRUD.Create(AQuery: TFDQuery; ATableName: String;
+  ACustomSQL: String);
 begin
   FQuery := AQuery;
   FTableName := ATableName;
@@ -59,10 +60,11 @@ begin
     ParamsList := ParamsList + ':' + AFields[I];
   end;
 
-  FQuery.SQL.Text := Format('INSERT INTO %s (%s) VALUES (%s)', [FTableName, FieldsList, ParamsList]);
+  FQuery.SQL.Text := Format('INSERT INTO %s (%s) VALUES (%s)',
+    [FTableName, FieldsList, ParamsList]);
 
 
-  ShowMessage('Generated SQL: ' + FQuery.SQL.Text);
+  // ShowMessage('Generated SQL: ' + FQuery.SQL.Text);
 
   for I := Low(AValues) to High(AValues) do
     FQuery.ParamByName(AFields[I]).AsString := AValues[I];
@@ -71,13 +73,17 @@ begin
   RefreshGrid;
 end;
 
-procedure TManagerCRUD.Delete(AID: Integer);
+procedure TManagerCRUD.Delete(AID: Integer; ShowMessage: Boolean);
 begin
-  FQuery.SQL.Text := Format('DELETE FROM %s WHERE id = :id', [FTableName]);
-  FQuery.ParamByName('id').AsInteger := AID;
-  FQuery.ExecSQL;
-  RefreshGrid;
+  if not ShowMessage or (MessageDlg('Подтвердить удаление', mtConfirmation, [mbOK, mbCancel], 0) = 1) then
+  begin
+    FQuery.SQL.Text := Format('DELETE FROM %s WHERE id = :id', [FTableName]);
+    FQuery.ParamByName('id').AsInteger := AID;
+    FQuery.ExecSQL;
+    RefreshGrid;
+  end;
 end;
+
 
 procedure TManagerCRUD.Update(AFields, AValues: array of String; AID: Integer);
 var
@@ -93,7 +99,8 @@ begin
     SetClause := SetClause + Format('%s = :%s', [AFields[I], AFields[I]]);
   end;
 
-  FQuery.SQL.Text := Format('UPDATE %s SET %s WHERE id = :id', [FTableName, SetClause]);
+  FQuery.SQL.Text := Format('UPDATE %s SET %s WHERE id = :id',
+    [FTableName, SetClause]);
   FQuery.ParamByName('id').AsInteger := AID;
 
   for I := Low(AFields) to High(AFields) do
@@ -103,11 +110,18 @@ begin
   RefreshGrid;
 end;
 
+(*
+Работает только по 1 строке.
+Даже если сделать по всем. Будет рабоать только по сроковым типам.
+*)
 procedure TManagerCRUD.Search(AField, AKeyword: String);
 begin
-  FQuery.SQL.Text := Format('SELECT * FROM %s WHERE %s LIKE :keyword', [FTableName, AField]);
-  FQuery.ParamByName('keyword').AsString := '%' + AKeyword + '%';
-  FQuery.Open;
+  FQuery.Filtered := False;
+
+  FQuery.Filter := Format('Lower(%s) LIKE ''%%%s%%''',
+    [AField, LowerCase(AKeyword)]);
+
+  FQuery.Filtered := True;
 end;
 
 procedure TManagerCRUD.SaveChanges;
@@ -130,5 +144,23 @@ begin
   end;
 end;
 
-end.
 
+
+procedure TManagerCRUD.Commit;
+begin
+  try
+{    // Проверка, что транзакция еще не была начата    if not FQuery.Connection.InTransaction then      FQuery.Connection.StartTransaction; // Начинаем транзакцию, если она еще не начата    // Выполнение всех операций, требующих сохранения изменений    FQuery.ExecSQL; // Если необходимо выполнить операцию, такую как INSERT/UPDATE/DELETE    // Коммит транзакции для сохранения изменений}
+    FQuery.Connection.Commit;
+    RefreshGrid; // Обновляем грид, чтобы отобразить изменения
+  except
+    on E: Exception do
+    begin
+
+      FQuery.Connection.Rollback;
+      ShowMessage('Ошибка при сохранении изменений: ' + E.Message);
+    end;
+  end;
+end;
+
+
+end.

@@ -11,9 +11,10 @@ type
     FQuery: TFDQuery;
     FTableName: String;
     FCustomSQL: String;
+    FConnection: TFDConnection; // Добавляем ссылку на соединение
   public
     constructor Create(AQuery: TFDQuery; ATableName: String;
-      ACustomSQL: String = '');
+      AConnection: TFDConnection; ACustomSQL: String = '');
 
     procedure LoadAll;
     procedure Add(AFields, AValues: array of String);
@@ -28,10 +29,11 @@ type
 implementation
 
 constructor TManagerCRUD.Create(AQuery: TFDQuery; ATableName: String;
-  ACustomSQL: String);
+  AConnection: TFDConnection; ACustomSQL: String);
 begin
   FQuery := AQuery;
   FTableName := ATableName;
+  FConnection := AConnection;
   FCustomSQL := ACustomSQL;
 end;
 
@@ -63,9 +65,6 @@ begin
   FQuery.SQL.Text := Format('INSERT INTO %s (%s) VALUES (%s)',
     [FTableName, FieldsList, ParamsList]);
 
-
-  // ShowMessage('Generated SQL: ' + FQuery.SQL.Text);
-
   for I := Low(AValues) to High(AValues) do
     FQuery.ParamByName(AFields[I]).AsString := AValues[I];
 
@@ -83,7 +82,6 @@ begin
     RefreshGrid;
   end;
 end;
-
 
 procedure TManagerCRUD.Update(AFields, AValues: array of String; AID: Integer);
 var
@@ -110,10 +108,6 @@ begin
   RefreshGrid;
 end;
 
-(*
-Работает только по 1 строке.
-Даже если сделать по всем. Будет рабоать только по сроковым типам.
-*)
 procedure TManagerCRUD.Search(AField, AKeyword: String);
 begin
   FQuery.Filtered := False;
@@ -126,13 +120,25 @@ end;
 
 procedure TManagerCRUD.SaveChanges;
 begin
-  FQuery.ApplyUpdates(0);
-  RefreshGrid;
+  try
+    FConnection.StartTransaction;  // Начинаем транзакцию
+
+    FQuery.ApplyUpdates(0); // Применяем изменения
+
+    FConnection.Commit; // Коммитим изменения
+
+    RefreshGrid;  // Обновляем грид
+  except
+    on E: Exception do
+    begin
+      FConnection.Rollback;  // Откатываем изменения в случае ошибки
+      ShowMessage('Ошибка при сохранении изменений: ' + E.Message);
+    end;
+  end;
 end;
 
 procedure TManagerCRUD.RefreshGrid;
 begin
-  // Если передан кастомный SQL-запрос, используем его
   if FCustomSQL <> '' then
   begin
     FQuery.SQL.Text := FCustomSQL;
@@ -144,23 +150,19 @@ begin
   end;
 end;
 
-
-
 procedure TManagerCRUD.Commit;
 begin
   try
-{    // Проверка, что транзакция еще не была начата    if not FQuery.Connection.InTransaction then      FQuery.Connection.StartTransaction; // Начинаем транзакцию, если она еще не начата    // Выполнение всех операций, требующих сохранения изменений    FQuery.ExecSQL; // Если необходимо выполнить операцию, такую как INSERT/UPDATE/DELETE    // Коммит транзакции для сохранения изменений}
-    FQuery.Connection.Commit;
-    RefreshGrid; // Обновляем грид, чтобы отобразить изменения
+    FConnection.Commit;  // Закоммитить все изменения, если не было исключений
+    RefreshGrid;  // Обновляем данные в гриде
   except
     on E: Exception do
     begin
-
-      FQuery.Connection.Rollback;
+      FConnection.Rollback;  // Откатываем изменения в случае ошибки
       ShowMessage('Ошибка при сохранении изменений: ' + E.Message);
     end;
   end;
 end;
 
-
 end.
+

@@ -21,9 +21,6 @@ object VehicleTypeFr: TVehicleTypeFr
     Padding.Bottom = 5
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = 18
-    ExplicitWidth = 1519
-    ExplicitHeight = 343
     object DBGrid5: TDBGrid
       Left = 6
       Top = 1
@@ -54,13 +51,11 @@ object VehicleTypeFr: TVehicleTypeFr
         item
           Expanded = False
           FieldName = 'ID'
-          Title.Color = clSilver
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'TYPE_NAME'
-          Title.Color = clSilver
+          FieldName = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
           Visible = True
         end>
     end
@@ -83,8 +78,6 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
-    ExplicitTop = 80
-    ExplicitWidth = 893
     object Edit2: TEdit
       AlignWithMargins = True
       Left = 263
@@ -99,6 +92,7 @@ object VehicleTypeFr: TVehicleTypeFr
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
       OnChange = Edit2Change
+      ExplicitHeight = 24
     end
     object Edit3: TEdit
       AlignWithMargins = True
@@ -114,6 +108,7 @@ object VehicleTypeFr: TVehicleTypeFr
       Anchors = [akLeft, akTop, akRight, akBottom]
       TabOrder = 1
       TextHint = 'id'
+      ExplicitHeight = 24
     end
   end
   object GroupBox1: TGroupBox
@@ -124,7 +119,6 @@ object VehicleTypeFr: TVehicleTypeFr
     Align = alClient
     Caption = #1057#1086#1079#1076#1072#1090#1100
     TabOrder = 2
-    ExplicitWidth = 640
     DesignSize = (
       327
       82)
@@ -133,7 +127,7 @@ object VehicleTypeFr: TVehicleTypeFr
       Left = 24
       Top = 19
       Width = 271
-      Height = 23
+      Height = 21
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
@@ -143,7 +137,6 @@ object VehicleTypeFr: TVehicleTypeFr
       ParentCtl3D = False
       TabOrder = 0
       TextHint = #1042#1074#1077#1076#1080#1090#1077' '#1090#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
-      ExplicitWidth = 584
     end
     object CreateButton: TButton
       Left = 24
@@ -154,8 +147,6 @@ object VehicleTypeFr: TVehicleTypeFr
       Caption = #1057#1086#1079#1076#1072#1090#1100
       TabOrder = 1
       OnClick = CreateButtonClick
-      ExplicitWidth = 537
-      ExplicitHeight = 25
     end
   end
   object GroupBox2: TGroupBox
@@ -193,7 +184,7 @@ object VehicleTypeFr: TVehicleTypeFr
       Left = 32
       Top = 19
       Width = 298
-      Height = 24
+      Height = 21
       TabOrder = 2
     end
   end

@@ -50,7 +50,7 @@ object Form1: TForm1
               Height = 193
               Align = alClient
               Color = clWhite
-              DataSource = Form2.tripRequestDataSource
+              DataSource = DBConnect.tripRequestDataSource
               Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
               ReadOnly = True
               TabOrder = 0
@@ -131,7 +131,7 @@ object Form1: TForm1
               Height = 289
               Align = alLeft
               Anchors = [akLeft, akTop, akRight, akBottom]
-              DataSource = Form2.ShortDriverDataSource
+              DataSource = DBConnect.ShortDriverDataSource
               Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
               ReadOnly = True
               TabOrder = 0
@@ -159,7 +159,7 @@ object Form1: TForm1
               Width = 203
               Height = 289
               Align = alLeft
-              DataSource = Form2.TransportDataSource
+              DataSource = DBConnect.TransportDataSource
               Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
               ReadOnly = True
               TabOrder = 1

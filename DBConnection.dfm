@@ -52,7 +52,7 @@ object DBConnect: TDBConnect
     UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
     SQL.Strings = (
       'select'
-      'id, type_name'
+      'id, type_name as "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
       'from vehicle_type')
     Left = 560
     Top = 32

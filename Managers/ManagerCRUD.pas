@@ -7,18 +7,22 @@ uses
 
 type
   TManagerCRUD = class
-  private
+  protected
     FQuery: TFDQuery;
+
+    constructor Create(AQuery: TFDQuery);
+
+    { procedure Delete(AID: Integer; ShowMessage: Boolean; FTableName: string);
+      virtual; overload;
+      procedure Delete(AID: String; ShowMessage: Boolean; FTableName: string);
+      virtual; overload; }
+
+  private
     // FTableName: String;
     // FCustomSQL: String;
   public
-    constructor Create(AQuery: TFDQuery);
-
-    procedure LoadAll; virtual; abstract;
-    procedure Delete(AID: Integer; ShowMessage: Boolean;
-      FTableName: string); virtual;
-    procedure SaveChanges; virtual;
-    procedure RefreshGrid(AQuery: string); virtual;
+    // procedure RefreshGrid(AQuery: string); virtual;
+    // procedure SaveChanges; virtual;
 
     // procedure Add(AValues: array of String); virtual; abstract;
     // procedure Update(AValues: array of String; AID: Integer); virtual; abstract;
@@ -28,34 +32,42 @@ type
 
 implementation
 
-constructor TManagerCRUD.Create(AQuery: TFDQuery; ATableName: String;
-  ACustomSQL: String);
+constructor TManagerCRUD.Create(AQuery: TFDQuery);
 begin
   FQuery := AQuery;
-  // FTableName := ATableName;
-  // FCustomSQL := ACustomSQL;
 end;
 
-procedure TManagerCRUD.Delete(AID: Integer; ShowMessage: Boolean;
-  FTableName: string);
-begin
-  if not ShowMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
-    [mbOK, mbCancel], 0) = 1) then
-  begin
-    FQuery.SQL.Text := Format('DELETE FROM %s WHERE id = :id', [FTableName]);
-    FQuery.ParamByName('id').AsInteger := AID;
-    FQuery.ExecSQL;
-    RefreshGrid;
-  end;
-end;
-
-procedure TManagerCRUD.RefreshGrid(AQuery: string);
-begin
-  FQuery.SQL.Text := AQuery;
-  FQuery.Open;
-end;
 
 (*
+  procedure TManagerCRUD.RefreshGrid(AQuery: string);
+  (procedure TManagerCRUD.Delete(AID: Integer; ShowMessage: Boolean;
+  FTableName: string);
+  begin
+  if not ShowMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
+  [mbOK, mbCancel], 0) = 1) then
+  begin
+  FQuery.SQL.Text := Format('DELETE FROM %s WHERE id = :id', [FTableName]);
+  FQuery.ParamByName('id').AsInteger := AID;
+  FQuery.ExecSQL;
+  end;
+  end;
+
+  procedure TManagerCRUD.Delete(AID: String; ShowMessage: Boolean;
+  FTableName: string);
+  begin
+  if not ShowMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
+  [mbOK, mbCancel], 0) = 1) then
+  begin
+  FQuery.SQL.Text := Format('DELETE FROM %s WHERE id = :id', [FTableName]);
+  FQuery.ParamByName('id').AsString := AID;
+  FQuery.ExecSQL;
+  end;
+  end;) begin
+  FQuery.SQL.Text := AQuery;
+  FQuery.Open;
+  end;
+
+
   procedure TManagerCRUD.LoadAll;
   begin
   FQuery.SQL.Text := 'SELECT * FROM ' + FTableName;

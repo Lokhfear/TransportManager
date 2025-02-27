@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.135,=E:\Project\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.617,E:\Project\TransportManager.dproj=E:\Project\TransportManager.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.184,=E:\Project\Unit2.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.621,E:\Project\Unit2.pas=E:\Project\DBConnection.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.105,E:\Project\Unit1.pas=E:\Project\Homefrom.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.831,E:\Project\Project1.dproj=E:\Project\TransportManager.dproj</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.558,E:\Project\Homefrom.pas=E:\Project\HomeForm.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.621,E:\Project\Unit2.dfm=E:\Project\DBConnection.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.135,=E:\Project\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.558,E:\Project\Homefrom.dfm=E:\Project\HomeForm.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.105,E:\Project\Unit1.dfm=E:\Project\Homefrom.dfm</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.184,=E:\Project\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.558,E:\Project\Homefrom.pas=E:\Project\HomeForm.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.621,E:\Project\Unit2.dfm=E:\Project\DBConnection.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.831,E:\Project\Project1.dproj=E:\Project\TransportManager.dproj</Transaction>
     <Transaction>2025.02.26 12:43:54.849,=E:\Project\Unit1.pas</Transaction>
     <Transaction>2025.02.26 13:52:48.035,E:\Project\VehicleType.dfm=E:\Project\Unit1.dfm</Transaction>
     <Transaction>2025.02.26 13:52:48.035,E:\Project\VehicleType.pas=E:\Project\Unit1.pas</Transaction>
     <Transaction>2025.02.26 13:52:58.343,E:\Project\Frames\VehicleType.dfm=E:\Project\VehicleType.dfm</Transaction>
     <Transaction>2025.02.26 13:52:58.343,E:\Project\Frames\VehicleType.pas=E:\Project\VehicleType.pas</Transaction>
-    <Transaction>2025.02.26 13:56:12.839,E:\Project\Frames\VehicleTypeFrame.dfm=E:\Project\Frames\VehicleType.dfm</Transaction>
     <Transaction>2025.02.26 13:56:12.839,E:\Project\Frames\VehicleTypeFrame.pas=E:\Project\Frames\VehicleType.pas</Transaction>
+    <Transaction>2025.02.26 13:56:12.839,E:\Project\Frames\VehicleTypeFrame.dfm=E:\Project\Frames\VehicleType.dfm</Transaction>
     <Transaction>2025.02.26 14:42:40.962,=E:\Project\Unit1.pas</Transaction>
     <Transaction>2025.02.26 14:53:43.713,=E:\Project\Unit2.pas</Transaction>
     <Transaction>2025.02.26 14:53:57.974,E:\Project\BaseManager.pas=E:\Project\Unit2.pas</Transaction>
@@ -25,31 +25,35 @@
     <Transaction>2025.02.26 15:10:30.691,E:\Project\ManagerCRUD.pas=E:\Project\Unit1.pas</Transaction>
     <Transaction>2025.02.26 15:32:02.587,E:\Project\Frames\VehicleTypeFrame.pas=</Transaction>
     <Transaction>2025.02.26 15:32:27.468,=E:\Project\Unit1.pas</Transaction>
-    <Transaction>2025.02.26 15:32:47.501,E:\Project\VehicleTypeFrame.pas=E:\Project\Unit1.pas</Transaction>
     <Transaction>2025.02.26 15:32:47.501,E:\Project\VehicleTypeFrame.dfm=E:\Project\Unit1.dfm</Transaction>
+    <Transaction>2025.02.26 15:32:47.501,E:\Project\VehicleTypeFrame.pas=E:\Project\Unit1.pas</Transaction>
     <Transaction>2025.02.26 15:33:22.178,E:\Project\Frames\VehicleTypeFrame.dfm=E:\Project\VehicleTypeFrame.dfm</Transaction>
     <Transaction>2025.02.26 15:33:22.178,E:\Project\Frames\VehicleTypeFrame.pas=E:\Project\VehicleTypeFrame.pas</Transaction>
     <Transaction>2025.02.26 16:05:29.857,=E:\Project\Unit1.pas</Transaction>
-    <Transaction>2025.02.26 16:06:23.981,E:\Project\TripFrame.dfm=E:\Project\Unit1.dfm</Transaction>
     <Transaction>2025.02.26 16:06:23.981,E:\Project\TripFrame.pas=E:\Project\Unit1.pas</Transaction>
-    <Transaction>2025.02.26 16:06:35.161,E:\Project\Frames\TripFrame.pas=E:\Project\TripFrame.pas</Transaction>
+    <Transaction>2025.02.26 16:06:23.981,E:\Project\TripFrame.dfm=E:\Project\Unit1.dfm</Transaction>
     <Transaction>2025.02.26 16:06:35.161,E:\Project\Frames\TripFrame.dfm=E:\Project\TripFrame.dfm</Transaction>
+    <Transaction>2025.02.26 16:06:35.161,E:\Project\Frames\TripFrame.pas=E:\Project\TripFrame.pas</Transaction>
     <Transaction>2025.02.26 16:06:57.204,=E:\Project\Unit2.pas</Transaction>
-    <Transaction>2025.02.26 16:07:19.932,E:\Project\TransportFrame.pas=E:\Project\Unit2.pas</Transaction>
     <Transaction>2025.02.26 16:07:19.932,E:\Project\TransportFrame.dfm=E:\Project\Unit2.dfm</Transaction>
-    <Transaction>2025.02.26 16:07:32.107,E:\Project\Frames\TransportFrame.dfm=E:\Project\TransportFrame.dfm</Transaction>
+    <Transaction>2025.02.26 16:07:19.932,E:\Project\TransportFrame.pas=E:\Project\Unit2.pas</Transaction>
     <Transaction>2025.02.26 16:07:32.107,E:\Project\Frames\TransportFrame.pas=E:\Project\TransportFrame.pas</Transaction>
+    <Transaction>2025.02.26 16:07:32.107,E:\Project\Frames\TransportFrame.dfm=E:\Project\TransportFrame.dfm</Transaction>
     <Transaction>2025.02.26 16:07:45.121,=E:\Project\Unit3.pas</Transaction>
     <Transaction>2025.02.26 16:07:59.958,E:\Project\DriverFrame.pas=E:\Project\Unit3.pas</Transaction>
     <Transaction>2025.02.26 16:07:59.958,E:\Project\DriverFrame.dfm=E:\Project\Unit3.dfm</Transaction>
-    <Transaction>2025.02.26 16:08:05.514,E:\Project\Frames\DriverFrame.dfm=E:\Project\DriverFrame.dfm</Transaction>
     <Transaction>2025.02.26 16:08:05.514,E:\Project\Frames\DriverFrame.pas=E:\Project\DriverFrame.pas</Transaction>
+    <Transaction>2025.02.26 16:08:05.514,E:\Project\Frames\DriverFrame.dfm=E:\Project\DriverFrame.dfm</Transaction>
     <Transaction>2025.02.26 16:08:38.956,=E:\Project\Unit4.pas</Transaction>
-    <Transaction>2025.02.26 16:09:06.986,E:\Project\Frames\TripRequestFrame.pas=E:\Project\Unit4.pas</Transaction>
     <Transaction>2025.02.26 16:09:06.986,E:\Project\Frames\TripRequestFrame.dfm=E:\Project\Unit4.dfm</Transaction>
+    <Transaction>2025.02.26 16:09:06.986,E:\Project\Frames\TripRequestFrame.pas=E:\Project\Unit4.pas</Transaction>
     <Transaction>2025.02.27 15:48:23.674,=E:\Project\Unit2.pas</Transaction>
     <Transaction>2025.02.27 15:48:53.720,E:\Project\VehicleTypeEdit.pas=E:\Project\Unit2.pas</Transaction>
     <Transaction>2025.02.27 15:48:53.720,E:\Project\VehicleTypeEdit.dfm=E:\Project\Unit2.dfm</Transaction>
+    <Transaction>2025.02.27 18:07:44.384,E:\Project\Managers\ManagerCRUD.pas=E:\Project\ManagerCRUD.pas</Transaction>
+    <Transaction>2025.02.27 18:11:19.418,=E:\Project\Unit1.pas</Transaction>
+    <Transaction>2025.02.27 18:12:04.729,E:\Project\VehicleTypeManager.pas=E:\Project\Unit1.pas</Transaction>
+    <Transaction>2025.02.27 18:57:58.502,E:\Project\Managers\VehicleTypeManager.pas=E:\Project\VehicleTypeManager.pas</Transaction>
   </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="Frames"/>
     <File Path="Frames\VehicleTypeFrame.pas"/>
@@ -66,6 +70,8 @@
     <File Path="DBConnection.dfm"/>
     <File Path="HomeForm.pas"/>
     <File Path="HomeForm.dfm"/>
-    <File Path="ManagerCRUD.pas"/>
+    <File Path="Managers"/>
+    <File Path="Managers\ManagerCRUD.pas"/>
+    <File Path="Managers\VehicleTypeManager.pas"/>
   </ProjectSortOrder>
 </BorlandProject>

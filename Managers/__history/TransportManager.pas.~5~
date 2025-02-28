@@ -1,0 +1,16 @@
+unit TransportManager;
+
+interface
+
+uses
+  ManagerCRUD, FireDAC.Comp.Client, Data.DB, Vcl.Dialogs, SysUtils;
+
+type
+  TTransportManager = class(TManagerCRUD)
+
+  end;
+
+implementation
+
+end.
+

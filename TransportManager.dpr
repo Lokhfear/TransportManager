@@ -11,7 +11,8 @@ uses
   DriverFrame in 'Frames\DriverFrame.pas' {DriverFr: TFrame},
   TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr: TFrame},
   VehicleTypeManager in 'Managers\VehicleTypeManager.pas',
-  DriverManager in 'Managers\DriverManager.pas';
+  DriverManager in 'Managers\DriverManager.pas',
+  TransportManage in 'Managers\TransportManage.pas';
 
 {$R *.res}
 

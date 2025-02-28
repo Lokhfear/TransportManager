@@ -1,14 +1,14 @@
 object DriverFr: TDriverFr
   Left = 0
   Top = 0
-  Width = 861
-  Height = 479
+  Width = 860
+  Height = 480
   Align = alClient
   TabOrder = 0
   object Panel1: TPanel
     Left = 0
-    Top = 160
-    Width = 861
+    Top = 161
+    Width = 860
     Height = 319
     Align = alBottom
     Padding.Left = 4
@@ -16,10 +16,12 @@ object DriverFr: TDriverFr
     Padding.Right = 4
     Padding.Bottom = 4
     TabOrder = 0
+    ExplicitTop = 160
+    ExplicitWidth = 861
     object driverGrid: TDBGrid
       Left = 5
       Top = 5
-      Width = 851
+      Width = 850
       Height = 309
       Align = alClient
       Color = clWhite
@@ -61,12 +63,14 @@ object DriverFr: TDriverFr
   end
   object searchGroupbox: TGroupBox
     Left = 0
-    Top = 119
-    Width = 861
+    Top = 120
+    Width = 860
     Height = 41
     Align = alBottom
     Caption = #1055#1086#1080#1089#1082
     TabOrder = 1
+    ExplicitTop = 119
+    ExplicitWidth = 861
     object DBEdit1: TDBEdit
       Left = 16
       Top = 17
@@ -99,8 +103,8 @@ object DriverFr: TDriverFr
   object VehicleTypeCheckListBox: TCheckListBox
     Left = 297
     Top = 0
-    Width = 233
-    Height = 119
+    Width = 232
+    Height = 120
     Align = alClient
     Columns = 1
     ItemHeight = 13
@@ -130,16 +134,19 @@ object DriverFr: TDriverFr
     TabOrder = 2
     ExplicitLeft = 306
     ExplicitTop = -6
+    ExplicitWidth = 233
+    ExplicitHeight = 119
   end
   object GroupBox2: TGroupBox
     Left = 0
     Top = 0
     Width = 297
-    Height = 119
+    Height = 120
     Align = alLeft
     Caption = 'GroupBox2'
     TabOrder = 3
     ExplicitTop = -6
+    ExplicitHeight = 119
     object FullNameCreateEdit: TEdit
       Left = 26
       Top = 23
@@ -169,10 +176,10 @@ object DriverFr: TDriverFr
     end
   end
   object GroupBox3: TGroupBox
-    Left = 530
+    Left = 529
     Top = 0
     Width = 331
-    Height = 119
+    Height = 120
     Align = alRight
     Caption = 'GroupBox3'
     TabOrder = 4

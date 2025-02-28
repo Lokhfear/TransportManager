@@ -13,7 +13,7 @@ type
     procedure LoadAll;
     procedure Delete(AID: integer; ShowMessage: Boolean);
     procedure Update(AID: integer; NewFullName: String);
-    function Add(FullName: String; EmploymentStart: TDateTime): integer;
+    procedure Add(FullName: String; EmploymentStart: TDateTime);
     // procedure Search(SearchID: Integer; SearchFullName : string);
 
     procedure UpdateDriverVehicleTypes(DriverID: integer;
@@ -24,19 +24,15 @@ type
 
 implementation
 
-function TDriverManager.Add(FullName: String;
-  EmploymentStart: TDateTime): integer;
+procedure TDriverManager.Add(FullName: String; EmploymentStart: TDateTime);
 begin
   FQuery.SQL.Text :=
-    'INSERT INTO driver (full_name, employment_start) VALUES (:fullName, :employmentStart) '
-    + ' RETURNING id INTO :NewID';
+    'INSERT INTO driver (full_name, employment_start) VALUES (:fullName, :employmentStart) ' +
+    ' RETURNING id INTO :NewID';
   FQuery.ParamByName('fullName').AsString := FullName;
   FQuery.ParamByName('employmentStart').AsDateTime := EmploymentStart;
-  FQuery.ParamByName('NewID').DataType := ftInteger;
   FQuery.ExecSQL;
 
-  Result := FQuery.ParamByName('NewID').AsInteger;
-  ShowMessage(Result.ToString);
   LoadAll;
 end;
 

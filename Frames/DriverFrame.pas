@@ -77,8 +77,10 @@ var
 begin
   if FullNameCreateEdit.Text <> '' then
   begin
-    createdId := ManagerCRUD.Add(FullNameCreateEdit.Text, employmentStartDatePicker.Date);
-    ManagerCRUD.UpdateDriverVehicleTypes(createdId, TList<Integer>.Create, GetSelectedVehicleTypes);
+    ManagerCRUD.Add(FullNameCreateEdit.Text, employmentStartDatePicker.Date);
+
+    //надо найти id созданного водителя
+    //ManagerCRUD.UpdateDriverVehicleTypes(createdId, TList<Integer>.Create, GetSelectedVehicleTypes);
 
     FullNameCreateEdit.Text := '';
     employmentStartDatePicker.Checked := false;

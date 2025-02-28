@@ -1,0 +1,66 @@
+unit TransportManager;
+
+interface
+
+uses
+  ManagerCRUD, FireDAC.Comp.Client, Data.DB, Vcl.Dialogs, SysUtils;
+
+type
+  TTransportManager = class(TManagerCRUD)
+  public
+    constructor Create(AQuery: TFDQuery);
+    procedure LoadAll;
+    procedure Delete(numberPlate: String; ShowMessage: Boolean);
+
+    procedure Add(numberPlate: String;
+      StartExploitation, EndExploitation: TDateTime; VehicleTypeID: Integer);
+  end;
+
+implementation
+
+constructor TTransportManager.Create(AQuery: TFDQuery);
+begin
+  inherited Create(AQuery);
+end;
+
+procedure TTransportManager.Add(numberPlate: String;
+  StartExploitation, EndExploitation: TDateTime; VehicleTypeID: Integer);
+begin
+  FQuery.SQL.Text :=
+    'INSERT INTO transport (number_plate, vehicle_type_id, start_exploitation, end_exploitation) '
+    + 'VALUES (:numberPlate, :vehicleTypeID, :startExploitation, :endExploitation)';
+  FQuery.ParamByName('numberPlate').AsString := numberPlate;
+  FQuery.ParamByName('vehicleTypeID').AsInteger := VehicleTypeID;
+  FQuery.ParamByName('startExploitation').AsDateTime := StartExploitation;
+  FQuery.ParamByName('endExploitation').AsDateTime := EndExploitation;
+  FQuery.ExecSQL;
+
+  LoadAll;
+end;
+
+procedure TTransportManager.Delete(numberPlate: String; ShowMessage: Boolean);
+begin
+  if not ShowMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
+    [mbOK, mbCancel], 0) = 1) then
+  begin
+    FQuery.SQL.Text :=
+      'DELETE FROM transport WHERE number_plate = :numberPlate';
+    FQuery.ParamByName('numberPlate').AsString := numberPlate;
+
+    FQuery.ExecSQL;
+  end;
+
+  LoadAll;
+end;
+
+procedure TTransportManager.LoadAll;
+begin
+  FQuery.SQL.Text :=
+    'SELECT t.number_plate AS "Номер", vt.type_name AS "Тип транспорта", ' +
+    't.start_exploitation AS "Начало эксплуатации", t.end_exploitation AS "Конец эксплуатации" '
+    + 'FROM transport t ' + 'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id';
+  FQuery.Open;
+end;
+
+end.
+

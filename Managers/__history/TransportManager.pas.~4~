@@ -1,0 +1,17 @@
+];dne;nepO.yreuQF  ;'di.tv = di_epyt_elcihev.t NO tv epyt_elcihev NIOJ' + ' t tropsnart MORF' +    ' "иицатаулпскэ ценоК" SA noitatiolpxe_dne.t ,"иицатаулпскэ олачаН" SA noitatiolpxe_trats.t'    + ' ,"атропснарт пиТ" SA eman_epyt.tv ,"ремоН" SA etalp_rebmun.t TCELES'    =: txeT.LQS.yreuQF  nigeb;llAdaoL.reganaMtropsnarTT erudecorp;dne;llAdaoL  ;dne  ;LQScexE.yreuQF    ;etalPrebmun =: gnirtSsA.)'etalPrebmun'(emaNyBmaraP.yreuQF    ;'etalPrebmun: = etalp_rebmun EREHW tropsnart MORF ETELED'      =: txeT.LQS.yreuQF    nigeb  neht )1 = )0 ,]lecnaCbm ,KObm[    ,noitamrifnoCtm ,'еинеладу ьтидревтдоП'(glDegasseM( ro egasseMwohS ton fi  nigeb;)naelooB :egasseMwohS ;gnirtS :etalPrebmun(eteleD.reganaMtropsnarTT erudecorp;dne;llAdaoL  ;LQScexE.yreuQF  ;noitatiolpxEdnE =: emiTetaDsA.)'noitatiolpxEdne'(emaNyBmaraP.yreuQF  ;noitatiolpxEtratS =: emiTetaDsA.)'noitatiolpxEtrats'(emaNyBmaraP.yreuQF  ;DIepyTelciheV =: regetnIsA.)'DIepyTelcihev'(emaNyBmaraP.yreuQF  ;etalPrebmun =: gnirtSsA.)'etalPrebmun'(emaNyBmaraP.yreuQF  ;')noitatiolpxEdne: ,noitatiolpxEtrats: ,DIepyTelcihev: ,etalPrebmun:( SEULAV' +    ' )noitatiolpxe_dne ,noitatiolpxe_trats ,di_epyt_elcihev ,etalp_rebmun( tropsnart OTNI TRESNI'    =: txeT.LQS.yreuQF  nigeb;)regetnI :DIepyTelciheV ;emiTetaDT :noitatiolpxEdnE ,noitatiolpxEtratS  ;gnirtS :etalPrebmun(ddA.reganaMtropsnarTT erudecorp;dne;)yreuQA(etaerC detirehni  nigeb;)yreuQDFT :yreuQA(etaerC.reganaMtropsnarTT rotcurtsnounit TransportManager;
+
+interface
+
+uses
+  ManagerCRUD, FireDAC.Comp.Client, Data.DB, Vcl.Dialogs, SysUtils;
+
+type
+  TTransportManager = class(TManagerCRUD)
+  public
+   { constructor Create(AQuery: TFDQuery);    procedure LoadAll;    procedure Delete(numberPlate: String; ShowMessage: Boolean);    procedure Add(numberPlate: String;      StartExploitation, EndExploitation: TDateTime; VehicleTypeID: Integer);  end;}
+
+  end;
+implementation
+
+end.
+

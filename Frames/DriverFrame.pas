@@ -11,26 +11,39 @@ uses
 
 type
   TDriverFr = class(TFrame)
-    DBGrid7: TDBGrid;
+    driverGrid: TDBGrid;
     Panel1: TPanel;
     searchGroupbox: TGroupBox;
     DBEdit1: TDBEdit;
     DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
     DBEdit4: TDBEdit;
-    GroupBox1: TGroupBox;
+    VehicleTypeCheckListBox: TCheckListBox;
     GroupBox2: TGroupBox;
+    Edit2: TEdit;
+    Edit3: TEdit;
     CreateButton: TButton;
     GroupBox3: TGroupBox;
     DeleteButton: TButton;
     ChangeButton: TButton;
-    Edit1: TEdit;
-    CheckListBox1: TCheckListBox;
+    fullNameChangeEdit: TEdit;
+    procedure DeleteButtonClick(Sender: TObject);
+    procedure driverGridCellClick(Column: TColumn);
+
   private
+    SelectedFullName: String;
+    SelectedDriverId: Integer;
+
+    DBConnection: TFDConnection;
     ManagerCRUD: TDriverManager;
-    { Private declarations }
+
+    procedure LoadVehicleTypes;
+    procedure UpdateCheckedCategories(DriverID: Integer);
+    procedure ClearGroupCheckBox;
+
   public
-    constructor Create(Owner: TComponent; Query: TFDQuery);
+    constructor Create(Owner: TComponent; Query: TFDQuery;
+      Connection: TFDConnection);
     destructor Destroy;
     { Public declarations }
   end;
@@ -40,16 +53,109 @@ implementation
 {$R *.dfm}
 { TDriverFr }
 
-constructor TDriverFr.Create(Owner: TComponent; Query: TFDQuery);
+constructor TDriverFr.Create(Owner: TComponent; Query: TFDQuery;
+  Connection: TFDConnection);
 begin
   inherited Create(Owner);
   ManagerCRUD := TDriverManager.Create(Query);
   ManagerCRUD.LoadAll;
+  DBConnection := Connection;
+  LoadVehicleTypes;
+end;
+
+procedure TDriverFr.DeleteButtonClick(Sender: TObject);
+var
+  selectedId: Integer;
+begin
+  if driverGrid.SelectedRows.Count <> 1 then
+  begin
+    selectedId := driverGrid.DataSource.DataSet.FieldByName('id').AsInteger;
+    ManagerCRUD.Delete(selectedId, true);
+  end
+  else
+    ShowMessage('Нет выбранных строк или их больше одной');
 end;
 
 destructor TDriverFr.Destroy;
 begin
   inherited;
+end;
+
+procedure TDriverFr.driverGridCellClick(Column: TColumn);
+begin
+  SelectedFullName := driverGrid.DataSource.DataSet.FieldByName('ФИО').AsString;
+  SelectedDriverId := driverGrid.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  fullNameChangeEdit.Text := SelectedFullName;
+  UpdateCheckedCategories(SelectedDriverId);
+end;
+
+procedure TDriverFr.LoadVehicleTypes;
+var
+  Query: TFDQuery;
+begin
+  VehicleTypeCheckListBox.Items.Clear;
+
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DBConnection;
+    Query.SQL.Text :=
+      'SELECT id, type_name FROM vehicle_type ORDER BY type_name';
+    Query.Open;
+
+    while not Query.Eof do
+    begin
+      VehicleTypeCheckListBox.Items.AddObject(Query.FieldByName('type_name')
+	.AsString, TObject(Query.FieldByName('id').AsInteger));
+      Query.Next;
+    end;
+  finally
+    Query.Free;
+  end;
+end;
+
+procedure TDriverFr.ClearGroupCheckBox;
+var
+  i: Integer;
+begin
+
+  for i := 0 to VehicleTypeCheckListBox.Count - 1 do
+    VehicleTypeCheckListBox.Checked[i] := False;
+end;
+
+procedure TDriverFr.UpdateCheckedCategories(DriverID: Integer);
+var
+  Query: TFDQuery;
+  i, VehicleID: Integer;
+begin
+  ClearGroupCheckBox;
+
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DBConnection;
+    Query.SQL.Text :=
+      'SELECT vehicle_type_id FROM driver_vehicle_type WHERE driver_id = :DriverID';
+    Query.ParamByName('DriverID').AsInteger := DriverID;
+    Query.Open;
+
+    while not Query.Eof do
+    begin
+      VehicleID := Query.FieldByName('vehicle_type_id').AsInteger;
+
+      for i := 0 to VehicleTypeCheckListBox.Count - 1 do
+      begin
+	if Integer(VehicleTypeCheckListBox.Items.Objects[i]) = VehicleID then
+	begin
+	  VehicleTypeCheckListBox.Checked[i] := true;
+	  Break;
+	end;
+      end;
+
+      Query.Next;
+    end;
+  finally
+    Query.Free;
+  end;
 end;
 
 end.

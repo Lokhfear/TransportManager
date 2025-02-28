@@ -15,7 +15,6 @@ object VehicleTypeFr: TVehicleTypeFr
     Height = 344
     Align = alBottom
     Anchors = [akLeft, akTop, akRight, akBottom]
-    Color = clSilver
     Padding.Left = 5
     Padding.Right = 5
     Padding.Bottom = 5
@@ -68,6 +67,7 @@ object VehicleTypeFr: TVehicleTypeFr
     Height = 40
     Align = alBottom
     Caption = #1055#1086#1080#1089#1082
+    Color = clBtnFace
     Ctl3D = True
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -76,6 +76,8 @@ object VehicleTypeFr: TVehicleTypeFr
     Font.Style = []
     Padding.Left = 5
     Padding.Right = 5
+    ParentBackground = False
+    ParentColor = False
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
@@ -120,7 +122,11 @@ object VehicleTypeFr: TVehicleTypeFr
     Height = 82
     Align = alClient
     Caption = #1057#1086#1079#1076#1072#1090#1100
+    Color = clBtnFace
+    ParentBackground = False
+    ParentColor = False
     TabOrder = 2
+    ExplicitLeft = -6
     DesignSize = (
       327
       82)
@@ -158,7 +164,11 @@ object VehicleTypeFr: TVehicleTypeFr
     Height = 82
     Align = alRight
     Caption = #1048#1079#1084#1077#1085#1080#1090#1100' / '#1059#1076#1072#1083#1080#1090#1100
+    Color = clBtnFace
+    ParentBackground = False
+    ParentColor = False
     TabOrder = 3
+    ExplicitLeft = 333
     DesignSize = (
       573
       82)

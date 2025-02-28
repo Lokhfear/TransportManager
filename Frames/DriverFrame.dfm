@@ -16,7 +16,7 @@ object DriverFr: TDriverFr
     Padding.Right = 4
     Padding.Bottom = 4
     TabOrder = 0
-    object DBGrid7: TDBGrid
+    object driverGrid: TDBGrid
       Left = 5
       Top = 5
       Width = 851
@@ -32,6 +32,7 @@ object DriverFr: TDriverFr
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnCellClick = driverGridCellClick
       Columns = <
         item
           Expanded = False
@@ -95,72 +96,113 @@ object DriverFr: TDriverFr
       TabOrder = 3
     end
   end
-  object GroupBox1: TGroupBox
-    Left = 0
+  object VehicleTypeCheckListBox: TCheckListBox
+    Left = 297
     Top = 0
-    Width = 861
+    Width = 233
     Height = 119
     Align = alClient
-    Caption = 'GroupBox1'
+    Columns = 1
+    ItemHeight = 13
+    Items.Strings = (
+      'a'
+      'as'
+      'as'
+      'as'
+      'as'
+      'asd'
+      'asd'
+      'asd'
+      'asdasd'
+      'd'
+      'da'
+      'da'
+      'da'
+      'da'
+      'dasd'
+      's'
+      'sa'
+      'sd'
+      'sd'
+      'sd'
+      'sd'
+      #1072#1074#1087#1074#1087#1074#1072
+      #1074#1072#1087#1074#1072
+      #1074#1072#1087#1074#1072#1087)
+    Sorted = True
     TabOrder = 2
-    object GroupBox2: TGroupBox
-      Left = 2
+    ExplicitLeft = 306
+    ExplicitTop = -6
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 297
+    Height = 119
+    Align = alLeft
+    Caption = 'GroupBox2'
+    TabOrder = 3
+    ExplicitTop = 9
+    object Edit2: TEdit
+      Left = 26
       Top = 15
-      Width = 159
-      Height = 102
-      Align = alLeft
-      Caption = 'GroupBox2'
+      Width = 231
+      Height = 21
       TabOrder = 0
-      object CreateButton: TButton
-        Left = 3
-        Top = 44
-        Width = 126
-        Height = 30
-        Caption = #1057#1086#1079#1076#1072#1090#1100
-        TabOrder = 0
-      end
+      Text = 'Edit2'
     end
-    object GroupBox3: TGroupBox
-      Left = 160
-      Top = 15
-      Width = 699
-      Height = 102
-      Align = alRight
-      Caption = 'GroupBox3'
+    object Edit3: TEdit
+      Left = 26
+      Top = 46
+      Width = 231
+      Height = 21
       TabOrder = 1
-      object DeleteButton: TButton
-        Left = 383
-        Top = 73
-        Width = 282
-        Height = 25
-        Caption = #1059#1076#1072#1083#1080#1090#1100
-        TabOrder = 0
-      end
-      object ChangeButton: TButton
-        Left = 383
-        Top = 46
-        Width = 282
-        Height = 25
-        Caption = #1048#1079#1084#1077#1085#1080#1090#1100
-        TabOrder = 1
-      end
-      object Edit1: TEdit
-        Left = 383
-        Top = 17
-        Width = 282
-        Height = 21
-        TabOrder = 2
-        Text = 'Edit1'
-      end
-      object CheckListBox1: TCheckListBox
-        Left = 16
-        Top = 17
-        Width = 313
-        Height = 81
-        ItemHeight = 13
-        Sorted = True
-        TabOrder = 3
-      end
+      Text = 'Edit2'
+    end
+    object CreateButton: TButton
+      Left = 26
+      Top = 73
+      Width = 231
+      Height = 25
+      Caption = #1057#1086#1079#1076#1072#1090#1100
+      TabOrder = 2
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 530
+    Top = 0
+    Width = 331
+    Height = 119
+    Align = alRight
+    Caption = 'GroupBox3'
+    TabOrder = 4
+    ExplicitLeft = 527
+    ExplicitTop = 14
+    ExplicitHeight = 102
+    object DeleteButton: TButton
+      Left = 23
+      Top = 73
+      Width = 282
+      Height = 25
+      Caption = #1059#1076#1072#1083#1080#1090#1100
+      Enabled = False
+      TabOrder = 0
+      OnClick = DeleteButtonClick
+    end
+    object ChangeButton: TButton
+      Left = 23
+      Top = 42
+      Width = 282
+      Height = 25
+      Caption = #1048#1079#1084#1077#1085#1080#1090#1100
+      TabOrder = 1
+    end
+    object fullNameChangeEdit: TEdit
+      Left = 23
+      Top = 15
+      Width = 282
+      Height = 21
+      TabOrder = 2
     end
   end
 end

@@ -7,7 +7,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids,
-  Vcl.DBGrids, Vcl.StdCtrls, Vcl.CheckLst, Vcl.Mask, Vcl.DBCtrls, Vcl.ExtCtrls;
+  Vcl.DBGrids, Vcl.StdCtrls, Vcl.CheckLst, Vcl.Mask, Vcl.DBCtrls, Vcl.ExtCtrls,
+  Vcl.WinXPickers, Vcl.ComCtrls;
 
 type
   TDriverFr = class(TFrame)
@@ -20,15 +21,19 @@ type
     DBEdit4: TDBEdit;
     VehicleTypeCheckListBox: TCheckListBox;
     GroupBox2: TGroupBox;
-    Edit2: TEdit;
-    Edit3: TEdit;
+    FullNameCreateEdit: TEdit;
     CreateButton: TButton;
     GroupBox3: TGroupBox;
     DeleteButton: TButton;
     ChangeButton: TButton;
     fullNameChangeEdit: TEdit;
+    employmentStartDatePicker: TDateTimePicker;
     procedure DeleteButtonClick(Sender: TObject);
     procedure driverGridCellClick(Column: TColumn);
+    procedure CreateButtonClick(Sender: TObject);
+    procedure ChangeButtonClick(Sender: TObject);
+    procedure FullNameCreateEditEnter(Sender: TObject);
+
 
   private
     SelectedFullName: String;
@@ -63,6 +68,19 @@ begin
   LoadVehicleTypes;
 end;
 
+procedure TDriverFr.CreateButtonClick(Sender: TObject);
+begin
+  if FullNameCreateEdit.Text <> '' then
+  begin
+    ManagerCRUD.Add(FullNameCreateEdit.Text, employmentStartDatePicker.Date);
+
+    FullNameCreateEdit.Text := '';
+    employmentStartDatePicker.Checked := false;
+    LoadVehicleTypes;
+  end;
+
+end;
+
 procedure TDriverFr.DeleteButtonClick(Sender: TObject);
 var
   selectedId: Integer;
@@ -90,6 +108,12 @@ begin
   UpdateCheckedCategories(SelectedDriverId);
 end;
 
+procedure TDriverFr.FullNameCreateEditEnter(Sender: TObject);
+begin
+ClearGroupCheckBox;
+end;
+
+
 procedure TDriverFr.LoadVehicleTypes;
 var
   Query: TFDQuery;
@@ -114,13 +138,19 @@ begin
   end;
 end;
 
+procedure TDriverFr.ChangeButtonClick(Sender: TObject);
+begin
+
+  LoadVehicleTypes;
+end;
+
 procedure TDriverFr.ClearGroupCheckBox;
 var
   i: Integer;
 begin
 
   for i := 0 to VehicleTypeCheckListBox.Count - 1 do
-    VehicleTypeCheckListBox.Checked[i] := False;
+    VehicleTypeCheckListBox.Checked[i] := false;
 end;
 
 procedure TDriverFr.UpdateCheckedCategories(DriverID: Integer);

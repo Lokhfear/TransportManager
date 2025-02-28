@@ -105,30 +105,27 @@ object DriverFr: TDriverFr
     Columns = 1
     ItemHeight = 13
     Items.Strings = (
-      'a'
-      'as'
-      'as'
-      'as'
-      'as'
-      'asd'
-      'asd'
-      'asd'
-      'asdasd'
-      'd'
-      'da'
-      'da'
-      'da'
-      'da'
-      'dasd'
-      's'
-      'sa'
-      'sd'
-      'sd'
-      'sd'
-      'sd'
-      #1072#1074#1087#1074#1087#1074#1072
-      #1074#1072#1087#1074#1072
-      #1074#1072#1087#1074#1072#1087)
+      ''
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2')
     Sorted = True
     TabOrder = 2
     ExplicitLeft = 306
@@ -142,29 +139,32 @@ object DriverFr: TDriverFr
     Align = alLeft
     Caption = 'GroupBox2'
     TabOrder = 3
-    ExplicitTop = 9
-    object Edit2: TEdit
+    ExplicitTop = -6
+    object FullNameCreateEdit: TEdit
       Left = 26
-      Top = 15
+      Top = 23
       Width = 231
       Height = 21
       TabOrder = 0
-      Text = 'Edit2'
-    end
-    object Edit3: TEdit
-      Left = 26
-      Top = 46
-      Width = 231
-      Height = 21
-      TabOrder = 1
-      Text = 'Edit2'
+      TextHint = #1069#1075#1080#1087#1090#1077' '#1052#1080#1093#1072#1080#1083' '#1040#1085#1072#1090#1086#1083#1100#1077#1074#1080#1095
+      OnEnter = FullNameCreateEditEnter
     end
     object CreateButton: TButton
       Left = 26
-      Top = 73
+      Top = 77
       Width = 231
-      Height = 25
+      Height = 21
       Caption = #1057#1086#1079#1076#1072#1090#1100
+      TabOrder = 1
+      OnClick = CreateButtonClick
+    end
+    object employmentStartDatePicker: TDateTimePicker
+      Left = 26
+      Top = 50
+      Width = 231
+      Height = 21
+      Date = 45716.000000000000000000
+      Time = 0.826391643517126800
       TabOrder = 2
     end
   end
@@ -196,6 +196,7 @@ object DriverFr: TDriverFr
       Height = 25
       Caption = #1048#1079#1084#1077#1085#1080#1090#1100
       TabOrder = 1
+      OnClick = ChangeButtonClick
     end
     object fullNameChangeEdit: TEdit
       Left = 23

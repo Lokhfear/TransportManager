@@ -10,8 +10,7 @@ uses
   TransportFrame in 'Frames\TransportFrame.pas' {TransportFr: TFrame},
   DriverFrame in 'Frames\DriverFrame.pas' {DriverFr: TFrame},
   TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr: TFrame},
-  VehicleTypeManager in 'Managers\VehicleTypeManager.pas',
-  DriverManager in 'Managers\DriverManager.pas';
+  VehicleTypeManager in 'Managers\VehicleTypeManager.pas';
 
 {$R *.res}
 

@@ -21,6 +21,7 @@ object VehicleTypeFr: TVehicleTypeFr
     Padding.Bottom = 5
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = 123
     object DBGrid5: TDBGrid
       Left = 6
       Top = 1

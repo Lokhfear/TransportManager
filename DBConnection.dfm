@@ -51,9 +51,8 @@ object DBConnect: TDBConnect
     Connection = FDConnection1
     UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
     SQL.Strings = (
-      'select'
-      'id, type_name as "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
-      'from vehicle_type')
+      'SELECT id, type_name as "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
+      'FROM vehicle_type')
     Left = 560
     Top = 32
   end
@@ -102,10 +101,24 @@ object DBConnect: TDBConnect
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      
-        'Select id, full_name as "'#1060#1048#1054'", employment_start as "'#1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1086' ' +
-        #1088#1072#1073#1086#1090#1099'"'
-      'from driver')
+      'SELECT'
+      '    d.id,'
+      '    d.full_name        AS "'#1060#1048#1054'",'
+      '    d.employment_start AS "'#1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1088#1072#1073#1086#1090#1099'",'
+      '    LISTAGG(vt.type_name, '#39', '#39') WITHIN GROUP('
+      '    ORDER BY'
+      '        vt.type_name'
+      '    )                  AS "'#1058#1080#1087#1099' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
+      'FROM'
+      '         driver d'
+      '    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id'
+      '    JOIN vehicle_type        vt ON dvt.vehicle_type_id = vt.id'
+      'GROUP BY'
+      '    d.id,'
+      '    d.full_name,'
+      '    d.employment_start'
+      'ORDER BY'
+      '    d.full_name')
     Left = 56
     Top = 248
   end

@@ -21,7 +21,6 @@ object VehicleTypeFr: TVehicleTypeFr
     Padding.Bottom = 5
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = 123
     object DBGrid5: TDBGrid
       Left = 6
       Top = 1
@@ -94,8 +93,7 @@ object VehicleTypeFr: TVehicleTypeFr
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
       OnChange = typeNameSearchEditChange
-      ExplicitLeft = 265
-      ExplicitTop = 17
+      ExplicitHeight = 24
     end
     object idSearchEdit: TEdit
       AlignWithMargins = True
@@ -112,7 +110,7 @@ object VehicleTypeFr: TVehicleTypeFr
       TabOrder = 1
       TextHint = 'id'
       OnChange = idSearchEditChange
-      ExplicitTop = 17
+      ExplicitHeight = 24
     end
   end
   object GroupBox1: TGroupBox

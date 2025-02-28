@@ -66,7 +66,7 @@ object DBConnect: TDBConnect
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT'
-      '    t.id      AS '#1085#1086#1084#1077#1088','
+      '    t.number_plate      AS '#1085#1086#1084#1077#1088','
       '    type_name AS "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'",'
       'start_exploitation as "'#1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080'",'
       'end_exploitation as "'#1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080'"'
@@ -136,7 +136,7 @@ object DBConnect: TDBConnect
       '    vt.type_name AS "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'",'
       '    d.full_name AS "'#1060#1048#1054' '#1074#1086#1076#1080#1090#1077#1083#1103'"'
       'FROM trip t'
-      'LEFT JOIN transport tr ON t.transport_id = tr.id'
+      'LEFT JOIN transport tr ON t.transport_id = tr.number_plate'
       
         'LEFT JOIN vehicle_type vt ON tr.vehicle_type_id = vt.id  -- '#1048#1089#1087#1088 +
         #1072#1074#1083#1077#1085#1085#1072#1103' '#1089#1074#1103#1079#1100

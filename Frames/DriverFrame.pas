@@ -3,9 +3,10 @@ unit DriverFrame;
 interface
 
 uses
-  DBConnection,
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
+  DBConnection, DriverManager, Data.DB, FireDAC.Comp.Client,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.CheckLst, Vcl.Mask, Vcl.DBCtrls, Vcl.ExtCtrls;
 
 type
@@ -26,13 +27,29 @@ type
     Edit1: TEdit;
     CheckListBox1: TCheckListBox;
   private
+    ManagerCRUD: TDriverManager;
     { Private declarations }
   public
+    constructor Create(Owner: TComponent; Query: TFDQuery);
+    destructor Destroy;
     { Public declarations }
   end;
 
 implementation
 
 {$R *.dfm}
+{ TDriverFr }
+
+constructor TDriverFr.Create(Owner: TComponent; Query: TFDQuery);
+begin
+  inherited Create(Owner);
+  ManagerCRUD := TDriverManager.Create(Query);
+  ManagerCRUD.LoadAll;
+end;
+
+destructor TDriverFr.Destroy;
+begin
+  inherited;
+end;
 
 end.

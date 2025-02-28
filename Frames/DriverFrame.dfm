@@ -36,25 +36,24 @@ object DriverFr: TDriverFr
         item
           Expanded = False
           FieldName = 'ID'
-          Width = 60
+          Width = 50
           Visible = True
         end
         item
           Expanded = False
           FieldName = #1060#1048#1054
-          Width = 180
+          Width = 250
           Visible = True
         end
         item
           Expanded = False
           FieldName = #1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1088#1072#1073#1086#1090#1099
-          Width = 120
           Visible = True
         end
         item
           Expanded = False
           FieldName = #1058#1080#1087#1099' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-          Width = 700
+          Width = 500
           Visible = True
         end>
     end
@@ -67,9 +66,6 @@ object DriverFr: TDriverFr
     Align = alBottom
     Caption = #1055#1086#1080#1089#1082
     TabOrder = 1
-    ExplicitLeft = 1
-    ExplicitTop = 99
-    ExplicitWidth = 932
     object DBEdit1: TDBEdit
       Left = 16
       Top = 17
@@ -107,7 +103,6 @@ object DriverFr: TDriverFr
     Align = alClient
     Caption = 'GroupBox1'
     TabOrder = 2
-    ExplicitTop = 8
     object GroupBox2: TGroupBox
       Left = 2
       Top = 15
@@ -116,8 +111,6 @@ object DriverFr: TDriverFr
       Align = alLeft
       Caption = 'GroupBox2'
       TabOrder = 0
-      ExplicitLeft = 3
-      ExplicitTop = 11
       object CreateButton: TButton
         Left = 3
         Top = 44
@@ -135,8 +128,6 @@ object DriverFr: TDriverFr
       Align = alRight
       Caption = 'GroupBox3'
       TabOrder = 1
-      ExplicitLeft = 167
-      ExplicitTop = 11
       object DeleteButton: TButton
         Left = 383
         Top = 73
@@ -157,7 +148,7 @@ object DriverFr: TDriverFr
         Left = 383
         Top = 17
         Width = 282
-        Height = 23
+        Height = 21
         TabOrder = 2
         Text = 'Edit1'
       end

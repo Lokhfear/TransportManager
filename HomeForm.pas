@@ -23,7 +23,6 @@ type
     GridPanel1: TGridPanel;
     DBGrid4: TDBGrid;
     DBGrid3: TDBGrid;
-    Panel3: TPanel;
     VehicleTypePage: TTabSheet;
     procedure FormCreate(Sender: TObject);
 
@@ -59,12 +58,12 @@ begin
   VehicleTypeFrame := TVehicleTypeFr.Create(Self, DBConnect.VehicleType);
   TripFrame := TTripFr.Create(Self);
   TransportFrame := TTransportFr.Create(Self);
-  DriverFrame := TDriverFr.Create(Self);
+  DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery);
   TriptRequestFrame := TTripRequestFr.Create(Self);
 
 
   VehicleTypeFrame.Parent := VehicleTypePage;
-  TripFrame.Parent := TripPage;
+ // TripFrame.Parent := TripPage;
   TransportFrame.Parent := TransportPage;
   DriverFrame.Parent := DriverPage;
 //TriptRequestFrame := TTripRequestFr;

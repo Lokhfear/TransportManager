@@ -19,7 +19,7 @@ object Form1: TForm1
     Top = 0
     Width = 812
     Height = 542
-    ActivePage = tripPage
+    ActivePage = VehicleTypePage
     Align = alClient
     TabOrder = 0
     object TripRequestPage: TTabSheet
@@ -34,7 +34,6 @@ object Form1: TForm1
         TabOrder = 0
         object TabSheet6: TTabSheet
           Caption = 'TabSheet6'
-          ExplicitLeft = 0
           object PendingTripRequest: TPanel
             Left = 0
             Top = 291
@@ -205,21 +204,10 @@ object Form1: TForm1
     object driverPage: TTabSheet
       Caption = #1042#1086#1076#1080#1090#1077#1083#1080
       ImageIndex = 3
-      object Panel3: TPanel
-        Left = 0
-        Top = 240
-        Width = 804
-        Height = 274
-        Align = alBottom
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        TabOrder = 0
-      end
     end
     object VehicleTypePage: TTabSheet
       Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
       ImageIndex = 4
-      ExplicitLeft = 8
-      ExplicitTop = 28
     end
   end
 end

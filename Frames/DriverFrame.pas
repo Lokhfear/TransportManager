@@ -8,7 +8,7 @@ uses
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.CheckLst, Vcl.Mask, Vcl.DBCtrls, Vcl.ExtCtrls,
-  Vcl.WinXPickers, Vcl.ComCtrls;
+  Vcl.WinXPickers, Vcl.ComCtrls, System.Generics.Collections;
 
 type
   TDriverFr = class(TFrame)
@@ -33,11 +33,12 @@ type
     procedure CreateButtonClick(Sender: TObject);
     procedure ChangeButtonClick(Sender: TObject);
     procedure FullNameCreateEditEnter(Sender: TObject);
-
+    function GetSelectedVehicleTypes: TList<Integer>;
 
   private
     SelectedFullName: String;
     SelectedDriverId: Integer;
+    SelectedAssignedVehicleTypes: TList<Integer>;
 
     DBConnection: TFDConnection;
     ManagerCRUD: TDriverManager;
@@ -66,13 +67,18 @@ begin
   ManagerCRUD.LoadAll;
   DBConnection := Connection;
   LoadVehicleTypes;
+
+  SelectedAssignedVehicleTypes := TList<Integer>.Create;
 end;
 
 procedure TDriverFr.CreateButtonClick(Sender: TObject);
+var
+  createdId: Integer;
 begin
   if FullNameCreateEdit.Text <> '' then
   begin
-    ManagerCRUD.Add(FullNameCreateEdit.Text, employmentStartDatePicker.Date);
+    createdId := ManagerCRUD.Add(FullNameCreateEdit.Text, employmentStartDatePicker.Date);
+    ManagerCRUD.UpdateDriverVehicleTypes(createdId, TList<Integer>.Create, GetSelectedVehicleTypes);
 
     FullNameCreateEdit.Text := '';
     employmentStartDatePicker.Checked := false;
@@ -85,7 +91,7 @@ procedure TDriverFr.DeleteButtonClick(Sender: TObject);
 var
   selectedId: Integer;
 begin
-  if driverGrid.SelectedRows.Count <> 1 then
+  if driverGrid.SelectedRows.Count = 1 then
   begin
     selectedId := driverGrid.DataSource.DataSet.FieldByName('id').AsInteger;
     ManagerCRUD.Delete(selectedId, true);
@@ -110,9 +116,26 @@ end;
 
 procedure TDriverFr.FullNameCreateEditEnter(Sender: TObject);
 begin
-ClearGroupCheckBox;
+  ClearGroupCheckBox;
 end;
 
+function TDriverFr.GetSelectedVehicleTypes: TList<Integer>;
+var
+  i: Integer;
+  selectedId: Integer;
+begin
+  Result := TList<Integer>.Create;
+
+  for i := 0 to VehicleTypeCheckListBox.Count - 1 do
+  begin
+    if VehicleTypeCheckListBox.Checked[i] then
+    begin
+      selectedId := Integer(VehicleTypeCheckListBox.Items.Objects[i]);
+      Result.Add(selectedId);
+    end;
+  end;
+
+end;
 
 procedure TDriverFr.LoadVehicleTypes;
 var
@@ -140,6 +163,19 @@ end;
 
 procedure TDriverFr.ChangeButtonClick(Sender: TObject);
 begin
+  if (fullNameChangeEdit.Text <> '') and (SelectedDriverId <> 0) then
+    if fullNameChangeEdit.Text <> SelectedFullName then
+    begin
+      ManagerCRUD.Update(SelectedDriverId, fullNameChangeEdit.Text);
+      ManagerCRUD.UpdateDriverVehicleTypes(SelectedDriverId,
+	SelectedAssignedVehicleTypes, GetSelectedVehicleTypes);
+    end
+    else
+      ManagerCRUD.UpdateDriverVehicleTypes(SelectedDriverId,
+	SelectedAssignedVehicleTypes, GetSelectedVehicleTypes);
+
+  SelectedDriverId := 0;
+  fullNameChangeEdit.Text := '';
 
   LoadVehicleTypes;
 end;
@@ -159,6 +195,7 @@ var
   i, VehicleID: Integer;
 begin
   ClearGroupCheckBox;
+  SelectedAssignedVehicleTypes.Clear;
 
   Query := TFDQuery.Create(nil);
   try
@@ -177,6 +214,7 @@ begin
 	if Integer(VehicleTypeCheckListBox.Items.Objects[i]) = VehicleID then
 	begin
 	  VehicleTypeCheckListBox.Checked[i] := true;
+	  SelectedAssignedVehicleTypes.Add(VehicleID);
 	  Break;
 	end;
       end;

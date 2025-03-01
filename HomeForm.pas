@@ -57,7 +57,7 @@ begin
 
   VehicleTypeFrame := TVehicleTypeFr.Create(Self, DBConnect.VehicleType);
   TripFrame := TTripFr.Create(Self);
-  TransportFrame := TTransportFr.Create(Self);
+  TransportFrame := TTransportFr.Create(Self, DBConnect.TransportQuery);
   DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery, DBConnect.FDConnection1);
   TriptRequestFrame := TTripRequestFr.Create(Self);
 

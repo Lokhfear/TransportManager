@@ -3,29 +3,41 @@ unit TransportFrame;
 interface
 
 uses
-  DBConnection,
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  TransportManage, FireDAC.Comp.Client,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls;
 
 type
   TTransportFr = class(TFrame)
     Panel1: TPanel;
-    DBGrid6: TDBGrid;
-    GroupBox1: TGroupBox;
-    DBEdit1: TDBEdit;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
-    DBEdit4: TDBEdit;
-    GroupBox2: TGroupBox;
-    DBEdit5: TDBEdit;
-    Button1: TButton;
-    DateTimePicker1: TDateTimePicker;
-    DBEdit6: TDBEdit;
-    DateTimePicker2: TDateTimePicker;
+    TransportDBGrid: TDBGrid;
+    CreateGroupBox: TGroupBox;
+    CreateButton: TButton;
+    StartExploitationCreateDateTimePicker: TDateTimePicker;
+    EndExploitationCreateDateTimePicker: TDateTimePicker;
     GroupBox3: TGroupBox;
+    EndExploitationChangeDateTimePicker: TDateTimePicker;
+    DeleteButton: TButton;
+    ChangeButton: TButton;
+    VehicleTypeDBLookupComboBox: TDBLookupComboBox;
+    VehicleTypeCreateLabel: TLabel;
+    EndExploitationCreateLabel: TLabel;
+    NumberPlateCreateLabel: TLabel;
+    StartEploitationCreateLabel: TLabel;
+    SelectedTransportLabel: TLabel;
+    NumberPlateCreateEdit: TEdit;
+
+    constructor Create(Owner: TComponent; Query: TFDQuery);
+    procedure TransportDBGridCellClick(Column: TColumn);
+    procedure ChangeButtonClick(Sender: TObject);
+    procedure CreateButtonClick(Sender: TObject);
   private
     { Private declarations }
+    ManagerCRUD: TTransportManager;
+    selectedNumberPlate: string;
+    selectedEndExploitationDate: TDate;
   public
     { Public declarations }
   end;
@@ -33,5 +45,57 @@ type
 implementation
 
 {$R *.dfm}
+
+procedure TTransportFr.ChangeButtonClick(Sender: TObject);
+begin
+
+  if selectedNumberPlate <> '' then
+    ManagerCRUD.Update(selectedNumberPlate,
+      EndExploitationChangeDateTimePicker.Date)
+  else
+    ShowMessage('Выберите транспорт');
+
+end;
+
+constructor TTransportFr.Create(Owner: TComponent; Query: TFDQuery);
+begin
+  inherited Create(Owner);
+  ManagerCRUD := TTransportManager.Create(Query);
+  ManagerCRUD.LoadAll;
+
+  EndExploitationCreateDateTimePicker.Date := Date;
+  StartExploitationCreateDateTimePicker.Date := Date;
+  EndExploitationChangeDateTimePicker.Date := Date;
+
+end;
+
+procedure TTransportFr.CreateButtonClick(Sender: TObject);
+begin
+
+  // Изменить: (проверять по кол-ву символов?)
+  if (NumberPlateCreateEdit.Text <> '') and
+    (VehicleTypeDBLookupComboBox.KeyValue <> 0) then
+  begin
+    ManagerCRUD.Add(NumberPlateCreateEdit.Text,
+      StartExploitationCreateDateTimePicker.Date,
+      VehicleTypeDBLookupComboBox.KeyValue);
+
+    NumberPlateCreateEdit.Clear;
+    VehicleTypeDBLookupComboBox.KeyValue := null;
+    StartExploitationCreateDateTimePicker.Date := Date;
+  end;
+
+end;
+
+procedure TTransportFr.TransportDBGridCellClick(Column: TColumn);
+begin
+  selectedNumberPlate := TransportDBGrid.DataSource.DataSet.FieldByName
+    ('НОМЕР').AsString;
+  EndExploitationChangeDateTimePicker.Date :=
+    Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('Конец эксплуатации')
+    .AsDateTime);
+
+  SelectedTransportLabel.Caption := 'Выбранный номер: ' + selectedNumberPlate;
+end;
 
 end.

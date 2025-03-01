@@ -11,9 +11,9 @@ type
     constructor Create(AQuery: TFDQuery);
     procedure LoadAll;
     procedure Delete(numberPlate: String; ShowMessage: Boolean);
-
+    procedure Update(numberPlate: String; EndExploitation: TDate);
     procedure Add(numberPlate: String;
-      StartExploitation, EndExploitation: TDateTime; VehicleTypeID: Integer);
+      StartExploitation: TDateTime; VehicleTypeID: Integer);
   end;
 
 implementation
@@ -23,16 +23,17 @@ begin
   inherited Create(AQuery);
 end;
 
+
+// сделать исключения (в данном случае может номер уже существовать)
 procedure TTransportManager.Add(numberPlate: String;
-  StartExploitation, EndExploitation: TDateTime; VehicleTypeID: Integer);
+  StartExploitation: TDateTime; VehicleTypeID: Integer);
 begin
   FQuery.SQL.Text :=
-    'INSERT INTO transport (number_plate, vehicle_type_id, start_exploitation, end_exploitation) '
-    + 'VALUES (:numberPlate, :vehicleTypeID, :startExploitation, :endExploitation)';
+    'INSERT INTO transport (number_plate, vehicle_type_id, start_exploitation) '
+    + 'VALUES (:numberPlate, :vehicleTypeID, :startExploitation)';
   FQuery.ParamByName('numberPlate').AsString := numberPlate;
   FQuery.ParamByName('vehicleTypeID').AsInteger := VehicleTypeID;
   FQuery.ParamByName('startExploitation').AsDateTime := StartExploitation;
-  FQuery.ParamByName('endExploitation').AsDateTime := EndExploitation;
   FQuery.ExecSQL;
 
   LoadAll;
@@ -60,6 +61,23 @@ begin
     't.start_exploitation AS "Начало эксплуатации", t.end_exploitation AS "Конец эксплуатации" '
     + 'FROM transport t ' + 'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id';
   FQuery.Open;
+end;
+
+
+
+procedure TTransportManager.Update(numberPlate: String; EndExploitation: TDate);
+begin
+  FQuery.SQL.Text :=
+    'UPDATE transport ' +
+    'SET end_exploitation = :endExploitation ' +
+    'WHERE number_plate = :numberPlate';
+
+  FQuery.ParamByName('endExploitation').AsDate := EndExploitation;
+  FQuery.ParamByName('numberPlate').AsString := numberPlate;
+
+  FQuery.ExecSQL;
+
+  LoadAll;
 end;
 
 end.

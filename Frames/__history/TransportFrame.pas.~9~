@@ -1,0 +1,77 @@
+unit TransportFrame;
+
+interface
+
+uses
+  TransportManage, FireDAC.Comp.Client,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls;
+
+type
+  TTransportFr = class(TFrame)
+    Panel1: TPanel;
+    TransportDBGrid: TDBGrid;
+    CreateGroupBox: TGroupBox;
+    CreateButton: TButton;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    GroupBox3: TGroupBox;
+    EndExploitationChangeDateTimePicker: TDateTimePicker;
+    DeleteButton: TButton;
+    ChangeButton: TButton;
+    DBLookupComboBox1: TDBLookupComboBox;
+    VehicleTypeCreateLabel: TLabel;
+    EndExploitationCreateLabel: TLabel;
+    NumberPlateCreateLabel: TLabel;
+    StartEploitationCreateLabel: TLabel;
+    SelectedTransportLabel: TLabel;
+
+    constructor Create(Owner: TComponent; Query: TFDQuery);
+    procedure TransportDBGridCellClick(Column: TColumn);
+    procedure ChangeButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+    ManagerCRUD: TTransportManager;
+    selectedNumberPlate: string;
+    selectedEndExploitationDate: TDate;
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+procedure TTransportFr.ChangeButtonClick(Sender: TObject);
+begin
+
+  if selectedNumberPlate <> '' then
+    ManagerCRUD.Update(selectedNumberPlate,
+      EndExploitationChangeDateTimePicker.Date)
+  else
+    ShowMessage('Выберите транспорт');
+
+end;
+
+constructor TTransportFr.Create(Owner: TComponent; Query: TFDQuery);
+begin
+  inherited Create(Owner);
+  ManagerCRUD := TTransportManager.Create(Query);
+  ManagerCRUD.LoadAll;
+
+end;
+
+procedure TTransportFr.TransportDBGridCellClick(Column: TColumn);
+begin
+  selectedNumberPlate := TransportDBGrid.DataSource.DataSet.FieldByName
+    ('НОМЕР').AsString;
+  EndExploitationChangeDateTimePicker.Date :=
+    Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('Конец эксплуатации')
+    .AsDateTime);
+
+  SelectedTransportLabel.Caption := 'Выбранный номер: ' + selectedNumberPlate;
+end;
+
+end.

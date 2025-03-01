@@ -126,7 +126,6 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
-    ExplicitLeft = -6
     DesignSize = (
       327
       82)
@@ -168,7 +167,6 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentBackground = False
     ParentColor = False
     TabOrder = 3
-    ExplicitLeft = 333
     DesignSize = (
       573
       82)

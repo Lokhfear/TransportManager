@@ -109,7 +109,7 @@ end;
 
 procedure TDriverFr.driverGridCellClick(Column: TColumn);
 begin
-  SelectedFullName := driverGrid.DataSource.DataSet.FieldByName('ิศฮ').AsString;
+  SelectedFullName := driverGrid.DataSource.DataSet.FieldByName('full_name').AsString;
   SelectedDriverId := driverGrid.DataSource.DataSet.FieldByName('id').AsInteger;
 
   fullNameChangeEdit.Text := SelectedFullName;

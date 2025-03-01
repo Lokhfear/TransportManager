@@ -33,6 +33,7 @@ object DBConnect: TDBConnect
       '       distance,'
       '       creation_date ,'
       '       status,'
+      '       tr.required_vehicle_type_id,'
       '       type_name'
       'FROM trip_request tr '
       'LEFT JOIN vehicle_type vh ON tr.required_vehicle_type_id = vh.id'
@@ -66,10 +67,10 @@ object DBConnect: TDBConnect
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT'
-      '    t.number_plate      AS '#1085#1086#1084#1077#1088','
-      '    type_name AS "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'",'
-      'start_exploitation as "'#1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080'",'
-      'end_exploitation as "'#1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080'"'
+      '    t.number_plate,'
+      '    type_name,'
+      'start_exploitation,'
+      'end_exploitation'
       'FROM'
       '         transport t'
       '    JOIN vehicle_type vt ON t.vehicle_type_id = vt.id')
@@ -103,12 +104,12 @@ object DBConnect: TDBConnect
     SQL.Strings = (
       'SELECT'
       '    d.id,'
-      '    d.full_name        AS "'#1060#1048#1054'",'
-      '    d.employment_start AS "'#1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1088#1072#1073#1086#1090#1099'",'
+      '    d.full_name,'
+      '    d.employment_start,'
       '    LISTAGG(vt.type_name, '#39', '#39') WITHIN GROUP('
       '    ORDER BY'
       '        vt.type_name'
-      '    )                  AS "'#1058#1080#1087#1099' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
+      '    )                  AS vehicle_types'
       'FROM'
       '         driver d'
       '    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id'

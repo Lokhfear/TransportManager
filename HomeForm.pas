@@ -3,9 +3,9 @@ unit HomeForm;
 interface
 
 uses
-  DBConnection, VehicleTypeFrame, TripFrame, TransportFrame, DriverFrame, TripRequestFrame, Data.DB, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
+  DBConnection, VehicleTypeFrame, TripFrame, TransportFrame, DriverFrame,
+  TripRequestFrame, Data.DB, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
   Vcl.ComCtrls, System.Classes, Vcl.Forms, Vcl.Dialogs;
-
 
 type
   TForm1 = class(TForm)
@@ -33,8 +33,6 @@ implementation
 
 {$R *.dfm}
 
-
-
 procedure TForm1.FormCreate(Sender: TObject);
 var
   VehicleTypeFrame: TVehicleTypeFr;
@@ -47,19 +45,18 @@ var
 begin
   DBConnect := TDBConnect.Create(nil);
 
-
-
   VehicleTypeFrame := TVehicleTypeFr.Create(Self, DBConnect.VehicleType);
   TripFrame := TTripFr.Create(Self);
   TransportFrame := TTransportFr.Create(Self, DBConnect.TransportQuery);
-  DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery, DBConnect.FDConnection1);
-  TriptRequestFrame := TTripRequestFr.Create(Self);
-
+  DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery,
+    DBConnect.FDConnection1);
+  TriptRequestFrame := TTripRequestFr.Create(Self, DBConnect.pendingRequest,
+    DBConnect.TransportQuery, DBConnect.DriverQuery);
 
   VehicleTypeFrame.Parent := VehicleTypePage;
- // TripFrame.Parent := TripPage;
-  TransportFrame.Parent := TransportPage;
-  DriverFrame.Parent := DriverPage;
+  // TripFrame.Parent := TripPage;
+  TransportFrame.Parent := transportPage;
+  DriverFrame.Parent := driverPage;
   TriptRequestFrame.Parent := TripRequestPage;
 
 end;

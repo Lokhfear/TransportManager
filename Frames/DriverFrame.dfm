@@ -16,8 +16,6 @@ object DriverFr: TDriverFr
     Padding.Right = 4
     Padding.Bottom = 4
     TabOrder = 0
-    ExplicitTop = 160
-    ExplicitWidth = 861
     object driverGrid: TDBGrid
       Left = 5
       Top = 5
@@ -39,24 +37,24 @@ object DriverFr: TDriverFr
         item
           Expanded = False
           FieldName = 'ID'
-          Width = 50
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
-          FieldName = #1060#1048#1054
-          Width = 250
+          FieldName = 'FULL_NAME'
+          Width = 200
           Visible = True
         end
         item
           Expanded = False
-          FieldName = #1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1088#1072#1073#1086#1090#1099
+          FieldName = 'EMPLOYMENT_START'
           Visible = True
         end
         item
           Expanded = False
-          FieldName = #1058#1080#1087#1099' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-          Width = 500
+          FieldName = 'VEHICLE_TYPES'
+          Width = 450
           Visible = True
         end>
     end
@@ -69,8 +67,6 @@ object DriverFr: TDriverFr
     Align = alBottom
     Caption = #1055#1086#1080#1089#1082
     TabOrder = 1
-    ExplicitTop = 119
-    ExplicitWidth = 861
     object DBEdit1: TDBEdit
       Left = 16
       Top = 17
@@ -132,10 +128,8 @@ object DriverFr: TDriverFr
       #1090#1077#1089#1090'2')
     Sorted = True
     TabOrder = 2
-    ExplicitLeft = 306
+    ExplicitLeft = 291
     ExplicitTop = -6
-    ExplicitWidth = 233
-    ExplicitHeight = 119
   end
   object GroupBox2: TGroupBox
     Left = 0
@@ -145,8 +139,6 @@ object DriverFr: TDriverFr
     Align = alLeft
     Caption = 'GroupBox2'
     TabOrder = 3
-    ExplicitTop = -6
-    ExplicitHeight = 119
     object FullNameCreateEdit: TEdit
       Left = 26
       Top = 23
@@ -183,9 +175,6 @@ object DriverFr: TDriverFr
     Align = alRight
     Caption = 'GroupBox3'
     TabOrder = 4
-    ExplicitLeft = 527
-    ExplicitTop = 14
-    ExplicitHeight = 102
     object DeleteButton: TButton
       Left = 23
       Top = 73

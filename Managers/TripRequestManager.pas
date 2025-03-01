@@ -63,10 +63,11 @@ end;
 
 procedure TTripRequestManager.LoadAll;
 begin
-  FQuery.SQL.Text := 'SELECT ' +
-    'route_name, distance, creation_date, status, vh.type_name ' +
+  FQuery.SQL.Text := 'SELECT tr.id, ' +
+    'route_name, distance, creation_date, status, tr.required_vehicle_type_id, vh.type_name ' +
     'FROM trip_request tr ' +
     'LEFT JOIN vehicle_type vh ON tr.required_vehicle_type_id = vh.id ' +
+    'WHERE status = ''ќжидает'' ' +
     'ORDER BY creation_date';
   FQuery.Open;
 end;

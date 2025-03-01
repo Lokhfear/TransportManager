@@ -30,43 +30,44 @@ object TripRequestFr: TTripRequestFr
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnCellClick = PendingRequestDBGridCellClick
       Columns = <
         item
           Expanded = False
           FieldName = 'ID'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'ROUTE_NAME'
-          Title.Caption = #1052#1072#1088#1096#1088#1091#1090
-          Width = 200
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DISTANCE'
-          Title.Caption = #1056#1072#1089#1089#1090#1086#1103#1085#1080#1077
           Width = 60
           Visible = True
         end
         item
           Expanded = False
+          FieldName = 'ROUTE_NAME'
+          Width = 250
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DISTANCE'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'CREATION_DATE'
-          Title.Caption = #1044#1072#1090#1072' '#1089#1086#1079#1072#1076#1085#1080#1103
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'STATUS'
-          Title.Caption = #1057#1090#1072#1090#1091#1089
           Visible = True
         end
         item
           Expanded = False
+          FieldName = 'REQUIRED_VEHICLE_TYPE_ID'
+          Visible = False
+        end
+        item
+          Expanded = False
           FieldName = 'TYPE_NAME'
-          Title.Caption = #1058#1088#1077#1073#1091#1077#1084#1099#1081' '#1090#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
           Width = 200
           Visible = True
         end>
@@ -89,26 +90,43 @@ object TripRequestFr: TTripRequestFr
       Align = alLeft
       Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100' '#1079#1072#1103#1074#1082#1091
       TabOrder = 0
-      object DBComboBox1: TDBComboBox
-        Left = 16
-        Top = 94
-        Width = 145
-        Height = 21
-        TabOrder = 0
-      end
-      object DBComboBox2: TDBComboBox
-        Left = 16
-        Top = 40
-        Width = 145
-        Height = 21
-        TabOrder = 1
+      ExplicitLeft = -3
+      ExplicitTop = -3
+      object Label1: TLabel
+        Left = 26
+        Top = 37
+        Width = 55
+        Height = 13
+        Caption = #8470' '#1079#1072#1103#1074#1082#1080':'
       end
       object CreateButton: TButton
-        Left = 16
+        Left = 26
         Top = 142
         Width = 145
         Height = 25
         Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100
+        TabOrder = 0
+        OnClick = CreateButtonClick
+      end
+      object DriverDBLookupComboBox: TDBLookupComboBox
+        Left = 26
+        Top = 76
+        Width = 145
+        Height = 21
+        DataField = 'FULL_NAME'
+        KeyField = 'ID'
+        ListField = 'FULL_NAME'
+        ListSource = DBConnect.DriverDataSource
+        TabOrder = 1
+      end
+      object TransportDBLookupComboBox2: TDBLookupComboBox
+        Left = 26
+        Top = 103
+        Width = 145
+        Height = 21
+        KeyField = 'NUMBER_PLATE'
+        ListField = 'NUMBER_PLATE'
+        ListSource = DBConnect.TransportDataSource
         TabOrder = 2
       end
     end
@@ -118,16 +136,13 @@ object TripRequestFr: TTripRequestFr
       Width = 624
       Height = 207
       Align = alClient
-      Caption = #1042#1099#1073#1086#1088' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072' '#1080' '#1074#1086#1076#1080#1090#1077#1083#1103
+      Caption = #1057#1074#1086#1073#1086#1076#1085#1099#1081' '#1090#1088#1072#1085#1089#1087#1086#1088#1090' '#1080' '#1074#1086#1076#1080#1090#1077#1083#1080
       TabOrder = 1
-      ExplicitLeft = 208
-      ExplicitTop = -88
-      ExplicitWidth = 185
-      ExplicitHeight = 105
+      ExplicitTop = -3
       object TransportGrid: TDBGrid
-        Left = 6
+        Left = 496
         Top = 15
-        Width = 240
+        Width = 126
         Height = 190
         Align = alRight
         DataSource = DBConnect.TransportDataSource
@@ -138,13 +153,36 @@ object TripRequestFr: TTripRequestFr
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'NUMBER_PLATE'
+            Title.Caption = #1053#1086#1084#1077#1088
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TYPE_NAME'
+            Width = -1
+            Visible = False
+          end
+          item
+            Expanded = False
+            FieldName = 'START_EXPLOITATION'
+            Visible = False
+          end
+          item
+            Expanded = False
+            FieldName = 'END_EXPLOITATION'
+            Visible = False
+          end>
       end
       object DriverGrid: TDBGrid
-        Left = 246
+        Left = 2
         Top = 15
-        Width = 376
+        Width = 494
         Height = 190
-        Align = alRight
+        Align = alClient
         DataSource = DBConnect.DriverDataSource
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
@@ -152,6 +190,24 @@ object TripRequestFr: TTripRequestFr
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID'
+            Width = 50
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'FULL_NAME'
+            Width = 180
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'EMPLOYMENT_START'
+            Visible = True
+          end>
       end
     end
   end

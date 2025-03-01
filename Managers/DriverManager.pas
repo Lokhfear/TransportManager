@@ -16,8 +16,8 @@ type
     procedure Add(FullName: String; EmploymentStart: TDateTime);
     // procedure Search(SearchID: Integer; SearchFullName : string);
     procedure LoadAvailableDrivers();
-    procedure FilterByVehicleType(requiredVehicleType: Integer);
-
+    //procedure FilterByVehicleType(requiredVehicleType: Integer);
+    procedure LoadAvailableDriversByType(requiredVehicleType: Integer);
     procedure UpdateDriverVehicleTypes(DriverID: integer;
       OldVehicleTypes, NewVehicleTypes: TList<integer>);
     procedure AddDriverVehicleType(DriverID, VehicleTypeId: integer);
@@ -44,14 +44,24 @@ begin
 
   FQuery.Open;
 end;
-
-procedure TDriverManager.FilterByVehicleType(requiredVehicleType: Integer);
+procedure TDriverManager.LoadAvailableDriversByType(requiredVehicleType: Integer);
 begin
-  FQuery.Filtered := False;
-  FQuery.Filter := Format('vehicle_type_id = %d', [requiredVehicleType]);
-  FQuery.Filtered := True;
-end;
+  FQuery.SQL.Text :=
+    'SELECT id, full_name, employment_start ' +
+    'FROM driver d ' +
+    'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
+    'WHERE dvt.vehicle_type_id = :requiredVehicleType ' +
+    'AND id NOT IN (' +
+    'SELECT driver_id ' +
+    'FROM trip t ' +
+    'JOIN trip_request tr ON t.trip_request_id = tr.id ' +
+    'WHERE tr.status = ''В процессе'') ' +
+    'GROUP BY id, full_name, employment_start ' +
+    'ORDER BY full_name';
 
+  FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
+  FQuery.Open;
+end;
 
 procedure TDriverManager.Add(FullName: String; EmploymentStart: TDateTime);
 begin
@@ -108,9 +118,9 @@ end;
 
 procedure TDriverManager.LoadAll;
 begin
-  FQuery.SQL.Text := 'SELECT ' + 'd.id, ' + 'd.full_name AS "ФИО", ' +
-    'd.employment_start AS "Дата начала работы", ' +
-    'COALESCE(LISTAGG(vt.type_name, '', '') WITHIN GROUP (ORDER BY vt.type_name), ''Нет типов'') AS "Типы транспорта" '
+  FQuery.SQL.Text := 'SELECT ' + 'd.id, ' + 'd.full_name, ' +
+    'd.employment_start, ' +
+    'LISTAGG(vt.type_name, '', '') WITHIN GROUP (ORDER BY vt.type_name) AS vehicle_types '
     + 'FROM driver d ' +
     'LEFT JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
     'LEFT JOIN vehicle_type vt ON dvt.vehicle_type_id = vt.id ' +

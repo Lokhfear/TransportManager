@@ -12,7 +12,9 @@ uses
   TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr: TFrame},
   VehicleTypeManager in 'Managers\VehicleTypeManager.pas',
   DriverManager in 'Managers\DriverManager.pas',
-  TransportManage in 'Managers\TransportManage.pas';
+  TransportManage in 'Managers\TransportManage.pas',
+  TripManager in 'Managers\TripManager.pas',
+  TripRequestManager in 'Managers\TripRequestManager.pas';
 
 {$R *.res}
 

@@ -74,7 +74,7 @@ begin
 
   // Изменить: (проверять по кол-ву символов?)
   if (NumberPlateCreateEdit.Text <> '') and
-    (VehicleTypeDBLookupComboBox.KeyValue <> 0) then
+    (VehicleTypeDBLookupComboBox.KeyValue <> null) then
   begin
     ManagerCRUD.Add(NumberPlateCreateEdit.Text,
       StartExploitationCreateDateTimePicker.Date,

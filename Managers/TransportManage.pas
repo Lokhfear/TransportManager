@@ -14,6 +14,9 @@ type
     procedure Update(numberPlate: String; EndExploitation: TDate);
     procedure Add(numberPlate: String;
       StartExploitation: TDateTime; VehicleTypeID: Integer);
+
+    procedure LoadAvailableTransport();
+    procedure FilterByVehicleType(requiredVehicleType: Integer);
   end;
 
 implementation
@@ -22,6 +25,37 @@ constructor TTransportManager.Create(AQuery: TFDQuery);
 begin
   inherited Create(AQuery);
 end;
+
+procedure TTransportManager.LoadAvailableTransport();
+begin
+  FQuery.SQL.Text :=
+    'SELECT t.number_plate, t.start_exploitation, t.end_exploitation, vt.type_name ' +
+    'FROM transport t ' +
+    'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id ' +
+    'WHERE (t.end_exploitation IS NULL OR t.end_exploitation >= SYSDATE) ' +
+    'AND t.number_plate NOT IN (' +
+    'SELECT transport_id ' +
+    'FROM trip trip ' +
+    'JOIN trip_request tr ON trip.trip_request_id = tr.id ' +
+    'WHERE tr.status = ''В процессе'') ' +
+    'ORDER BY t.number_plate';
+
+  FQuery.Open;
+end;
+
+
+
+ procedure TTransportManager.FilterByVehicleType(requiredVehicleType: Integer);
+begin
+  FQuery.Filtered := False;
+  FQuery.Filter := Format('vehicle_type_id = %d', [requiredVehicleType]);
+  FQuery.Filtered := True;
+end;
+
+
+
+
+
 
 
 // сделать исключения (в данном случае может номер уже существовать)
@@ -79,6 +113,5 @@ begin
 
   LoadAll;
 end;
-
 end.
 

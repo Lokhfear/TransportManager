@@ -1,0 +1,32 @@
+unit TripRequestFrame;
+
+interface
+
+uses
+  DBConnection,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls,
+  Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TTripRequestFr = class(TFrame)
+    Panel1: TPanel;
+    TransportDBGrid: TDBGrid;
+    Panel2: TPanel;
+    DrawGrid1: TDrawGrid;
+    DrawGrid2: TDrawGrid;
+    GroupBox1: TGroupBox;
+    DBComboBox1: TDBComboBox;
+    DBComboBox2: TDBComboBox;
+    Button1: TButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -15,6 +15,8 @@ type
     procedure Update(AID: integer; NewFullName: String);
     procedure Add(FullName: String; EmploymentStart: TDateTime);
     // procedure Search(SearchID: Integer; SearchFullName : string);
+    procedure LoadAvailableDrivers();
+    procedure FilterByVehicleType(requiredVehicleType: Integer);
 
     procedure UpdateDriverVehicleTypes(DriverID: integer;
       OldVehicleTypes, NewVehicleTypes: TList<integer>);
@@ -23,6 +25,33 @@ type
   end;
 
 implementation
+
+
+procedure TDriverManager.LoadAvailableDrivers();
+begin
+  FQuery.SQL.Text :=
+    'SELECT id, full_name, employment_start ' +
+    'FROM driver d ' +
+    'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
+    'WHERE id NOT IN (' +
+    'SELECT driver_id ' +
+    'FROM trip t ' +
+    'JOIN trip_request tr ON t.trip_request_id = tr.id ' +
+    'WHERE tr.status = ''В процессе'')' +
+    'GROUP BY id, full_name, employment_start ' +
+    'ORDER BY full_name';
+
+
+  FQuery.Open;
+end;
+
+procedure TDriverManager.FilterByVehicleType(requiredVehicleType: Integer);
+begin
+  FQuery.Filtered := False;
+  FQuery.Filter := Format('vehicle_type_id = %d', [requiredVehicleType]);
+  FQuery.Filtered := True;
+end;
+
 
 procedure TDriverManager.Add(FullName: String; EmploymentStart: TDateTime);
 begin

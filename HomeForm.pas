@@ -15,14 +15,8 @@ type
     transportPage: TTabSheet;
     driverPage: TTabSheet;
     TripRequestPageControl: TPageControl;
-    TabSheet6: TTabSheet;
-    TabSheet7: TTabSheet;
-    TabSheet8: TTabSheet;
-    DBGrid1: TDBGrid;
-    PendingTripRequest: TPanel;
-    GridPanel1: TGridPanel;
-    DBGrid4: TDBGrid;
-    DBGrid3: TDBGrid;
+    PendingRequestPage: TTabSheet;
+    AllRequestPage: TTabSheet;
     VehicleTypePage: TTabSheet;
     procedure FormCreate(Sender: TObject);
 
@@ -66,7 +60,7 @@ begin
  // TripFrame.Parent := TripPage;
   TransportFrame.Parent := TransportPage;
   DriverFrame.Parent := DriverPage;
-//TriptRequestFrame := TTripRequestFr;
+  TriptRequestFrame.Parent := TripRequestPage;
 
 end;
 

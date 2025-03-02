@@ -12,8 +12,6 @@ object TripRequestFr: TTripRequestFr
     Height = 271
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 200
-    ExplicitHeight = 280
     object PendingRequestDBGrid: TDBGrid
       Left = 1
       Top = 1
@@ -80,8 +78,6 @@ object TripRequestFr: TTripRequestFr
     Height = 209
     Align = alTop
     TabOrder = 1
-    ExplicitLeft = -1
-    ExplicitTop = -5
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
@@ -90,18 +86,30 @@ object TripRequestFr: TTripRequestFr
       Align = alLeft
       Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100' '#1079#1072#1103#1074#1082#1091
       TabOrder = 0
-      ExplicitLeft = -3
-      ExplicitTop = -3
       object Label1: TLabel
-        Left = 26
-        Top = 37
+        Left = 38
+        Top = 71
+        Width = 110
+        Height = 13
+        Caption = #1053#1072#1079#1085#1072#1095#1080#1090#1100' '#1074#1086#1076#1080#1090#1077#1083#1103':'
+      end
+      object Label2: TLabel
+        Left = 34
+        Top = 121
+        Width = 114
+        Height = 13
+        Caption = #1053#1072#1079#1085#1072#1095#1080#1090#1100' '#1090#1088#1072#1085#1089#1087#1086#1088#1090':'
+      end
+      object Label3: TLabel
+        Left = 34
+        Top = 25
         Width = 55
         Height = 13
         Caption = #8470' '#1079#1072#1103#1074#1082#1080':'
       end
       object CreateButton: TButton
-        Left = 26
-        Top = 142
+        Left = 50
+        Top = 167
         Width = 145
         Height = 25
         Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100
@@ -109,8 +117,8 @@ object TripRequestFr: TTripRequestFr
         OnClick = CreateButtonClick
       end
       object DriverDBLookupComboBox: TDBLookupComboBox
-        Left = 26
-        Top = 76
+        Left = 50
+        Top = 90
         Width = 145
         Height = 21
         DataField = 'FULL_NAME'
@@ -119,15 +127,25 @@ object TripRequestFr: TTripRequestFr
         ListSource = DBConnect.DriverDataSource
         TabOrder = 1
       end
-      object TransportDBLookupComboBox2: TDBLookupComboBox
-        Left = 26
-        Top = 103
+      object TransportDBLookupComboBox: TDBLookupComboBox
+        Left = 50
+        Top = 140
         Width = 145
         Height = 21
         KeyField = 'NUMBER_PLATE'
         ListField = 'NUMBER_PLATE'
         ListSource = DBConnect.TransportDataSource
         TabOrder = 2
+      end
+      object RequestIdDBEdit: TDBEdit
+        Left = 50
+        Top = 44
+        Width = 145
+        Height = 21
+        DataField = 'ID'
+        DataSource = DBConnect.tripRequestDataSource
+        ReadOnly = True
+        TabOrder = 3
       end
     end
     object DriverAndTransportGroupBox: TGroupBox
@@ -138,7 +156,6 @@ object TripRequestFr: TTripRequestFr
       Align = alClient
       Caption = #1057#1074#1086#1073#1086#1076#1085#1099#1081' '#1090#1088#1072#1085#1089#1087#1086#1088#1090' '#1080' '#1074#1086#1076#1080#1090#1077#1083#1080
       TabOrder = 1
-      ExplicitTop = -3
       object TransportGrid: TDBGrid
         Left = 496
         Top = 15
@@ -146,13 +163,14 @@ object TripRequestFr: TTripRequestFr
         Height = 190
         Align = alRight
         DataSource = DBConnect.TransportDataSource
-        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        OnCellClick = TransportGridCellClick
         Columns = <
           item
             Expanded = False
@@ -163,7 +181,6 @@ object TripRequestFr: TTripRequestFr
           item
             Expanded = False
             FieldName = 'TYPE_NAME'
-            Width = -1
             Visible = False
           end
           item
@@ -184,12 +201,14 @@ object TripRequestFr: TTripRequestFr
         Height = 190
         Align = alClient
         DataSource = DBConnect.DriverDataSource
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        OnCellClick = DriverGridCellClick
         Columns = <
           item
             Expanded = False

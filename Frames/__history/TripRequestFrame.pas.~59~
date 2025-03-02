@@ -1,0 +1,106 @@
+unit TripRequestFrame;
+
+interface
+
+uses
+  TripRequestManager, DriverManager, TransportManage, TripManager, FireDAC.Comp.Client,
+  DBConnection, Data.DB, Vcl.Menus, Vcl.StdCtrls, Vcl.Controls, Vcl.DBCtrls,
+  Vcl.Grids, Vcl.DBGrids, System.Classes, Vcl.ExtCtrls,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, Vcl.Forms;
+
+type
+  TTripRequestFr = class(TFrame)
+    BottomPanel: TPanel;
+    PendingRequestDBGrid: TDBGrid;
+    TopPanel: TPanel;
+    GroupBox1: TGroupBox;
+    CreateButton: TButton;
+    DriverAndTransportGroupBox: TGroupBox;
+    TransportGrid: TDBGrid;
+    DriverGrid: TDBGrid;
+    DriverDBLookupComboBox: TDBLookupComboBox;
+    TransportDBLookupComboBox: TDBLookupComboBox;
+    Label1: TLabel;
+    procedure PendingRequestDBGridCellClick(Column: TColumn);
+    procedure CreateButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+    ManagerCRUD: TTripRequestManager;
+    DriverManagerCRUD: TDriverManager;
+    TransportManagerCRUD: TTransportManager;
+    TripManagerCRUD: TTripManager;
+
+    selectedRequestId: Integer;
+    selectedRequestVehicleTypeId: Integer;
+
+    procedure clearSelectedData();
+
+  public
+    constructor Create(Owner: TComponent; TripRequestQuery, TransportQuery,
+      DriverQuery, TripQuery: TFDQuery);
+
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+constructor TTripRequestFr.Create(Owner: TComponent;
+  TripRequestQuery, TransportQuery, DriverQuery, TripQuery: TFDQuery);
+begin
+  inherited Create(Owner);
+  ManagerCRUD := TTripRequestManager.Create(TripRequestQuery);
+  TransportManagerCRUD := TTransportManager.Create(TransportQuery);
+  DriverManagerCRUD := TDriverManager.Create(DriverQuery);
+  TripManagerCRUD := TTripManager.Create(TripQuery);
+
+  ManagerCRUD.LoadAll;
+  TransportManagerCRUD.LoadAvailableTransport;
+  DriverManagerCRUD.LoadAvailableDrivers;
+
+  clearSelectedData;
+end;
+
+procedure TTripRequestFr.CreateButtonClick(Sender: TObject);
+begin
+  // Проверяем, что ID заявки установлен
+  if selectedRequestId = 0 or (DriverDBLookupComboBox.KeyValue = null) or VarIsNull(TransportDBLookupComboBox.KeyValue) then
+
+  TripManagerCRUD.Add(selectedRequestId, TransportDBLookupComboBox.KeyValue, DriverDBLookupComboBox.KeyValue);
+  ManagerCRUD.UpdateStatus(selectedRequestId, 'В процессе');
+
+  clearSelectedData;
+
+  DriverManagerCRUD.LoadAvailableDrivers;
+  TransportManagerCRUD.LoadAvailableTransport;
+end;
+
+
+
+procedure TTripRequestFr.clearSelectedData;
+begin
+  selectedRequestId := 0;
+  selectedRequestVehicleTypeId := 0;
+  DriverDBLookupComboBox.KeyValue := Null;
+  TransportDBLookupComboBox.KeyValue := Null;
+  Label1.Caption := '№ выбранной заявки:';
+end;
+
+
+
+procedure TTripRequestFr.PendingRequestDBGridCellClick(Column: TColumn);
+begin
+  selectedRequestId := PendingRequestDBGrid.DataSource.DataSet.FieldByName('id')
+    .AsInteger;
+  selectedRequestVehicleTypeId := PendingRequestDBGrid.DataSource.DataSet.
+    FieldByName('required_vehicle_type_id').AsInteger;
+
+  Label1.Caption := '№ выбранной заявки:' + selectedRequestId.ToString;
+
+  DriverManagerCRUD.LoadAvailableDriversByType(selectedRequestVehicleTypeId);
+  TransportManagerCRUD.LoadAvailableTransportByType
+    (selectedRequestVehicleTypeId);
+end;
+
+end.

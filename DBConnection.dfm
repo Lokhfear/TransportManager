@@ -77,26 +77,10 @@ object DBConnect: TDBConnect
     Left = 56
     Top = 136
   end
-  object ShortDriverQuery: TFDQuery
-    Active = True
-    Connection = FDConnection1
-    SQL.Strings = (
-      'Select'
-      '  id,'
-      ' full_name as "'#1060#1048#1054'"'
-      'from driver')
-    Left = 56
-    Top = 192
-  end
   object TransportDataSource: TDataSource
     DataSet = TransportQuery
     Left = 144
     Top = 136
-  end
-  object ShortDriverDataSource: TDataSource
-    DataSet = ShortDriverQuery
-    Left = 144
-    Top = 192
   end
   object DriverQuery: TFDQuery
     Active = True
@@ -168,8 +152,57 @@ object DBConnect: TDBConnect
     Top = 304
   end
   object DataSource3: TDataSource
-    DataSet = ShortDriverQuery
     Left = 144
     Top = 356
+  end
+  object AvaibleDriverQuery: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT'
+      '    d.id,'
+      '    d.full_name,'
+      '    d.employment_start,'
+      '    LISTAGG(vt.type_name, '#39', '#39') WITHIN GROUP('
+      '    ORDER BY'
+      '        vt.type_name'
+      '    )                  AS vehicle_types'
+      'FROM'
+      '         driver d'
+      '    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id'
+      '    JOIN vehicle_type        vt ON dvt.vehicle_type_id = vt.id'
+      'GROUP BY'
+      '    d.id,'
+      '    d.full_name,'
+      '    d.employment_start'
+      'ORDER BY'
+      '    d.full_name')
+    Left = 288
+    Top = 192
+  end
+  object AvaibleTransportQuery: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT'
+      '    t.number_plate,'
+      '    type_name,'
+      'start_exploitation,'
+      'end_exploitation'
+      'FROM'
+      '         transport t'
+      '    JOIN vehicle_type vt ON t.vehicle_type_id = vt.id')
+    Left = 288
+    Top = 136
+  end
+  object DataSource1: TDataSource
+    DataSet = TransportQuery
+    Left = 352
+    Top = 136
+  end
+  object DataSource2: TDataSource
+    DataSet = DriverQuery
+    Left = 352
+    Top = 192
   end
 end

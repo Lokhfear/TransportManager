@@ -19,15 +19,17 @@ type
     vehicleType: TFDQuery;
     VehicleTypeDataSource: TDataSource;
     TransportQuery: TFDQuery;
-    ShortDriverQuery: TFDQuery;
     TransportDataSource: TDataSource;
-    ShortDriverDataSource: TDataSource;
     DriverQuery: TFDQuery;
     tripQuery: TFDQuery;
     FDQuery3: TFDQuery;
     DriverDataSource: TDataSource;
     tripDataSource: TDataSource;
     DataSource3: TDataSource;
+    AvaibleDriverQuery: TFDQuery;
+    AvaibleTransportQuery: TFDQuery;
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
   private
     { Private declarations }
   public

@@ -1,0 +1,36 @@
+unit TripFrame;
+
+interface
+
+uses
+  DriverManager, TransportManage, Vcl.Controls,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TTripFr = class(TFrame)
+    TripPanel: TPanel;
+    TripGrid: TDBGrid;
+    TopPanel: TPanel;
+    GroupBox1: TGroupBox;
+    GroupBox3: TGroupBox;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    SetDatesButton: TButton;
+    GroupBox4: TGroupBox;
+    DBLookupComboBox1: TDBLookupComboBox;
+    DBLookupComboBox2: TDBLookupComboBox;
+    ReassignButton: TButton;
+    GroupBox2: TGroupBox;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+end.

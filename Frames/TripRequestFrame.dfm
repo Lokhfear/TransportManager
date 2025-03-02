@@ -124,7 +124,7 @@ object TripRequestFr: TTripRequestFr
         DataField = 'FULL_NAME'
         KeyField = 'ID'
         ListField = 'FULL_NAME'
-        ListSource = DBConnect.DriverDataSource
+        ListSource = DBConnect.AvaibleDriverDataSource
         TabOrder = 1
       end
       object TransportDBLookupComboBox: TDBLookupComboBox
@@ -134,7 +134,7 @@ object TripRequestFr: TTripRequestFr
         Height = 21
         KeyField = 'NUMBER_PLATE'
         ListField = 'NUMBER_PLATE'
-        ListSource = DBConnect.TransportDataSource
+        ListSource = DBConnect.AvaibleTransportDataSource
         TabOrder = 2
       end
       object RequestIdDBEdit: TDBEdit
@@ -162,7 +162,7 @@ object TripRequestFr: TTripRequestFr
         Width = 126
         Height = 190
         Align = alRight
-        DataSource = DBConnect.TransportDataSource
+        DataSource = DBConnect.AvaibleTransportDataSource
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
@@ -200,7 +200,7 @@ object TripRequestFr: TTripRequestFr
         Width = 494
         Height = 190
         Align = alClient
-        DataSource = DBConnect.DriverDataSource
+        DataSource = DBConnect.AvaibleDriverDataSource
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET

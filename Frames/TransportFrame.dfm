@@ -33,25 +33,29 @@ object TransportFr: TTransportFr
       Columns = <
         item
           Expanded = False
-          FieldName = #1053#1054#1052#1045#1056
-          Width = 100
+          FieldName = 'NUMBER_PLATE'
+          Title.Caption = #1053#1054#1052#1045#1056
+          Width = 90
           Visible = True
         end
         item
           Expanded = False
-          FieldName = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+          FieldName = 'TYPE_NAME'
+          Title.Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
           Width = 500
           Visible = True
         end
         item
           Expanded = False
-          FieldName = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
+          FieldName = 'START_EXPLOITATION'
+          Title.Caption = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
           Width = 120
           Visible = True
         end
         item
           Expanded = False
-          FieldName = #1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
+          FieldName = 'END_EXPLOITATION'
+          Title.Caption = #1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
           Width = 120
           Visible = True
         end>
@@ -65,8 +69,6 @@ object TransportFr: TTransportFr
     Align = alClient
     Caption = #1057#1086#1079#1076#1072#1090#1100
     TabOrder = 1
-    ExplicitLeft = -6
-    ExplicitTop = -5
     object VehicleTypeCreateLabel: TLabel
       Left = 228
       Top = 14
@@ -149,8 +151,6 @@ object TransportFr: TTransportFr
     Align = alRight
     Caption = 'GroupBox3'
     TabOrder = 2
-    ExplicitLeft = 502
-    ExplicitTop = -5
     object SelectedTransportLabel: TLabel
       Left = 35
       Top = 81

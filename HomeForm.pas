@@ -11,13 +11,13 @@ type
   TForm1 = class(TForm)
     PageControl: TPageControl;
     TripRequestPage: TTabSheet;
-    tripPage: TTabSheet;
     transportPage: TTabSheet;
     driverPage: TTabSheet;
     TripRequestPageControl: TPageControl;
     PendingRequestPage: TTabSheet;
     AllRequestPage: TTabSheet;
     VehicleTypePage: TTabSheet;
+    TripPage: TTabSheet;
     procedure FormCreate(Sender: TObject);
 
   private
@@ -46,15 +46,16 @@ begin
   DBConnect := TDBConnect.Create(nil);
 
   VehicleTypeFrame := TVehicleTypeFr.Create(Self, DBConnect.VehicleType);
-  TripFrame := TTripFr.Create(Self);
+  TripFrame := TTripFr.Create(Self, DBConnect.tripQuery,
+    DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery);
   TransportFrame := TTransportFr.Create(Self, DBConnect.TransportQuery);
   DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery,
     DBConnect.FDConnection1);
   TriptRequestFrame := TTripRequestFr.Create(Self, DBConnect.pendingRequest,
-    DBConnect.TransportQuery, DBConnect.DriverQuery, DBConnect.tripQuery);
+    DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery, DBConnect.tripQuery);
 
   VehicleTypeFrame.Parent := VehicleTypePage;
-  // TripFrame.Parent := TripPage;
+  TripFrame.parent := tripPage;                //????????
   TransportFrame.Parent := transportPage;
   DriverFrame.Parent := driverPage;
   TriptRequestFrame.Parent := TripRequestPage;

@@ -112,22 +112,21 @@ object DBConnect: TDBConnect
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT '
-      
-        '    TO_CHAR(t.start_datetime, '#39'YYYY-MM-DD HH24:MI'#39') AS "'#1042#1088#1077#1084#1103' '#1086#1090 +
-        #1098#1077#1079#1076#1072'",'
-      
-        '    TO_CHAR(t.end_datetime, '#39'YYYY-MM-DD HH24:MI'#39') AS "'#1042#1088#1077#1084#1103' '#1087#1088#1080#1073 +
-        #1099#1090#1080#1103'",'
-      '    vt.type_name AS "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'",'
-      '    d.full_name AS "'#1060#1048#1054' '#1074#1086#1076#1080#1090#1077#1083#1103'"'
+      '    t.id,'
+      '    d.full_name,'
+      '    trq.route_name,'
+      '    trq.distance,'
+      '    t.transport_id,'
+      '    vt.type_name,'
+      '    TO_CHAR(t.start_datetime, '#39'YYYY-MM-DD HH24:MI'#39'),'
+      '    TO_CHAR(t.end_datetime, '#39'YYYY-MM-DD HH24:MI'#39'),'
+      '    trq.required_vehicle_type_id'
+      '    '
       'FROM trip t'
       'LEFT JOIN transport tr ON t.transport_id = tr.number_plate'
-      
-        'LEFT JOIN vehicle_type vt ON tr.vehicle_type_id = vt.id  -- '#1048#1089#1087#1088 +
-        #1072#1074#1083#1077#1085#1085#1072#1103' '#1089#1074#1103#1079#1100
-      
-        'LEFT JOIN driver d ON t.driver_id = d.id                 -- '#1045#1089#1083#1080 +
-        ' '#1074#1086#1076#1080#1090#1077#1083#1080' '#1093#1088#1072#1085#1103#1090#1089#1103' '#1086#1090#1076#1077#1083#1100#1085#1086
+      'LEFT JOIN vehicle_type vt ON tr.vehicle_type_id = vt.id'
+      'LEFT JOIN driver d ON t.driver_id = d.id '
+      'JOIN trip_request trq on t.trip_request_id = trq.id'
       'ORDER BY t.start_datetime DESC')
     Left = 56
     Top = 304
@@ -159,24 +158,28 @@ object DBConnect: TDBConnect
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT'
-      '    d.id,'
-      '    d.full_name,'
-      '    d.employment_start,'
-      '    LISTAGG(vt.type_name, '#39', '#39') WITHIN GROUP('
-      '    ORDER BY'
-      '        vt.type_name'
-      '    )                  AS vehicle_types'
-      'FROM'
-      '         driver d'
-      '    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id'
-      '    JOIN vehicle_type        vt ON dvt.vehicle_type_id = vt.id'
-      'GROUP BY'
-      '    d.id,'
-      '    d.full_name,'
-      '    d.employment_start'
-      'ORDER BY'
-      '    d.full_name')
+      'SELECT '
+      '    id, '
+      '    full_name, '
+      '    employment_start'
+      'FROM '
+      '    driver d'
+      'JOIN '
+      '    driver_vehicle_type dvt ON d.id = dvt.driver_id'
+      'WHERE'
+      '    id NOT IN ('
+      '        SELECT'
+      '            driver_id'
+      '        FROM'
+      '            trip t'
+      '        JOIN '
+      '            trip_request tr ON t.trip_request_id = tr.id'
+      '            AND tr.status = '#39#1042' '#1087#1088#1086#1094#1077#1089#1089#1077#39
+      '    )'
+      'GROUP BY '
+      '    id, full_name, employment_start'
+      'ORDER BY '
+      '    full_name')
     Left = 288
     Top = 192
   end
@@ -184,24 +187,34 @@ object DBConnect: TDBConnect
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT'
-      '    t.number_plate,'
-      '    type_name,'
-      'start_exploitation,'
-      'end_exploitation'
-      'FROM'
-      '         transport t'
-      '    JOIN vehicle_type vt ON t.vehicle_type_id = vt.id')
+      'SELECT '
+      '    t.number_plate, '
+      '    t.start_exploitation, '
+      '    t.end_exploitation, '
+      '    vt.type_name'
+      'FROM transport t'
+      'JOIN vehicle_type vt '
+      '    ON t.vehicle_type_id = vt.id'
+      
+        'AND (t.end_exploitation IS NULL OR t.end_exploitation >= SYSDATE' +
+        ')'
+      'AND t.number_plate NOT IN ('
+      '    SELECT transport_id '
+      '    FROM trip trip '
+      '    JOIN trip_request tr '
+      '        ON trip.trip_request_id = tr.id '
+      '    WHERE tr.status = '#39#1042' '#1087#1088#1086#1094#1077#1089#1089#1077#39
+      ')')
     Left = 288
     Top = 136
   end
-  object DataSource1: TDataSource
-    DataSet = TransportQuery
+  object AvaibleTransportDataSource: TDataSource
+    DataSet = AvaibleTransportQuery
     Left = 352
     Top = 136
   end
-  object DataSource2: TDataSource
-    DataSet = DriverQuery
+  object AvaibleDriverDataSource: TDataSource
+    DataSet = AvaibleDriverQuery
     Left = 352
     Top = 192
   end

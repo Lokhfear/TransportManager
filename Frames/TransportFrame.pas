@@ -3,6 +3,7 @@ unit TransportFrame;
 interface
 
 uses
+  DBConnection,
   TransportManage, FireDAC.Comp.Client,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
@@ -90,9 +91,9 @@ end;
 procedure TTransportFr.TransportDBGridCellClick(Column: TColumn);
 begin
   selectedNumberPlate := TransportDBGrid.DataSource.DataSet.FieldByName
-    ('НОМЕР').AsString;
+    ('number_plate').AsString;
   EndExploitationChangeDateTimePicker.Date :=
-    Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('Конец эксплуатации')
+    Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('end_exploitation')
     .AsDateTime);
 
   SelectedTransportLabel.Caption := 'Выбранный номер: ' + selectedNumberPlate;

@@ -28,8 +28,8 @@ type
     DataSource3: TDataSource;
     AvaibleDriverQuery: TFDQuery;
     AvaibleTransportQuery: TFDQuery;
-    DataSource1: TDataSource;
-    DataSource2: TDataSource;
+    AvaibleTransportDataSource: TDataSource;
+    AvaibleDriverDataSource: TDataSource;
   private
     { Private declarations }
   public

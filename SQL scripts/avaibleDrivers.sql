@@ -1,8 +1,7 @@
 SELECT 
     id, 
     full_name, 
-    employment_start, 
-    'ПУСТО' AS vehicle_types
+    employment_start
 FROM 
     driver d
 JOIN 

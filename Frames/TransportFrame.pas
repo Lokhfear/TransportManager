@@ -12,23 +12,24 @@ uses
 
 type
   TTransportFr = class(TFrame)
-    Panel1: TPanel;
+    BottomPanel: TPanel;
     TransportDBGrid: TDBGrid;
+    TopPanel: TPanel;
     CreateGroupBox: TGroupBox;
-    CreateButton: TButton;
-    StartExploitationCreateDateTimePicker: TDateTimePicker;
-    EndExploitationCreateDateTimePicker: TDateTimePicker;
-    GroupBox3: TGroupBox;
-    EndExploitationChangeDateTimePicker: TDateTimePicker;
-    DeleteButton: TButton;
-    ChangeButton: TButton;
-    VehicleTypeDBLookupComboBox: TDBLookupComboBox;
     VehicleTypeCreateLabel: TLabel;
     EndExploitationCreateLabel: TLabel;
     NumberPlateCreateLabel: TLabel;
     StartEploitationCreateLabel: TLabel;
-    SelectedTransportLabel: TLabel;
+    CreateButton: TButton;
+    StartExploitationCreateDateTimePicker: TDateTimePicker;
+    EndExploitationCreateDateTimePicker: TDateTimePicker;
+    VehicleTypeDBLookupComboBox: TDBLookupComboBox;
     NumberPlateCreateEdit: TEdit;
+    GroupBox3: TGroupBox;
+    SelectedTransportLabel: TLabel;
+    EndExploitationChangeDateTimePicker: TDateTimePicker;
+    DeleteButton: TButton;
+    ChangeButton: TButton;
 
     constructor Create(Owner: TComponent; Query: TFDQuery);
     procedure TransportDBGridCellClick(Column: TColumn);

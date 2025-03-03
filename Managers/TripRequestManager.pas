@@ -11,7 +11,7 @@ type
     constructor Create(AQuery: TFDQuery);
     procedure LoadAll;
     procedure FilterByStatusPending;
-    procedure Delete(AID: integer; ShowMessage: Boolean);
+    procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
     procedure UpdateStatus(AID: integer; NewStatus: String);
     procedure Add(RouteName: String; Distance: Double; CreationDate: TDateTime; RequiredVehicleTypeID: Integer);
   end;
@@ -25,6 +25,7 @@ end;
 
 procedure TTripRequestManager.Add(RouteName: String; Distance: Double; CreationDate: TDateTime; RequiredVehicleTypeID: Integer);
 begin
+try
   FQuery.SQL.Text := 'INSERT INTO trip_request (route_name, distance, creation_date, required_vehicle_type_id) ' +
     'VALUES (:RouteName, :Distance, :CreationDate, :RequiredVehicleTypeID)';
 
@@ -36,11 +37,16 @@ begin
   FQuery.ExecSQL;
 
   LoadAll;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось создать новый запрос: ' + E.Message);
+end;
 end;
 
-procedure TTripRequestManager.Delete(AID: integer; ShowMessage: Boolean);
+procedure TTripRequestManager.Delete(AID: integer; ShowDeleteMessage: Boolean);
 begin
-  if not ShowMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
+try
+  if not ShowDeleteMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
     [mbOK, mbCancel], 0) = 1) then
   begin
     FQuery.SQL.Text := 'DELETE FROM trip_request WHERE id = :id';
@@ -49,20 +55,32 @@ begin
   end;
 
   LoadAll;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось удалить запрос: ' + E.Message);
+end;
 end;
 
 procedure TTripRequestManager.UpdateStatus(AID: integer; NewStatus: String);
 begin
+try
   FQuery.SQL.Text := 'UPDATE trip_request SET status = :NewStatus WHERE id = :AID';
   FQuery.ParamByName('NewStatus').AsString := NewStatus;
   FQuery.ParamByName('AID').AsInteger := AID;
   FQuery.ExecSQL;
 
   LoadAll;
+
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось обновить статус запроса: ' + E.Message);
+end;
+
 end;
 
 procedure TTripRequestManager.LoadAll;
 begin
+try
   FQuery.SQL.Text := 'SELECT tr.id, ' +
     'route_name, distance, creation_date, status, tr.required_vehicle_type_id, vh.type_name ' +
     'FROM trip_request tr ' +
@@ -70,6 +88,10 @@ begin
     'WHERE status = ''Ожидает'' ' +
     'ORDER BY creation_date';
   FQuery.Open;
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось загрузить данные запросов: ' + E.Message);
+end;
 end;
 
 procedure TTripRequestManager.FilterByStatusPending;

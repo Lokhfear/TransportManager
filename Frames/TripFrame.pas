@@ -13,9 +13,9 @@ uses
 type
   TTripFr = class(TFrame)
     TripPanel: TPanel;
-    TripGrid: TDBGrid;
     TopPanel: TPanel;
     GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     DateTimePicker1: TDateTimePicker;
     DateTimePicker2: TDateTimePicker;
@@ -24,7 +24,7 @@ type
     DBLookupComboBox1: TDBLookupComboBox;
     DBLookupComboBox2: TDBLookupComboBox;
     ReassignButton: TButton;
-    GroupBox2: TGroupBox;
+    TripGrid: TDBGrid;
   private
     { Private declarations }
     ManagerCRUD: TTripManager;

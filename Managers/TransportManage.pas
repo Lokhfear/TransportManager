@@ -10,7 +10,7 @@ type
   public
     constructor Create(AQuery: TFDQuery);
     procedure LoadAll;
-    procedure Delete(numberPlate: String; ShowMessage: Boolean);
+    procedure Delete(numberPlate: String; ShowDeleteMessage: Boolean);
     procedure Update(numberPlate: String; EndExploitation: TDate);
     procedure Add(numberPlate: String;
       StartExploitation: TDateTime; VehicleTypeID: Integer);
@@ -29,6 +29,7 @@ end;
 
 procedure TTransportManager.LoadAvailableTransport();
 begin
+try
   FQuery.SQL.Text :=
     'SELECT t.number_plate, t.start_exploitation, t.end_exploitation, vt.type_name ' +
     'FROM transport t ' +
@@ -42,12 +43,17 @@ begin
     'ORDER BY t.number_plate';
 
   FQuery.Open;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось загрузить свободный транспорт: ' + E.Message);
+end;
 end;
 
 
 
  procedure TTransportManager.LoadAvailableTransportByType(requiredVehicleType: Integer);
 begin
+try
   FQuery.SQL.Text :=
     'SELECT t.number_plate, t.start_exploitation, t.end_exploitation, vt.type_name ' +
     'FROM transport t ' +
@@ -63,6 +69,11 @@ begin
 
   FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
   FQuery.Open;
+
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось загрузить свободный транспорт по заданному типу: ' + E.Message);
+end;
 end;
 
 
@@ -70,10 +81,10 @@ end;
 
 
 
-// сделать исключения (в данном случае может номер уже существовать)
 procedure TTransportManager.Add(numberPlate: String;
   StartExploitation: TDateTime; VehicleTypeID: Integer);
 begin
+try
   FQuery.SQL.Text :=
     'INSERT INTO transport (number_plate, vehicle_type_id, start_exploitation) '
     + 'VALUES (:numberPlate, :vehicleTypeID, :startExploitation)';
@@ -83,11 +94,17 @@ begin
   FQuery.ExecSQL;
 
   LoadAll;
+
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось создать новый транспорт: ' + E.Message);
+end;
 end;
 
-procedure TTransportManager.Delete(numberPlate: String; ShowMessage: Boolean);
+procedure TTransportManager.Delete(numberPlate: String; ShowDeleteMessage: Boolean);
 begin
-  if not ShowMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
+try
+  if not ShowDeleteMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
     [mbOK, mbCancel], 0) = 1) then
   begin
     FQuery.SQL.Text :=
@@ -98,21 +115,31 @@ begin
   end;
 
   LoadAll;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось удалить транспорт: ' + E.Message);
+end;
 end;
 
 procedure TTransportManager.LoadAll;
 begin
+try
   FQuery.SQL.Text :=
     'SELECT t.number_plate, vt.type_name, ' +
     't.start_exploitation, t.end_exploitation '
     + 'FROM transport t ' + 'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id';
   FQuery.Open;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось загрузить данные транспорта: ' + E.Message);
+end;
 end;
 
 
 
 procedure TTransportManager.Update(numberPlate: String; EndExploitation: TDate);
 begin
+try
   FQuery.SQL.Text :=
     'UPDATE transport ' +
     'SET end_exploitation = :endExploitation ' +
@@ -124,6 +151,10 @@ begin
   FQuery.ExecSQL;
 
   LoadAll;
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось обновить выбранный транспорт: ' + E.Message);
+end;
 end;
 end.
 

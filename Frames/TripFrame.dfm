@@ -108,10 +108,8 @@ object TripFr: TTripFr
       Align = alClient
       Caption = #1042#1085#1077#1089#1090#1080' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
       TabOrder = 0
-      ExplicitLeft = 2
-      ExplicitTop = 2
-      ExplicitWidth = 183
-      ExplicitHeight = 39
+      ExplicitLeft = -5
+      ExplicitTop = -3
       object GroupBox3: TGroupBox
         Left = 2
         Top = 15

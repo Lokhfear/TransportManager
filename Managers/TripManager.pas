@@ -13,7 +13,7 @@ type
     procedure Add(TripRequestID: Integer; TransportID: String; DriverID: Integer);
     procedure UpdateTimes(AID: Integer; StartTime, EndTime: TDateTime);
     procedure UpdateTrip(AID: Integer; TripRequestID: Integer; TransportID: String; DriverID: Integer);
-    procedure Delete(AID: Integer);
+    procedure Delete(AID: Integer; ShowDeleteMessage: Boolean);
   end;
 
 implementation
@@ -25,6 +25,7 @@ end;
 
 procedure TTripManager.Add(TripRequestID: Integer; TransportID: String; DriverID: Integer);
 begin
+try
   FQuery.SQL.Text := 'INSERT INTO trip (trip_request_id, transport_id, driver_id) ' +
                      'VALUES (:TripRequestID, :TransportID, :DriverID)';
 
@@ -33,10 +34,16 @@ begin
   FQuery.ParamByName('DriverID').AsInteger := DriverID;
 
   FQuery.ExecSQL;
+
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось создать маршрут: ' + E.Message);
+end;
 end;
 
 procedure TTripManager.UpdateTimes(AID: Integer; StartTime, EndTime: TDateTime);
 begin
+try
   FQuery.SQL.Text := 'UPDATE trip SET start_datetime = :StartTime, end_datetime = :EndTime WHERE id = :AID';
 
   FQuery.ParamByName('StartTime').AsDateTime := StartTime;
@@ -44,10 +51,16 @@ begin
   FQuery.ParamByName('AID').AsInteger := AID;
 
   FQuery.ExecSQL;
+
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось обновить время: ' + E.Message);
+end;
 end;
 
 procedure TTripManager.UpdateTrip(AID: Integer; TripRequestID: Integer; TransportID: String; DriverID: Integer);
 begin
+try
   FQuery.SQL.Text := 'UPDATE trip SET trip_request_id = :TripRequestID, transport_id = :TransportID, driver_id = :DriverID ' +
                      'WHERE id = :AID';
 
@@ -57,17 +70,32 @@ begin
   FQuery.ParamByName('AID').AsInteger := AID;
 
   FQuery.ExecSQL;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось обновить маршрут: ' + E.Message);
+
+end;
 end;
 
-procedure TTripManager.Delete(AID: Integer);
+procedure TTripManager.Delete(AID: Integer; ShowDeleteMessage: Boolean);
 begin
+try
+if not ShowDeleteMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
+    [mbOK, mbCancel], 0) = 1) then
+  begin
   FQuery.SQL.Text := 'DELETE FROM trip WHERE id = :AID';
   FQuery.ParamByName('AID').AsInteger := AID;
   FQuery.ExecSQL;
+  end;
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось удалить: ' + E.Message);
+end;
 end;
 
 procedure TTripManager.LoadAll;
 begin
+try
   FQuery.SQL.Text := 'SELECT ' +
     't.id, ' +
     'd.full_name, ' +
@@ -86,6 +114,11 @@ procedure TTripManager.LoadAll;
 'ORDER BY t.start_datetime DESC ';
 
 FQuery.open;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не загрузить данные маршрутов: ' + E.Message);
+
+end;
 end;
 
 end.

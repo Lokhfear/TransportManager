@@ -18,6 +18,8 @@ type
     AllRequestPage: TTabSheet;
     VehicleTypePage: TTabSheet;
     TripPage: TTabSheet;
+    DriverFr1: TDriverFr;
+    TransportFr1: TTransportFr;
     procedure FormCreate(Sender: TObject);
 
   private
@@ -54,11 +56,11 @@ begin
   TriptRequestFrame := TTripRequestFr.Create(Self, DBConnect.pendingRequest,
     DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery, DBConnect.tripQuery);
 
-  VehicleTypeFrame.Parent := VehicleTypePage;
-  TripFrame.parent := tripPage;                //????????
+  //TripFrame.parent := tripPage;                //????????
   TransportFrame.Parent := transportPage;
   DriverFrame.Parent := driverPage;
   TriptRequestFrame.Parent := TripRequestPage;
+  VehicleTypeFrame.Parent := VehicleTypePage;
 
 end;
 

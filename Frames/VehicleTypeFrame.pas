@@ -3,7 +3,7 @@ unit VehicleTypeFrame;
 interface
 
 uses
-  DBConnection, VehicleTypeManager, Data.DB, FireDAC.Comp.Client, Vcl.ExtCtrls,
+  DBConnection, CreateVehicleTypeModal, VehicleTypeManager, Data.DB, FireDAC.Comp.Client, Vcl.ExtCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
   Vcl.ComCtrls, System.Classes, Vcl.Forms, Vcl.StdCtrls, Winapi.Windows,
   Vcl.Dialogs,
@@ -13,24 +13,29 @@ type
   TVehicleTypeFr = class(TFrame)
     VehicleTypePanel: TPanel;
     DBGrid5: TDBGrid;
-    SearchBox: TGroupBox;
-    typeNameSearchEdit: TEdit;
-    idSearchEdit: TEdit;
-    GroupBox1: TGroupBox;
-    typeNameEdit: TEdit;
-    CreateButton: TButton;
-    GroupBox2: TGroupBox;
+    EditGroupBox: TGroupBox;
+    SelectedVehicleTypeEdit: TEdit;
+    selectedIdEdit: TEdit;
+    TopPanel: TPanel;
+    SearchGroupBox: TGroupBox;
+    ManipulationGroupBox: TGroupBox;
+    IdSearchEdit: TEdit;
     CongfirmButton: TButton;
-    DeletButton: TButton;
-    typenameChangeEdit: TEdit;
-    procedure DeletButtonClick(Sender: TObject);
+    CreateButton: TButton;
+    DeleteButton: TButton;
+    VehicleTypeSearchEdit: TEdit;
+    LoadButton: TButton;
+    IdSearchLabel: TLabel;
+    VehicleTypeSearchLabel: TLabel;
+    procedure DeleteButtonClick(Sender: TObject);
     procedure CreateButtonClick(Sender: TObject);
-    procedure typeNameSearchEditChange(Sender: TObject);
-    procedure idSearchEditChange(Sender: TObject);
+//    procedure SelectedVehicleTypeEditChange(Sender: TObject);
+//   procedure selectedIdEditChange(Sender: TObject);
 
-    procedure searchByParam();
+//    procedure searchByParam();
     procedure DBGrid5CellClick(Column: TColumn);
     procedure CongfirmButtonClick(Sender: TObject);
+    procedure LoadButtonClick(Sender: TObject);
 
   private
     ManagerCRUD: TVehicleTypeManager;
@@ -48,11 +53,18 @@ implementation
 {$R *.dfm}
 
 procedure TVehicleTypeFr.CreateButtonClick(Sender: TObject);
+var
+  CreateForm: TCreateVhicleType;
 begin
-  if typeNameEdit.Text <> '' then
-    ManagerCRUD.Add(typeNameEdit.Text);
-  typeNameEdit.Clear;
+  CreateForm := TCreateVhicleType.Create(self, ManagerCRUD);
+  try
+    CreateForm.ShowModal;
+    ManagerCRUD.LoadAll;
+  finally
+    CreateForm.Free;
+  end;
 end;
+
 
 procedure TVehicleTypeFr.DBGrid5CellClick(Column: TColumn);
 begin
@@ -60,10 +72,11 @@ begin
     ('Тип транспорта').AsString;
   selectedId := DBGrid5.DataSource.DataSet.FieldByName('id').AsInteger;
 
-  typenameChangeEdit.Text := selectedTypeName;
+  selectedIdEdit.Text := selectedId.ToString;
+  SelectedVehicleTypeEdit.Text := selectedTypeName;
 end;
 
-procedure TVehicleTypeFr.DeletButtonClick(Sender: TObject);
+procedure TVehicleTypeFr.DeleteButtonClick(Sender: TObject);
 var
   selectedId: Integer;
 begin
@@ -78,18 +91,18 @@ end;
 
 procedure TVehicleTypeFr.CongfirmButtonClick(Sender: TObject);
 begin
-  if (Length(typenameChangeEdit.Text) > 0) and (selectedId <> 0) and
-    (typenameChangeEdit.Text <> selectedTypeName) then
+  if (Length(SelectedVehicleTypeEdit.Text) > 0) and (selectedId <> 0) and
+    (SelectedVehicleTypeEdit.Text <> selectedTypeName) then
   begin
     if MessageDlg('Вы точно хотите изменить "' + selectedTypeName + '" на "' +
-      typenameChangeEdit.Text + '"?', mtConfirmation, [mbYes, mbNo], 0) = mrYes
+      SelectedVehicleTypeEdit.Text + '"?', mtConfirmation, [mbYes, mbNo], 0) = mrYes
     then
     begin
-      ManagerCRUD.Update(selectedId, typenameChangeEdit.Text);
+      ManagerCRUD.Update(selectedId, SelectedVehicleTypeEdit.Text);
 
       selectedId := 0;
       selectedTypeName := '';
-      typenameChangeEdit.Clear;
+      SelectedVehicleTypeEdit.Clear;
     end;
   end;
 end;
@@ -107,25 +120,30 @@ begin
   inherited;
 end;
 
-procedure TVehicleTypeFr.idSearchEditChange(Sender: TObject);
+{procedure TVehicleTypeFr.selectedIdEditChange(Sender: TObject);
 begin
   searchByParam();
+  end;
+  }
+procedure TVehicleTypeFr.LoadButtonClick(Sender: TObject);
+begin
+ManagerCRUD.LoadAll;
 end;
 
-procedure TVehicleTypeFr.typeNameSearchEditChange(Sender: TObject);
+{procedure TVehicleTypeFr.SelectedVehicleTypeEditChange(Sender: TObject);
 begin
   searchByParam();
-end;
-
-procedure TVehicleTypeFr.searchByParam();
+  end;
+  }
+{procedure TVehicleTypeFr.searchByParam();
 var
   SearchID: Integer;
-begin
-  if (typenameChangeEdit.Text = '') and (idSearchEdit.Text = '') then
-    ManagerCRUD.DisableFilter;
+  begin
+    if (SelectedVehicleTypeEdit.Text = '') and (idSearchEdit.Text = '') then
+        ManagerCRUD.DisableFilter;
 
-  if TryStrToInt(idSearchEdit.Text, SearchID) then
-    ManagerCRUD.Search(SearchID, typenameChangeEdit.Text)
-end;
+          if TryStrToInt(idSearchEdit.Text, SearchID) then
+              ManagerCRUD.Search(SearchID, SelectedVehicleTypeEdit.Text)
+              end;}
 
 end.

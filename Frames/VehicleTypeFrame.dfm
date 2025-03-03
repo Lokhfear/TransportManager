@@ -10,21 +10,22 @@ object VehicleTypeFr: TVehicleTypeFr
   TabOrder = 0
   object VehicleTypePanel: TPanel
     Left = 0
-    Top = 122
+    Top = 125
     Width = 900
-    Height = 344
-    Align = alBottom
-    Anchors = [akLeft, akTop, akRight, akBottom]
+    Height = 341
+    Align = alClient
     Padding.Left = 5
     Padding.Right = 5
     Padding.Bottom = 5
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = 129
+    ExplicitHeight = 337
     object DBGrid5: TDBGrid
       Left = 6
       Top = 1
       Width = 888
-      Height = 337
+      Height = 334
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
@@ -60,13 +61,13 @@ object VehicleTypeFr: TVehicleTypeFr
         end>
     end
   end
-  object SearchBox: TGroupBox
+  object EditGroupBox: TGroupBox
     Left = 0
-    Top = 82
+    Top = 83
     Width = 900
-    Height = 40
-    Align = alBottom
-    Caption = #1055#1086#1080#1089#1082
+    Height = 42
+    Align = alTop
+    Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077
     Color = clBtnFace
     Ctl3D = True
     Font.Charset = DEFAULT_CHARSET
@@ -81,121 +82,151 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
-    object typeNameSearchEdit: TEdit
+    ExplicitTop = 88
+    object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
-      Left = 263
+      Left = 261
       Top = 18
-      Width = 630
-      Height = 20
-      Margins.Left = 6
-      Margins.Top = 0
-      Margins.Right = 0
-      Margins.Bottom = 0
-      Align = alRight
-      TabOrder = 0
-      TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
-      OnChange = typeNameSearchEditChange
-      ExplicitHeight = 24
-    end
-    object idSearchEdit: TEdit
-      AlignWithMargins = True
-      Left = 7
-      Top = 18
-      Width = 250
-      Height = 20
-      Margins.Left = 0
+      Width = 604
+      Height = 22
+      Margins.Left = 12
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alLeft
-      Anchors = [akLeft, akTop, akRight, akBottom]
+      TabOrder = 0
+      TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
+      ExplicitLeft = 259
+      ExplicitTop = 17
+      ExplicitHeight = 27
+    end
+    object selectedIdEdit: TEdit
+      AlignWithMargins = True
+      Left = 19
+      Top = 18
+      Width = 230
+      Height = 22
+      Margins.Left = 12
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Enabled = False
+      ReadOnly = True
       TabOrder = 1
       TextHint = 'id'
-      OnChange = idSearchEditChange
-      ExplicitHeight = 24
+      ExplicitLeft = 17
+      ExplicitTop = 17
+      ExplicitHeight = 27
     end
   end
-  object GroupBox1: TGroupBox
+  object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 327
-    Height = 82
-    Align = alClient
-    Caption = #1057#1086#1079#1076#1072#1090#1100
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
+    Width = 900
+    Height = 83
+    Align = alTop
+    Color = clSilver
     TabOrder = 2
-    DesignSize = (
-      327
-      82)
-    object typeNameEdit: TEdit
-      AlignWithMargins = True
-      Left = 24
-      Top = 19
-      Width = 271
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Anchors = [akLeft, akTop, akRight]
-      Ctl3D = True
-      ParentCtl3D = False
+    ExplicitTop = -6
+    object SearchGroupBox: TGroupBox
+      Left = 1
+      Top = 1
+      Width = 559
+      Height = 81
+      Align = alClient
+      Caption = #1055#1086#1080#1089#1082
+      Color = clBtnFace
+      ParentBackground = False
+      ParentColor = False
       TabOrder = 0
-      TextHint = #1042#1074#1077#1076#1080#1090#1077' '#1090#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
+      ExplicitTop = -4
+      object IdSearchLabel: TLabel
+        Left = 19
+        Top = 25
+        Width = 11
+        Height = 13
+        Caption = 'ID'
+      end
+      object VehicleTypeSearchLabel: TLabel
+        Left = 262
+        Top = 25
+        Width = 80
+        Height = 13
+        Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+      end
+      object IdSearchEdit: TEdit
+        Left = 19
+        Top = 44
+        Width = 213
+        Height = 25
+        TabOrder = 0
+      end
+      object VehicleTypeSearchEdit: TEdit
+        Left = 262
+        Top = 44
+        Width = 213
+        Height = 25
+        TabOrder = 1
+        TextHint = #1051#1077#1075#1082#1086#1074#1086#1081
+      end
     end
-    object CreateButton: TButton
-      Left = 24
-      Top = 49
-      Width = 271
-      Height = 27
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      Caption = #1057#1086#1079#1076#1072#1090#1100
+    object ManipulationGroupBox: TGroupBox
+      Left = 560
+      Top = 1
+      Width = 339
+      Height = 81
+      Align = alRight
+      Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077
+      Color = clBtnFace
+      ParentBackground = False
+      ParentColor = False
       TabOrder = 1
-      OnClick = CreateButtonClick
-    end
-  end
-  object GroupBox2: TGroupBox
-    Left = 327
-    Top = 0
-    Width = 573
-    Height = 82
-    Align = alRight
-    Caption = #1048#1079#1084#1077#1085#1080#1090#1100' / '#1059#1076#1072#1083#1080#1090#1100
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 3
-    DesignSize = (
-      573
-      82)
-    object CongfirmButton: TButton
-      Left = 336
-      Top = 19
-      Width = 231
-      Height = 24
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100
-      TabOrder = 0
-      OnClick = CongfirmButtonClick
-    end
-    object DeletButton: TButton
-      Left = 32
-      Top = 49
-      Width = 543
-      Height = 27
-      Anchors = [akLeft, akTop, akRight, akBottom]
-      Caption = #1059#1076#1072#1083#1080#1090#1100
-      TabOrder = 1
-      OnClick = DeletButtonClick
-    end
-    object typenameChangeEdit: TEdit
-      Left = 32
-      Top = 22
-      Width = 298
-      Height = 21
-      TabOrder = 2
+      ExplicitLeft = 559
+      ExplicitTop = -4
+      DesignSize = (
+        339
+        81)
+      object CongfirmButton: TButton
+        Left = 175
+        Top = 51
+        Width = 161
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
+        TabOrder = 0
+        OnClick = CongfirmButtonClick
+      end
+      object CreateButton: TButton
+        Left = 6
+        Top = 20
+        Width = 163
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1057#1086#1079#1076#1072#1090#1100
+        TabOrder = 1
+        OnClick = CreateButtonClick
+      end
+      object DeleteButton: TButton
+        Left = 6
+        Top = 51
+        Width = 163
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1059#1076#1072#1083#1080#1090#1100
+        TabOrder = 2
+        OnClick = DeleteButtonClick
+      end
+      object LoadButton: TButton
+        Left = 175
+        Top = 20
+        Width = 161
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
+        TabOrder = 3
+        OnClick = LoadButtonClick
+      end
     end
   end
 end

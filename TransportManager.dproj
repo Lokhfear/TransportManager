@@ -137,6 +137,10 @@
         <DCCReference Include="Managers\TransportManage.pas"/>
         <DCCReference Include="Managers\TripManager.pas"/>
         <DCCReference Include="Managers\TripRequestManager.pas"/>
+        <DCCReference Include="CreateFroms\CreateVehicleTypeModal.pas">
+            <Form>CreateVhicleType</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

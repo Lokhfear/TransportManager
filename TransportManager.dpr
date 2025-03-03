@@ -14,7 +14,8 @@ uses
   DriverManager in 'Managers\DriverManager.pas',
   TransportManage in 'Managers\TransportManage.pas',
   TripManager in 'Managers\TripManager.pas',
-  TripRequestManager in 'Managers\TripRequestManager.pas';
+  TripRequestManager in 'Managers\TripRequestManager.pas',
+  CreateVehicleTypeModal in 'CreateFroms\CreateVehicleTypeModal.pas' {CreateVhicleType};
 
 {$R *.res}
 
@@ -23,5 +24,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TDBConnect, DBConnect);
+  Application.CreateForm(TCreateVhicleType, CreateVhicleType);
   Application.Run;
 end.

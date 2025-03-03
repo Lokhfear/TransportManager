@@ -1,0 +1,138 @@
+unit VehicleTypeFrame;
+
+interface
+
+uses
+  DBConnection, CreateVehicleTypeModal, VehicleTypeManager, Data.DB, FireDAC.Comp.Client, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
+  Vcl.ComCtrls, System.Classes, Vcl.Forms, Vcl.StdCtrls, Winapi.Windows,
+  Vcl.Dialogs,
+  Vcl.Mask, Vcl.DBCtrls, SysUtils;
+
+type
+  TVehicleTypeFr = class(TFrame)
+    VehicleTypePanel: TPanel;
+    DBGrid5: TDBGrid;
+    EditGroupBox: TGroupBox;
+    typeNameSearchEdit: TEdit;
+    idSearchEdit: TEdit;
+    TopPanel: TPanel;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    CongfirmButton: TButton;
+    DeleteButton: TButton;
+    typenameChangeEdit: TEdit;
+    CreateButton: TButton;
+    procedure DeleteButtonClick(Sender: TObject);
+    procedure CreateButtonClick(Sender: TObject);
+    procedure typeNameSearchEditChange(Sender: TObject);
+    procedure idSearchEditChange(Sender: TObject);
+
+    procedure searchByParam();
+    procedure DBGrid5CellClick(Column: TColumn);
+    procedure CongfirmButtonClick(Sender: TObject);
+
+  private
+    ManagerCRUD: TVehicleTypeManager;
+    selectedId: Integer;
+    selectedTypeName: string;
+    { Private declarations }
+  public
+    { Public declarations }
+    constructor Create(Owner: TComponent; Query: TFDQuery);
+    destructor Destroy;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+procedure TVehicleTypeFr.CreateButtonClick(Sender: TObject);
+var
+  CreateForm: TCreateVhicleType;
+begin
+  CreateForm := TCreateVhicleType.Create(ManagerCRUD);
+  try
+    CreateForm.ShowModal;
+    ManagerCRUD.LoadAll;
+  finally
+    CreateForm.Free;
+  end;
+end;
+
+
+procedure TVehicleTypeFr.DBGrid5CellClick(Column: TColumn);
+begin
+  selectedTypeName := DBGrid5.DataSource.DataSet.FieldByName
+    ('Тип транспорта').AsString;
+  selectedId := DBGrid5.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  typenameChangeEdit.Text := selectedTypeName;
+end;
+
+procedure TVehicleTypeFr.DeleteButtonClick(Sender: TObject);
+var
+  selectedId: Integer;
+begin
+  if DBGrid5.SelectedRows.Count <> 1 then
+  begin
+    selectedId := DBGrid5.DataSource.DataSet.FieldByName('id').AsInteger;
+    ManagerCRUD.Delete(selectedId, true);
+  end
+  else
+    ShowMessage('Нет выбранных строк или их больше одной');
+end;
+
+procedure TVehicleTypeFr.CongfirmButtonClick(Sender: TObject);
+begin
+  if (Length(typenameChangeEdit.Text) > 0) and (selectedId <> 0) and
+    (typenameChangeEdit.Text <> selectedTypeName) then
+  begin
+    if MessageDlg('Вы точно хотите изменить "' + selectedTypeName + '" на "' +
+      typenameChangeEdit.Text + '"?', mtConfirmation, [mbYes, mbNo], 0) = mrYes
+    then
+    begin
+      ManagerCRUD.Update(selectedId, typenameChangeEdit.Text);
+
+      selectedId := 0;
+      selectedTypeName := '';
+      typenameChangeEdit.Clear;
+    end;
+  end;
+end;
+
+constructor TVehicleTypeFr.Create(Owner: TComponent; Query: TFDQuery);
+begin
+  inherited Create(Owner);
+  ManagerCRUD := TVehicleTypeManager.Create(Query);
+  ManagerCRUD.LoadAll;
+end;
+
+destructor TVehicleTypeFr.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TVehicleTypeFr.idSearchEditChange(Sender: TObject);
+begin
+  searchByParam();
+end;
+
+procedure TVehicleTypeFr.typeNameSearchEditChange(Sender: TObject);
+begin
+  searchByParam();
+end;
+
+procedure TVehicleTypeFr.searchByParam();
+var
+  SearchID: Integer;
+begin
+  if (typenameChangeEdit.Text = '') and (idSearchEdit.Text = '') then
+    ManagerCRUD.DisableFilter;
+
+  if TryStrToInt(idSearchEdit.Text, SearchID) then
+    ManagerCRUD.Search(SearchID, typenameChangeEdit.Text)
+end;
+
+end.

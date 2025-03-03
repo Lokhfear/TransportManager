@@ -96,41 +96,6 @@ object DriverFr: TDriverFr
       TabOrder = 3
     end
   end
-  object VehicleTypeCheckListBox: TCheckListBox
-    Left = 297
-    Top = 0
-    Width = 232
-    Height = 120
-    Align = alClient
-    Columns = 1
-    ItemHeight = 13
-    Items.Strings = (
-      ''
-      #1090#1077#1082#1089#1090
-      #1090#1077#1082#1089#1090
-      #1090#1077#1082#1089#1090
-      #1090#1077#1082#1089#1090
-      #1090#1077#1082#1089#1090
-      #1090#1077#1082#1089#1090'3'
-      #1090#1077#1082#1089#1090'3'
-      #1090#1077#1082#1089#1090'3'
-      #1090#1077#1082#1089#1090'3'
-      #1090#1077#1082#1089#1090'3'
-      #1058#1077#1089#1090#11
-      #1058#1077#1089#1090#11
-      #1058#1077#1089#1090#11
-      #1058#1077#1089#1090#11
-      #1058#1077#1089#1090#11
-      #1090#1077#1089#1090'2'
-      #1090#1077#1089#1090'2'
-      #1090#1077#1089#1090'2'
-      #1090#1077#1089#1090'2'
-      #1090#1077#1089#1090'2')
-    Sorted = True
-    TabOrder = 2
-    ExplicitLeft = 291
-    ExplicitTop = -6
-  end
   object GroupBox2: TGroupBox
     Left = 0
     Top = 0
@@ -138,7 +103,8 @@ object DriverFr: TDriverFr
     Height = 120
     Align = alLeft
     Caption = 'GroupBox2'
-    TabOrder = 3
+    TabOrder = 2
+    ExplicitTop = -6
     object FullNameCreateEdit: TEdit
       Left = 26
       Top = 23
@@ -174,7 +140,7 @@ object DriverFr: TDriverFr
     Height = 120
     Align = alRight
     Caption = 'GroupBox3'
-    TabOrder = 4
+    TabOrder = 3
     object DeleteButton: TButton
       Left = 23
       Top = 73
@@ -201,5 +167,40 @@ object DriverFr: TDriverFr
       Height = 21
       TabOrder = 2
     end
+  end
+  object VehicleTypeCheckListBox: TCheckListBox
+    Left = 297
+    Top = 0
+    Width = 232
+    Height = 120
+    Align = alClient
+    Columns = 1
+    ItemHeight = 13
+    Items.Strings = (
+      ''
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1090#1077#1082#1089#1090'3'
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1058#1077#1089#1090#11
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2'
+      #1090#1077#1089#1090'2')
+    Sorted = True
+    TabOrder = 4
+    ExplicitLeft = 291
+    ExplicitTop = 8
   end
 end

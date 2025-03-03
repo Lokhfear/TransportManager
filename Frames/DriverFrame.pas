@@ -3,7 +3,7 @@ unit DriverFrame;
 interface
 
 uses
-  DBConnection, DriverManager, Data.DB, FireDAC.Comp.Client,
+  DBConnection, DriverManager, DriverVehicleTypeCheckManager, Data.DB, FireDAC.Comp.Client,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids,
@@ -19,7 +19,6 @@ type
     DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
     DBEdit4: TDBEdit;
-    VehicleTypeCheckListBox: TCheckListBox;
     GroupBox2: TGroupBox;
     FullNameCreateEdit: TEdit;
     CreateButton: TButton;
@@ -28,28 +27,26 @@ type
     ChangeButton: TButton;
     fullNameChangeEdit: TEdit;
     employmentStartDatePicker: TDateTimePicker;
+    VehicleTypeCheckListBox: TCheckListBox;
     procedure DeleteButtonClick(Sender: TObject);
     procedure driverGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);
     procedure ChangeButtonClick(Sender: TObject);
     procedure FullNameCreateEditEnter(Sender: TObject);
-    function GetSelectedVehicleTypes: TList<Integer>;
+
 
   private
     SelectedFullName: String;
     SelectedDriverId: Integer;
     SelectedAssignedVehicleTypes: TList<Integer>;
 
-    DBConnection: TFDConnection;
+    CheckListBoxManager: VehicleTypesCheckBoxListManager;
     ManagerCRUD: TDriverManager;
 
-    procedure LoadVehicleTypes;
-    procedure UpdateCheckedCategories(DriverID: Integer);
-    procedure ClearGroupCheckBox;
+
 
   public
-    constructor Create(Owner: TComponent; Query: TFDQuery;
-      Connection: TFDConnection);
+    constructor Create(Owner: TComponent; Query, CheckListBoxQuery : TFDQuery);
     destructor Destroy;
     { Public declarations }
   end;
@@ -59,16 +56,16 @@ implementation
 {$R *.dfm}
 { TDriverFr }
 
-constructor TDriverFr.Create(Owner: TComponent; Query: TFDQuery;
-  Connection: TFDConnection);
+constructor TDriverFr.Create(Owner: TComponent;  Query, CheckListBoxQuery : TFDQuery);
 begin
   inherited Create(Owner);
   ManagerCRUD := TDriverManager.Create(Query);
   ManagerCRUD.LoadAll;
-  DBConnection := Connection;
-  LoadVehicleTypes;
+  CheckListBoxManager := VehicleTypesCheckBoxListManager.Create(CheckListBoxQuery, VehicleTypeCheckListBox);
 
   SelectedAssignedVehicleTypes := TList<Integer>.Create;
+
+  CheckListBoxManager.LoadVehicleTypes;
 end;
 
 procedure TDriverFr.CreateButtonClick(Sender: TObject);
@@ -77,14 +74,12 @@ var
 begin
   if FullNameCreateEdit.Text <> '' then
   begin
-    ManagerCRUD.Add(FullNameCreateEdit.Text, employmentStartDatePicker.Date);
-
-    //надо найти id созданного водителя
-    //ManagerCRUD.UpdateDriverVehicleTypes(createdId, TList<Integer>.Create, GetSelectedVehicleTypes);
+    createdId:= ManagerCRUD.Add(FullNameCreateEdit.Text, employmentStartDatePicker.Date);
+    ManagerCRUD.UpdateDriverVehicleTypes(createdId, TList<Integer>.Create, CheckListBoxManager.GetSelectedVehicleTypes);
 
     FullNameCreateEdit.Text := '';
     employmentStartDatePicker.Checked := false;
-    LoadVehicleTypes;
+    CheckListBoxManager.LoadVehicleTypes;
   end;
 
 end;
@@ -113,55 +108,17 @@ begin
   SelectedDriverId := driverGrid.DataSource.DataSet.FieldByName('id').AsInteger;
 
   fullNameChangeEdit.Text := SelectedFullName;
-  UpdateCheckedCategories(SelectedDriverId);
+  CheckListBoxManager.UpdateCheckedCategories(SelectedDriverId);
+
+  SelectedAssignedVehicleTypes.clear;
+  SelectedAssignedVehicleTypes :=  CheckListBoxManager.GetSelectedVehicleTypes();
 end;
 
 procedure TDriverFr.FullNameCreateEditEnter(Sender: TObject);
 begin
-  ClearGroupCheckBox;
+  CheckListBoxManager.ClearGroupCheckBox;
 end;
 
-function TDriverFr.GetSelectedVehicleTypes: TList<Integer>;
-var
-  i: Integer;
-  selectedId: Integer;
-begin
-  Result := TList<Integer>.Create;
-
-  for i := 0 to VehicleTypeCheckListBox.Count - 1 do
-  begin
-    if VehicleTypeCheckListBox.Checked[i] then
-    begin
-      selectedId := Integer(VehicleTypeCheckListBox.Items.Objects[i]);
-      Result.Add(selectedId);
-    end;
-  end;
-
-end;
-
-procedure TDriverFr.LoadVehicleTypes;
-var
-  Query: TFDQuery;
-begin
-  VehicleTypeCheckListBox.Items.Clear;
-
-  Query := TFDQuery.Create(nil);
-  try
-    Query.Connection := DBConnection;
-    Query.SQL.Text :=
-      'SELECT id, type_name FROM vehicle_type ORDER BY type_name';
-    Query.Open;
-
-    while not Query.Eof do
-    begin
-      VehicleTypeCheckListBox.Items.AddObject(Query.FieldByName('type_name')
-	.AsString, TObject(Query.FieldByName('id').AsInteger));
-      Query.Next;
-    end;
-  finally
-    Query.Free;
-  end;
-end;
 
 procedure TDriverFr.ChangeButtonClick(Sender: TObject);
 begin
@@ -170,62 +127,17 @@ begin
     begin
       ManagerCRUD.Update(SelectedDriverId, fullNameChangeEdit.Text);
       ManagerCRUD.UpdateDriverVehicleTypes(SelectedDriverId,
-	SelectedAssignedVehicleTypes, GetSelectedVehicleTypes);
+	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
     end
     else
       ManagerCRUD.UpdateDriverVehicleTypes(SelectedDriverId,
-	SelectedAssignedVehicleTypes, GetSelectedVehicleTypes);
+	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
 
   SelectedDriverId := 0;
   fullNameChangeEdit.Text := '';
 
-  LoadVehicleTypes;
+  CheckListBoxManager.LoadVehicleTypes;
 end;
 
-procedure TDriverFr.ClearGroupCheckBox;
-var
-  i: Integer;
-begin
-
-  for i := 0 to VehicleTypeCheckListBox.Count - 1 do
-    VehicleTypeCheckListBox.Checked[i] := false;
-end;
-
-procedure TDriverFr.UpdateCheckedCategories(DriverID: Integer);
-var
-  Query: TFDQuery;
-  i, VehicleID: Integer;
-begin
-  ClearGroupCheckBox;
-  SelectedAssignedVehicleTypes.Clear;
-
-  Query := TFDQuery.Create(nil);
-  try
-    Query.Connection := DBConnection;
-    Query.SQL.Text :=
-      'SELECT vehicle_type_id FROM driver_vehicle_type WHERE driver_id = :DriverID';
-    Query.ParamByName('DriverID').AsInteger := DriverID;
-    Query.Open;
-
-    while not Query.Eof do
-    begin
-      VehicleID := Query.FieldByName('vehicle_type_id').AsInteger;
-
-      for i := 0 to VehicleTypeCheckListBox.Count - 1 do
-      begin
-	if Integer(VehicleTypeCheckListBox.Items.Objects[i]) = VehicleID then
-	begin
-	  VehicleTypeCheckListBox.Checked[i] := true;
-	  SelectedAssignedVehicleTypes.Add(VehicleID);
-	  Break;
-	end;
-      end;
-
-      Query.Next;
-    end;
-  finally
-    Query.Free;
-  end;
-end;
 
 end.

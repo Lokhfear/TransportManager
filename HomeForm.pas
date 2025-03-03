@@ -52,7 +52,7 @@ begin
     DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery);
   TransportFrame := TTransportFr.Create(Self, DBConnect.TransportQuery);
   DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery,
-    DBConnect.FDConnection1);
+    DBConnect.CheckListBoxQuery);
   TriptRequestFrame := TTripRequestFr.Create(Self, DBConnect.pendingRequest,
     DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery, DBConnect.tripQuery);
 

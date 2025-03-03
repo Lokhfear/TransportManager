@@ -13,7 +13,7 @@ type
     procedure LoadAll;
     procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
     procedure Update(AID: integer; NewFullName: String);
-    procedure Add(FullName: String; EmploymentStart: TDateTime);
+    function Add(FullName: String; EmploymentStart: TDateTime): Integer;
     // procedure Search(SearchID: Integer; SearchFullName : string);
     procedure LoadAvailableDrivers();
     // procedure FilterByVehicleType(requiredVehicleType: Integer);
@@ -65,7 +65,7 @@ begin
   end;
 end;
 
-procedure TDriverManager.Add(FullName: String; EmploymentStart: TDateTime);
+function TDriverManager.Add(FullName: String; EmploymentStart: TDateTime): Integer;
 begin
   try
     FQuery.SQL.Text :=
@@ -73,7 +73,11 @@ begin
       + ' RETURNING id INTO :NewID';
     FQuery.ParamByName('fullName').AsString := FullName;
     FQuery.ParamByName('employmentStart').AsDateTime := EmploymentStart;
+    FQuery.ParamByName('NewID').DataType := ftInteger;
+    FQuery.ParamByName('NewID').ParamType := ptOutput;
     FQuery.ExecSQL;
+
+    Result := FQuery.ParamByName('NewID').AsInteger;
 
     LoadAll;
   except

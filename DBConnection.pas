@@ -30,6 +30,7 @@ type
     AvaibleTransportQuery: TFDQuery;
     AvaibleTransportDataSource: TDataSource;
     AvaibleDriverDataSource: TDataSource;
+    CheckListBoxQuery: TFDQuery;
   private
     { Private declarations }
   public

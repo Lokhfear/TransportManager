@@ -54,14 +54,14 @@ implementation
 
 procedure TVehicleTypeFr.CreateButtonClick(Sender: TObject);
 var
-  CreateForm: TCreateVhicleType;
+  CreateVehicleTypeForm: TCreateVhicleType;
 begin
-  CreateForm := TCreateVhicleType.Create(self, ManagerCRUD);
+  CreateVehicleTypeForm := TCreateVhicleType.Create(self, ManagerCRUD);
   try
-    CreateForm.ShowModal;
+    CreateVehicleTypeForm.ShowModal;
     ManagerCRUD.LoadAll;
   finally
-    CreateForm.Free;
+    CreateVehicleTypeForm.Free;
   end;
 end;
 

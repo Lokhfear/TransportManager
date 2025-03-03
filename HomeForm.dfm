@@ -56,19 +56,25 @@ object Form1: TForm1
         Height = 514
         Align = alClient
         TabOrder = 0
-        inherited Panel1: TPanel
+        inherited BottomPanel: TPanel
           Width = 804
-          Height = 381
+          Height = 351
           inherited TransportDBGrid: TDBGrid
             Width = 802
-            Height = 379
+            Height = 349
           end
         end
-        inherited CreateGroupBox: TGroupBox
-          Width = 440
+        inherited TopPanel: TPanel
+          Width = 804
+          inherited ManipulationGroupBox: TGroupBox
+            Left = 445
+          end
+          inherited SearchGroupBox: TGroupBox
+            Width = 444
+          end
         end
-        inherited GroupBox3: TGroupBox
-          Left = 440
+        inherited EditGroupBox: TGroupBox
+          Width = 804
         end
       end
     end

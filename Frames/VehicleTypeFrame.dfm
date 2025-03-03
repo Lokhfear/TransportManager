@@ -19,8 +19,6 @@ object VehicleTypeFr: TVehicleTypeFr
     Padding.Bottom = 5
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = 129
-    ExplicitHeight = 337
     object DBGrid5: TDBGrid
       Left = 6
       Top = 1
@@ -82,7 +80,6 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
-    ExplicitTop = 88
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
       Left = 261
@@ -96,9 +93,7 @@ object VehicleTypeFr: TVehicleTypeFr
       Align = alLeft
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
-      ExplicitLeft = 259
-      ExplicitTop = 17
-      ExplicitHeight = 27
+      ExplicitHeight = 24
     end
     object selectedIdEdit: TEdit
       AlignWithMargins = True
@@ -112,12 +107,9 @@ object VehicleTypeFr: TVehicleTypeFr
       Margins.Bottom = 0
       Align = alLeft
       Enabled = False
-      ReadOnly = True
       TabOrder = 1
-      TextHint = 'id'
-      ExplicitLeft = 17
-      ExplicitTop = 17
-      ExplicitHeight = 27
+      TextHint = 'ID'
+      ExplicitTop = 20
     end
   end
   object TopPanel: TPanel
@@ -128,7 +120,6 @@ object VehicleTypeFr: TVehicleTypeFr
     Align = alTop
     Color = clSilver
     TabOrder = 2
-    ExplicitTop = -6
     object SearchGroupBox: TGroupBox
       Left = 1
       Top = 1
@@ -159,14 +150,14 @@ object VehicleTypeFr: TVehicleTypeFr
         Left = 19
         Top = 44
         Width = 213
-        Height = 25
+        Height = 21
         TabOrder = 0
       end
       object VehicleTypeSearchEdit: TEdit
         Left = 262
         Top = 44
         Width = 213
-        Height = 25
+        Height = 21
         TabOrder = 1
         TextHint = #1051#1077#1075#1082#1086#1074#1086#1081
       end
@@ -182,7 +173,7 @@ object VehicleTypeFr: TVehicleTypeFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 1
-      ExplicitLeft = 559
+      ExplicitLeft = 566
       ExplicitTop = -4
       DesignSize = (
         339

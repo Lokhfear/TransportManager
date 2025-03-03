@@ -21,8 +21,7 @@ type
     constructor Create(Owner: TComponent; TManagerCrud: TVehicleTypeManager);
   end;
 
-var
-  CreateVhicleType: TCreateVhicleType;
+
 
 implementation
 

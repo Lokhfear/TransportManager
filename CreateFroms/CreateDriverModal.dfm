@@ -13,6 +13,7 @@ object CreateDriver: TCreateDriver
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   DesignSize = (
     552
     284)
@@ -98,6 +99,7 @@ object CreateDriver: TCreateDriver
     Constraints.MinHeight = 25
     ModalResult = 1
     TabOrder = 3
+    OnClick = CreateButtonClick
   end
   object CancelButton: TButton
     Left = 277

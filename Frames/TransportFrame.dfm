@@ -12,8 +12,6 @@ object TransportFr: TTransportFr
     Height = 317
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 187
-    ExplicitHeight = 293
     object TransportDBGrid: TDBGrid
       Left = 1
       Top = 1
@@ -135,8 +133,6 @@ object TransportFr: TTransportFr
       Align = alClient
       Caption = #1055#1086#1080#1089#1082
       TabOrder = 1
-      ExplicitTop = -4
-      ExplicitWidth = 494
       object VehicleTypeCreateLabel: TLabel
         Left = 224
         Top = 22
@@ -250,9 +246,8 @@ object TransportFr: TTransportFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 2
-    ExplicitLeft = -40
-    ExplicitTop = 83
-    ExplicitWidth = 900
+    ExplicitLeft = 1
+    ExplicitTop = 118
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
       Left = 117
@@ -267,7 +262,7 @@ object TransportFr: TTransportFr
       Enabled = False
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-      ExplicitTop = 17
+      ExplicitHeight = 24
     end
     object SelectedEndExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True
@@ -283,7 +278,6 @@ object TransportFr: TTransportFr
       Date = 45719.000000000000000000
       Time = 0.840898888891388200
       TabOrder = 1
-      ExplicitTop = 20
     end
     object SelectedStartExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True
@@ -300,7 +294,6 @@ object TransportFr: TTransportFr
       Time = 0.840898888891388200
       Enabled = False
       TabOrder = 2
-      ExplicitLeft = 808
     end
     object SelectedNumberPlateEdit: TEdit
       AlignWithMargins = True
@@ -316,6 +309,7 @@ object TransportFr: TTransportFr
       Enabled = False
       TabOrder = 3
       TextHint = #1053#1086#1084#1077#1088
+      ExplicitHeight = 24
     end
   end
 end

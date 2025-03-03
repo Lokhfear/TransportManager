@@ -16,11 +16,18 @@ type
     procedure UpdateCheckedCategories(DriverID: Integer);
     procedure ClearGroupCheckBox;
     function GetSelectedVehicleTypes: TList<Integer>;
+
+    procedure AssignCheckListBox(CheckListBox: TCheckListBox);
   end;
 
 implementation
 
 
+
+procedure VehicleTypesCheckBoxListManager.AssignCheckListBox(CheckListBox: TCheckListBox);
+begin
+    FCheckListBox := CheckListBox;
+end;
 
 constructor VehicleTypesCheckBoxListManager.Create(Query: TFDQuery; CheckListBox: TCheckListBox);
 begin

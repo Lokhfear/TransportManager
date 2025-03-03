@@ -94,18 +94,16 @@ end;
 
 procedure TTransportFr.CreateButtonClick(Sender: TObject);
 var 
-  CreateTransportFrom: TCreateTransport;
+  CreateTransportForm: TCreateTransport;
 begin
 
   try
-    CreateTransportFrom := TCreateTransport.Create(Self, ManagerCRUD);
-    CreateTransportFrom.ShowModal();
+    CreateTransportForm := TCreateTransport.Create(Self, ManagerCRUD);
+    CreateTransportForm.ShowModal();
     ManagerCRUD.LoadAll;
-     except
-    on E: Exception do
-      ShowMessage('Ошибка: ' + E.Message);
-  
-  
+
+finally
+      CreateTransportForm.Free;
   end;
   
 end;

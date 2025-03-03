@@ -27,7 +27,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TDBConnect, DBConnect);
-  Application.CreateForm(TCreateDriver, CreateDriver);
+  //Application.CreateForm(TCreateDriver, CreateDriver);
   //Application.CreateForm(TCreateVhicleType, CreateVhicleType);
   //Application.CreateForm(TCreateTransport, CreateTransport);
   Application.Run;

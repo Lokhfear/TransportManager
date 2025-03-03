@@ -16,6 +16,7 @@ object DriverFr: TDriverFr
     Padding.Right = 4
     Padding.Bottom = 4
     TabOrder = 0
+    ExplicitTop = 162
     object driverGrid: TDBGrid
       Left = 5
       Top = 5
@@ -59,78 +60,70 @@ object DriverFr: TDriverFr
         end>
     end
   end
-  object searchGroupbox: TGroupBox
+  object EditGroupbox: TGroupBox
     Left = 0
     Top = 120
     Width = 860
     Height = 41
     Align = alBottom
-    Caption = #1055#1086#1080#1089#1082
+    Caption = #1048#1079#1084#1077#1085#1080#1090#1100
     TabOrder = 1
-    object DBEdit1: TDBEdit
-      Left = 16
-      Top = 17
-      Width = 57
-      Height = 21
-      TabOrder = 0
-    end
-    object DBEdit2: TDBEdit
-      Left = 79
-      Top = 17
-      Width = 162
-      Height = 21
-      TabOrder = 1
-    end
-    object DBEdit3: TDBEdit
-      Left = 262
+    object SelectedVehicleTypesEdit: TEdit
+      AlignWithMargins = True
+      Left = 417
       Top = 15
-      Width = 121
-      Height = 21
-      TabOrder = 2
-    end
-    object DBEdit4: TDBEdit
-      Left = 400
-      Top = 14
-      Width = 473
-      Height = 21
-      TabOrder = 3
-    end
-  end
-  object GroupBox2: TGroupBox
-    Left = 0
-    Top = 0
-    Width = 297
-    Height = 120
-    Align = alLeft
-    Caption = 'GroupBox2'
-    TabOrder = 2
-    ExplicitTop = -6
-    object FullNameCreateEdit: TEdit
-      Left = 26
-      Top = 23
-      Width = 231
-      Height = 21
+      Width = 417
+      Height = 24
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Enabled = False
       TabOrder = 0
-      TextHint = #1069#1075#1080#1087#1090#1077' '#1052#1080#1093#1072#1080#1083' '#1040#1085#1072#1090#1086#1083#1100#1077#1074#1080#1095
-      OnEnter = FullNameCreateEditEnter
     end
-    object CreateButton: TButton
-      Left = 26
-      Top = 77
-      Width = 231
-      Height = 21
-      Caption = #1057#1086#1079#1076#1072#1090#1100
+    object SelectedEmploymentStartEdit: TEdit
+      AlignWithMargins = True
+      Left = 305
+      Top = 15
+      Width = 104
+      Height = 24
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Enabled = False
       TabOrder = 1
-      OnClick = CreateButtonClick
+      ExplicitTop = 14
     end
-    object employmentStartDatePicker: TDateTimePicker
-      Left = 26
-      Top = 50
-      Width = 231
-      Height = 21
-      Date = 45716.000000000000000000
-      Time = 0.826391643517126800
+    object SelectedFullNameEdit: TEdit
+      AlignWithMargins = True
+      Left = 105
+      Top = 15
+      Width = 192
+      Height = 24
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
       TabOrder = 2
+      ExplicitTop = 14
+    end
+    object SelectedIdEdit: TEdit
+      AlignWithMargins = True
+      Left = 10
+      Top = 15
+      Width = 87
+      Height = 24
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Enabled = False
+      TabOrder = 3
     end
   end
   object GroupBox3: TGroupBox
@@ -140,7 +133,7 @@ object DriverFr: TDriverFr
     Height = 120
     Align = alRight
     Caption = 'GroupBox3'
-    TabOrder = 3
+    TabOrder = 2
     object DeleteButton: TButton
       Left = 23
       Top = 73
@@ -169,9 +162,9 @@ object DriverFr: TDriverFr
     end
   end
   object VehicleTypeCheckListBox: TCheckListBox
-    Left = 297
+    Left = 370
     Top = 0
-    Width = 232
+    Width = 159
     Height = 120
     Align = alClient
     Columns = 1
@@ -199,8 +192,18 @@ object DriverFr: TDriverFr
       #1090#1077#1089#1090'2'
       #1090#1077#1089#1090'2')
     Sorted = True
+    TabOrder = 3
+    ExplicitLeft = 376
+    ExplicitWidth = 153
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 370
+    Height = 120
+    Align = alLeft
+    Caption = 'GroupBox1'
     TabOrder = 4
-    ExplicitLeft = 291
-    ExplicitTop = 8
+    ExplicitTop = -6
   end
 end

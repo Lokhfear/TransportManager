@@ -3,7 +3,7 @@ unit HomeForm;
 interface
 
 uses
-  DBConnection, VehicleTypeFrame, TripFrame, TransportFrame, DriverFrame,
+  DBConnection, VehicleTypeFrame, DriverFrame, TransportFrame, TripFrame,
   TripRequestFrame, Data.DB, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
   Vcl.ComCtrls, System.Classes, Vcl.Forms, Vcl.Dialogs;
 
@@ -48,15 +48,15 @@ begin
   DBConnect := TDBConnect.Create(nil);
 
   VehicleTypeFrame := TVehicleTypeFr.Create(Self, DBConnect.VehicleType);
-  TripFrame := TTripFr.Create(Self, DBConnect.tripQuery,
-    DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery);
+  TripFrame := TTripFr.Create(Self, DBConnect.tripQuery, DBConnect.AvaibleTransportQuery,
+   DBConnect.AvaibleDriverQuery);
   TransportFrame := TTransportFr.Create(Self, DBConnect.TransportQuery);
   DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery,
     DBConnect.CheckListBoxQuery);
   TriptRequestFrame := TTripRequestFr.Create(Self, DBConnect.pendingRequest,
     DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery, DBConnect.tripQuery);
 
-  //TripFrame.parent := tripPage;                //????????
+  TripFrame.Parent := TripPage;
   TransportFrame.Parent := transportPage;
   DriverFrame.Parent := driverPage;
   TriptRequestFrame.Parent := TripRequestPage;

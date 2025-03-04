@@ -12,13 +12,11 @@ object TripFr: TTripFr
     Height = 327
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 177
-    ExplicitHeight = 303
     object TripGrid: TDBGrid
       Left = 1
-      Top = 1
+      Top = 39
       Width = 858
-      Height = 325
+      Height = 287
       Align = alClient
       Color = clWhite
       DataSource = DBConnect.tripDataSource
@@ -30,6 +28,7 @@ object TripFr: TTripFr
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnCellClick = TripGridCellClick
       Columns = <
         item
           Expanded = False
@@ -74,14 +73,14 @@ object TripFr: TTripFr
         end
         item
           Expanded = False
-          FieldName = 'TO_CHAR(T.START_DATETIME,'#39'YYYY-MM-DDHH24:MI'#39')'
+          FieldName = 'START_DATETIME'
           Title.Caption = #1042#1088#1077#1084#1103' '#1086#1090#1098#1077#1079#1076#1072
           Width = 95
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'TO_CHAR(T.END_DATETIME,'#39'YYYY-MM-DDHH24:MI'#39')'
+          FieldName = 'END_DATETIME'
           Title.Caption = #1042#1077#1088#1084#1103' '#1087#1088#1080#1073#1099#1090#1080#1103
           Width = 95
           Visible = True
@@ -90,7 +89,148 @@ object TripFr: TTripFr
           Expanded = False
           FieldName = 'REQUIRED_VEHICLE_TYPE_ID'
           Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'DRIVER_ID'
+          Visible = False
         end>
+    end
+    object GroupBox5: TGroupBox
+      Left = 1
+      Top = 1
+      Width = 858
+      Height = 38
+      Align = alTop
+      Caption = 'GroupBox5'
+      TabOrder = 1
+      object selectedIdEdit: TEdit
+        AlignWithMargins = True
+        Left = 14
+        Top = 15
+        Width = 51
+        Height = 21
+        Margins.Left = 12
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Enabled = False
+        TabOrder = 0
+      end
+      object SelectedTripNameEdit: TEdit
+        AlignWithMargins = True
+        Left = 222
+        Top = 15
+        Width = 184
+        Height = 21
+        Margins.Left = 4
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Enabled = False
+        TabOrder = 1
+      end
+      object SelectedDistanceEdit: TEdit
+        AlignWithMargins = True
+        Left = 410
+        Top = 15
+        Width = 47
+        Height = 21
+        Margins.Left = 4
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Enabled = False
+        TabOrder = 2
+      end
+      object SelectedFullNameComboBox: TDBLookupComboBox
+        AlignWithMargins = True
+        Left = 73
+        Top = 15
+        Width = 145
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        DataField = 'FULL_NAME'
+        KeyField = 'ID'
+        ListField = 'FULL_NAME'
+        ListSource = DBConnect.AvaibleDriverDataSource
+        TabOrder = 3
+      end
+      object SelectedNuberPlateComboBox: TDBLookupComboBox
+        AlignWithMargins = True
+        Left = 463
+        Top = 15
+        Width = 82
+        Height = 21
+        Margins.Left = 6
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        KeyField = 'NUMBER_PLATE'
+        ListField = 'NUMBER_PLATE'
+        ListSource = DBConnect.AvaibleTransportDataSource
+        TabOrder = 4
+      end
+      object SelectedVehicleTypeEdit: TEdit
+        AlignWithMargins = True
+        Left = 549
+        Top = 15
+        Width = 75
+        Height = 21
+        Margins.Left = 4
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Enabled = False
+        TabOrder = 5
+        ExplicitLeft = 670
+        ExplicitTop = 14
+      end
+      object SelectedStartDateTimeEdit: TMaskEdit
+        AlignWithMargins = True
+        Left = 630
+        Top = 15
+        Width = 119
+        Height = 21
+        Margins.Left = 6
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        EditMask = '!99/99/9999 99:99;0;_'
+        MaxLength = 16
+        TabOrder = 6
+        Text = ''
+        OnExit = SelectedStartDateTimeEditExit
+        ExplicitTop = 14
+      end
+      object SelectedEndDateTimeEdit: TMaskEdit
+        AlignWithMargins = True
+        Left = 755
+        Top = 15
+        Width = 102
+        Height = 21
+        Margins.Left = 6
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        EditMask = '!99/99/9999 99:99;0;_'
+        MaxLength = 16
+        TabOrder = 7
+        Text = ''
+        OnExit = SelectedEndDateTimeEditExit
+        ExplicitLeft = 756
+      end
     end
   end
   object TopPanel: TPanel
@@ -100,93 +240,77 @@ object TripFr: TTripFr
     Height = 153
     Align = alTop
     TabOrder = 1
-    object GroupBox1: TGroupBox
+    object searchBox: TGroupBox
       Left = 1
       Top = 1
       Width = 462
       Height = 151
       Align = alClient
-      Caption = #1042#1085#1077#1089#1090#1080' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
+      Caption = #1055#1086#1080#1089#1082
       TabOrder = 0
-      ExplicitLeft = -5
-      ExplicitTop = -3
-      object GroupBox3: TGroupBox
-        Left = 2
-        Top = 15
-        Width = 231
-        Height = 134
-        Align = alLeft
-        Caption = #1059#1089#1090#1072#1085#1086#1074#1080#1090#1100' '#1076#1072#1090#1091
+      object Edit1: TEdit
+        Left = 14
+        Top = 30
+        Width = 135
+        Height = 21
         TabOrder = 0
-        ExplicitHeight = 22
-        object DateTimePicker1: TDateTimePicker
-          Left = 16
-          Top = 29
-          Width = 186
-          Height = 21
-          Date = 45718.000000000000000000
-          Time = 0.967379212961532200
-          TabOrder = 0
-        end
-        object DateTimePicker2: TDateTimePicker
-          Left = 16
-          Top = 56
-          Width = 186
-          Height = 21
-          Date = 45718.000000000000000000
-          Time = 0.967379212961532200
-          TabOrder = 1
-        end
-        object SetDatesButton: TButton
-          Left = 16
-          Top = 96
-          Width = 186
-          Height = 25
-          Caption = #1059#1089#1090#1072#1085#1086#1074#1080#1090#1100
-          TabOrder = 2
-        end
+        Text = 'Edit1'
       end
-      object GroupBox4: TGroupBox
-        Left = 233
-        Top = 15
-        Width = 227
-        Height = 134
-        Align = alClient
-        Caption = #1055#1077#1088#1077#1085#1072#1079#1085#1072#1095#1080#1090#1100' '#1074#1086#1076#1080#1090#1077#1083#1103' '#1080' '#1090#1088#1072#1085#1089#1087#1086#1088#1090
+      object Edit4: TEdit
+        Left = 166
+        Top = 30
+        Width = 135
+        Height = 21
         TabOrder = 1
-        ExplicitLeft = 229
-        ExplicitTop = 12
-        ExplicitWidth = 397
-        ExplicitHeight = 175
-        object DBLookupComboBox1: TDBLookupComboBox
-          Left = 50
-          Top = 29
-          Width = 145
-          Height = 21
-          DataField = 'FULL_NAME'
-          KeyField = 'ID'
-          ListField = 'FULL_NAME'
-          ListSource = DBConnect.AvaibleDriverDataSource
-          TabOrder = 0
-        end
-        object DBLookupComboBox2: TDBLookupComboBox
-          Left = 50
-          Top = 56
-          Width = 145
-          Height = 21
-          KeyField = 'NUMBER_PLATE'
-          ListField = 'NUMBER_PLATE'
-          ListSource = DBConnect.AvaibleTransportDataSource
-          TabOrder = 1
-        end
-        object ReassignButton: TButton
-          Left = 50
-          Top = 96
-          Width = 145
-          Height = 25
-          Caption = #1055#1077#1088#1077#1085#1072#1079#1085#1072#1095#1080#1090#1100
-          TabOrder = 2
-        end
+        Text = 'Edit1'
+      end
+      object Edit7: TEdit
+        Left = 14
+        Top = 61
+        Width = 135
+        Height = 21
+        TabOrder = 2
+        Text = 'Edit1'
+      end
+      object Edit8: TEdit
+        Left = 166
+        Top = 61
+        Width = 135
+        Height = 21
+        TabOrder = 3
+        Text = 'Edit1'
+      end
+      object Edit9: TEdit
+        Left = 14
+        Top = 92
+        Width = 135
+        Height = 21
+        TabOrder = 4
+        Text = 'Edit1'
+      end
+      object Edit10: TEdit
+        Left = 166
+        Top = 92
+        Width = 135
+        Height = 21
+        TabOrder = 5
+        Text = 'Edit1'
+      end
+      object Edit11: TEdit
+        Left = 14
+        Top = 126
+        Width = 135
+        Height = 21
+        TabOrder = 6
+        Text = 'Edit1'
+      end
+      object Edit12: TEdit
+        Left = 166
+        Top = 126
+        Width = 135
+        Height = 21
+        TabOrder = 7
+        Text = 'Edit1'
       end
     end
     object GroupBox2: TGroupBox
@@ -197,9 +321,59 @@ object TripFr: TTripFr
       Align = alRight
       Caption = 'GroupBox1'
       TabOrder = 1
-      ExplicitLeft = 467
-      ExplicitTop = -3
-      ExplicitHeight = 303
+      DesignSize = (
+        396
+        151)
+      object AssignDriverAndTransportButton: TButton
+        Left = 27
+        Top = 90
+        Width = 350
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1055#1077#1088#1077#1085#1072#1079#1085#1072#1095#1080#1090#1100' '#1074#1086#1076#1080#1090#1077#1083#1103' '#1080' '#1090#1088#1072#1085#1089#1087#1086#1088#1090
+        TabOrder = 0
+        OnClick = AssignDriverAndTransportButtonClick
+      end
+      object DeleteButton: TButton
+        Left = 25
+        Top = 28
+        Width = 163
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1059#1076#1072#1083#1080#1090#1100
+        Enabled = False
+        TabOrder = 1
+      end
+      object LoadButton: TButton
+        Left = 210
+        Top = 59
+        Width = 161
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
+        TabOrder = 2
+        OnClick = LoadButtonClick
+      end
+      object Button1: TButton
+        Left = 27
+        Top = 59
+        Width = 161
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1054#1090#1084#1077#1085#1080#1090#1100'?'
+        Enabled = False
+        TabOrder = 3
+      end
+      object Button2: TButton
+        Left = 32
+        Top = 122
+        Width = 345
+        Height = 25
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = #1091#1089#1090#1072#1085#1086#1074#1080#1090#1100' '#1076#1072#1090#1091' '#1086#1098#1077#1079#1076#1072'/'#1087#1088#1080#1073#1099#1090#1080#1103
+        TabOrder = 4
+        OnClick = Button2Click
+      end
     end
   end
 end

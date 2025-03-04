@@ -17,14 +17,18 @@ type
     // procedure Search(SearchID: Integer; SearchFullName : string);
     procedure LoadAvailableDrivers();
     // procedure FilterByVehicleType(requiredVehicleType: Integer);
-    procedure LoadAvailableDriversByType(requiredVehicleType: integer);
+    procedure LoadAvailableDriversByType(requiredVehicleType: integer) overload;
+    procedure LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer) overload;
     procedure UpdateDriverVehicleTypes(DriverID: integer;
       OldVehicleTypes, NewVehicleTypes: TList<integer>);
     procedure AddDriverVehicleType(DriverID, VehicleTypeId: integer);
     procedure DeleteDriverVehicleType(DriverID, VehicleTypeId: integer);
+
   end;
 
 implementation
+
+
 
 procedure TDriverManager.LoadAvailableDrivers();
 begin
@@ -64,6 +68,38 @@ begin
         requiredVehicleType.ToString + '): ' + E.Message);
   end;
 end;
+
+
+
+procedure TDriverManager.LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer);
+begin
+  try
+    FQuery.SQL.Text :=
+      'SELECT d.id, d.full_name, d.employment_start ' +
+      'FROM driver d ' +
+      'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
+      'WHERE dvt.vehicle_type_id = :requiredVehicleType ' +
+      'AND d.id NOT IN (' +
+      '  SELECT driver_id ' +
+      '  FROM trip t ' +
+      '  JOIN trip_request tr ON t.trip_request_id = tr.id ' +
+      '  WHERE tr.status = ''В процессе'' ' +
+      ') ' +
+      'or (d.id = :driverId) ' +
+      'GROUP BY d.id, d.full_name, d.employment_start ' +
+      'ORDER BY d.full_name';
+
+    FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
+    FQuery.ParamByName('driverId').AsInteger := driverId;
+    FQuery.Open;
+
+  except
+    on E: Exception do
+      ShowMessage('Ошибка при загрузке свободных водителей с id типа транспорта (' +
+        requiredVehicleType.ToString + '): ' + E.Message);
+  end;
+end;
+
 
 function TDriverManager.Add(FullName: String; EmploymentStart: TDateTime): Integer;
 begin

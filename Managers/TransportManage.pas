@@ -16,7 +16,8 @@ type
       StartExploitation: TDateTime; VehicleTypeID: Integer);
 
     procedure LoadAvailableTransport();
-     procedure LoadAvailableTransportByType(requiredVehicleType: Integer);
+    procedure LoadAvailableTransportByType(requiredVehicleType: Integer) overload;
+    procedure LoadAvailableTransportByType(requiredVehicleType: Integer; NumberPlate: string) overload;
    // procedure FilterByVehicleType(requiredVehicleType: Integer);
   end;
 
@@ -26,6 +27,9 @@ constructor TTransportManager.Create(AQuery: TFDQuery);
 begin
   inherited Create(AQuery);
 end;
+
+
+
 
 procedure TTransportManager.LoadAvailableTransport();
 begin
@@ -78,6 +82,33 @@ end;
 
 
 
+procedure TTransportManager.LoadAvailableTransportByType(requiredVehicleType: Integer; NumberPlate: string);
+begin
+  try
+    FQuery.SQL.Text :=
+      'SELECT t.number_plate, t.start_exploitation, t.end_exploitation, vt.type_name ' +
+      'FROM transport t ' +
+      'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id ' +
+      'WHERE (t.end_exploitation IS NULL OR t.end_exploitation >= SYSDATE) ' +
+      'AND t.number_plate NOT IN (' +
+      '  SELECT transport_id ' +
+      '  FROM trip trip ' +
+      '  JOIN trip_request tr ON trip.trip_request_id = tr.id ' +
+      '  WHERE tr.status = ''В процессе'' ' +
+      ') ' +
+      'AND vt.id = :requiredVehicleType ' +
+      'or t.number_plate = :NumberPlate ' +
+      'ORDER BY t.number_plate';
+
+    FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
+    FQuery.ParamByName('NumberPlate').AsString := NumberPlate;
+    FQuery.Open;
+
+  except
+    on E: Exception do
+      ShowMessage('Ошибка. Не удалось загрузить транспорт с заданным номером и типом: ' + E.Message);
+  end;
+end;
 
 
 

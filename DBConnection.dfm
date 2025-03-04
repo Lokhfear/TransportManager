@@ -114,12 +114,17 @@ object DBConnect: TDBConnect
       'SELECT '
       '    t.id,'
       '    d.full_name,'
+      '    t.driver_id,'
       '    trq.route_name,'
       '    trq.distance,'
       '    t.transport_id,'
       '    vt.type_name,'
-      '    TO_CHAR(t.start_datetime, '#39'YYYY-MM-DD HH24:MI'#39'),'
-      '    TO_CHAR(t.end_datetime, '#39'YYYY-MM-DD HH24:MI'#39'),'
+      
+        '    TO_CHAR(t.start_datetime, '#39'DD.MM.YYYY HH24:MI'#39') as start_dat' +
+        'etime,'
+      
+        '    TO_CHAR(t.end_datetime, '#39'DD.MM.YYYY HH24:MI'#39') as end_datetim' +
+        'e,'
       '    trq.required_vehicle_type_id'
       '    '
       'FROM trip t'
@@ -131,15 +136,6 @@ object DBConnect: TDBConnect
     Left = 56
     Top = 304
   end
-  object FDQuery3: TFDQuery
-    Active = True
-    Connection = FDConnection1
-    SQL.Strings = (
-      'Select full_name'
-      'from driver')
-    Left = 56
-    Top = 360
-  end
   object DriverDataSource: TDataSource
     DataSet = DriverQuery
     Left = 144
@@ -149,10 +145,6 @@ object DBConnect: TDBConnect
     DataSet = tripQuery
     Left = 144
     Top = 304
-  end
-  object DataSource3: TDataSource
-    Left = 144
-    Top = 356
   end
   object AvaibleDriverQuery: TFDQuery
     Active = True

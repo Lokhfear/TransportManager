@@ -22,10 +22,8 @@ type
     TransportDataSource: TDataSource;
     DriverQuery: TFDQuery;
     tripQuery: TFDQuery;
-    FDQuery3: TFDQuery;
     DriverDataSource: TDataSource;
     tripDataSource: TDataSource;
-    DataSource3: TDataSource;
     AvaibleDriverQuery: TFDQuery;
     AvaibleTransportQuery: TFDQuery;
     AvaibleTransportDataSource: TDataSource;

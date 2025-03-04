@@ -13,23 +13,35 @@ uses
 type
   TDriverFr = class(TFrame)
     driverGrid: TDBGrid;
-    Panel1: TPanel;
-    EditGroupbox: TGroupBox;
-    GroupBox3: TGroupBox;
+    BottomPanel: TPanel;
+    UpperPanel: TPanel;
+    ManipulationGroupBox: TGroupBox;
+    CreateButton: TButton;
     DeleteButton: TButton;
+    DriverHistoryButton: TButton;
+    LoadButton: TButton;
     ChangeButton: TButton;
-    fullNameChangeEdit: TEdit;
+    SearchBoxGroupBox: TGroupBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
     VehicleTypeCheckListBox: TCheckListBox;
-    GroupBox1: TGroupBox;
+    EditGroupbox: TGroupBox;
     SelectedVehicleTypesEdit: TEdit;
     SelectedEmploymentStartEdit: TEdit;
     SelectedFullNameEdit: TEdit;
     SelectedIdEdit: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
     procedure DeleteButtonClick(Sender: TObject);
     procedure driverGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);
     procedure ChangeButtonClick(Sender: TObject);
     procedure FullNameCreateEditEnter(Sender: TObject);
+    procedure LoadButtonClick(Sender: TObject);
 
 
   private
@@ -116,12 +128,17 @@ begin
 end;
 
 
+procedure TDriverFr.LoadButtonClick(Sender: TObject);
+begin
+ManagerCRUD.LoadAll;
+end;
+
 procedure TDriverFr.ChangeButtonClick(Sender: TObject);
 begin
-  if (fullNameChangeEdit.Text <> '') and (SelectedIdEdit.Text <> '') then
+  if (SelectedFullNameEdit.Text <> '') and (SelectedIdEdit.Text <> '') then
     //if fullNameChangeEdit.Text <> SelectedFullName then
     begin
-      ManagerCRUD.Update(StrToInt(SelectedIdEdit.Text), fullNameChangeEdit.Text);
+      ManagerCRUD.Update(StrToInt(SelectedIdEdit.Text), SelectedFullNameEdit.Text);
       ManagerCRUD.UpdateDriverVehicleTypes(StrToInt(SelectedIdEdit.Text),
 	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
     end
@@ -130,7 +147,7 @@ begin
 	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
 
   SelectedIdEdit.Text := '';
-  fullNameChangeEdit.Text := '';
+  SelectedFullNameEdit.Text := '';
 
   CheckListBoxManager.LoadVehicleTypes;
 end;

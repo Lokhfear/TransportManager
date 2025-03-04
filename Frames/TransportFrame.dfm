@@ -7,16 +7,18 @@ object TransportFr: TTransportFr
   TabOrder = 0
   object BottomPanel: TPanel
     Left = 0
-    Top = 163
+    Top = 159
     Width = 860
-    Height = 317
+    Height = 321
     Align = alClient
     TabOrder = 0
+    ExplicitTop = 163
+    ExplicitHeight = 317
     object TransportDBGrid: TDBGrid
       Left = 1
       Top = 1
       Width = 858
-      Height = 315
+      Height = 319
       Align = alClient
       Color = clWhite
       DataSource = DBConnect.TransportDataSource
@@ -229,14 +231,14 @@ object TransportFr: TTransportFr
     Left = 0
     Top = 121
     Width = 860
-    Height = 42
+    Height = 38
     Align = alTop
     Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077
     Color = clBtnFace
     Ctl3D = True
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
     Padding.Left = 5
@@ -246,14 +248,12 @@ object TransportFr: TTransportFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 2
-    ExplicitLeft = 1
-    ExplicitTop = 118
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
       Left = 117
-      Top = 18
+      Top = 15
       Width = 484
-      Height = 22
+      Height = 21
       Margins.Left = 12
       Margins.Top = 0
       Margins.Right = 0
@@ -262,14 +262,14 @@ object TransportFr: TTransportFr
       Enabled = False
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-      ExplicitHeight = 24
+      ExplicitTop = 18
     end
     object SelectedEndExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True
       Left = 736
-      Top = 18
+      Top = 15
       Width = 111
-      Height = 22
+      Height = 21
       Margins.Left = 12
       Margins.Top = 0
       Margins.Right = 0
@@ -282,9 +282,9 @@ object TransportFr: TTransportFr
     object SelectedStartExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True
       Left = 613
-      Top = 18
+      Top = 15
       Width = 111
-      Height = 22
+      Height = 21
       Margins.Left = 12
       Margins.Top = 0
       Margins.Right = 0
@@ -298,9 +298,9 @@ object TransportFr: TTransportFr
     object SelectedNumberPlateEdit: TEdit
       AlignWithMargins = True
       Left = 19
-      Top = 18
+      Top = 15
       Width = 86
-      Height = 22
+      Height = 21
       Margins.Left = 12
       Margins.Top = 0
       Margins.Right = 0
@@ -309,7 +309,6 @@ object TransportFr: TTransportFr
       Enabled = False
       TabOrder = 3
       TextHint = #1053#1086#1084#1077#1088
-      ExplicitHeight = 24
     end
   end
 end

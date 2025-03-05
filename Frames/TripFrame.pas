@@ -25,7 +25,7 @@ type
     SelectedTripNameEdit: TEdit;
     SelectedDistanceEdit: TEdit;
     Button1: TButton;
-    Button2: TButton;
+    SetStartOrEndDateTimeButoon: TButton;
     SelectedFullNameComboBox: TDBLookupComboBox;
     SelectedNuberPlateComboBox: TDBLookupComboBox;
     Edit1: TEdit;
@@ -41,7 +41,7 @@ type
     SelectedEndDateTimeEdit: TMaskEdit;
     procedure TripGridCellClick(Column: TColumn);
     procedure AssignDriverAndTransportButtonClick(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure SetStartOrEndDateTimeButoonClick(Sender: TObject);
     procedure SelectedStartDateTimeEditExit(Sender: TObject);
     procedure SelectedEndDateTimeEditExit(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
@@ -54,7 +54,7 @@ type
 
     startDate, endDate: TDateTime;
 
-    procedure ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
+    procedure ValidateDateTime(MaskEdit: TMaskEdit; var OutDateTime: TDateTime);
     function ExtractDigits(const Input: string): string;
     procedure ClearSelectedData();
     procedure ReloadData();
@@ -71,9 +71,16 @@ implementation
 {$R *.dfm}
 { TTripFr }
 
-procedure TTripFr.Button2Click(Sender: TObject);
+procedure TTripFr.SetStartOrEndDateTimeButoonClick(Sender: TObject);
 begin
+  if (endDate < startDate) then
+  begin
+    ShowMessage('¬ерм€ приезда не может быть раньше времени отъезда');
+    exit;
+  end;
+
   ManagerCRUD.UpdateTimes(StrToInt(selectedIdEdit.Text), startDate, endDate);
+  ReloadData;
 end;
 
 procedure TTripFr.ClearSelectedData;
@@ -149,11 +156,10 @@ begin
   DriverManagerCRUD.LoadAvailableDrivers;
 end;
 
-
-
-//провер€ть дату? чтобы не была раньше чем сегодн€
-//¬ теории должно сто€ть просто текущее врем€.
-procedure TTripFr.ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
+// провер€ть дату? чтобы не была раньше чем сегодн€
+// ¬ теории должно сто€ть просто текущее врем€.
+procedure TTripFr.ValidateDateTime(MaskEdit: TMaskEdit;
+  var OutDateTime: TDateTime);
 begin
   if MaskEdit.Text = '' then
   begin
@@ -162,7 +168,7 @@ begin
   end;
 
   try
-    StrToDateTime(MaskEdit.EditText);
+    OutDateTime := StrToDateTime(MaskEdit.EditText);
   except
     on E: EConvertError do
     begin
@@ -170,6 +176,7 @@ begin
       ShowMessage('Ќеверный формат даты и времени');
     end;
   end;
+
 end;
 
 procedure TTripFr.SelectedEndDateTimeEditExit(Sender: TObject);
@@ -223,14 +230,20 @@ begin
   ValidateDateTime(SelectedStartDateTimeEdit, startDate);
   ValidateDateTime(SelectedEndDateTimeEdit, endDate);
 
-  if SelectedStartDateTimeEdit.Text = '' then
+  if (SelectedStartDateTimeEdit.Text = '') and
+    (SelectedEndDateTimeEdit.Text = '') then
   begin
     SelectedNuberPlateComboBox.Enabled := true;
     SelectedFullNameComboBox.Enabled := true;
+    SelectedStartDateTimeEdit.Enabled := true;
+  end
+  else if (SelectedStartDateTimeEdit.Text <> '') and
+    (SelectedEndDateTimeEdit.Text = '') then
+  begin
+    SelectedEndDateTimeEdit.Enabled := true;
+
   end;
 
-  if SelectedEndDateTimeEdit.Text = '' then
-    SelectedStartDateTimeEdit.Enabled := true;
 end;
 
 end.

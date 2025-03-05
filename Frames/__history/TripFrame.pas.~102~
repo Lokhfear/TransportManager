@@ -54,7 +54,7 @@ type
 
     startDate, endDate: TDateTime;
 
-    procedure ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
+    procedure ValidateDateTime(MaskEdit: TMaskEdit; var OutDateTime: TDateTime);
     function ExtractDigits(const Input: string): string;
     procedure ClearSelectedData();
     procedure ReloadData();
@@ -74,6 +74,7 @@ implementation
 procedure TTripFr.Button2Click(Sender: TObject);
 begin
   ManagerCRUD.UpdateTimes(StrToInt(selectedIdEdit.Text), startDate, endDate);
+  ReloadData;
 end;
 
 procedure TTripFr.ClearSelectedData;
@@ -149,7 +150,10 @@ begin
   DriverManagerCRUD.LoadAvailableDrivers;
 end;
 
-procedure TTripFr.ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
+// проверять дату? чтобы не была раньше чем сегодня
+// В теории должно стоять просто текущее время.
+procedure TTripFr.ValidateDateTime(MaskEdit: TMaskEdit;
+  var OutDateTime: TDateTime);
 begin
   if MaskEdit.Text = '' then
   begin
@@ -158,7 +162,7 @@ begin
   end;
 
   try
-    StrToDateTime(MaskEdit.EditText);
+    OutDateTime := StrToDateTime(MaskEdit.EditText);
   except
     on E: EConvertError do
     begin
@@ -166,6 +170,7 @@ begin
       ShowMessage('Неверный формат даты и времени');
     end;
   end;
+
 end;
 
 procedure TTripFr.SelectedEndDateTimeEditExit(Sender: TObject);
@@ -219,14 +224,20 @@ begin
   ValidateDateTime(SelectedStartDateTimeEdit, startDate);
   ValidateDateTime(SelectedEndDateTimeEdit, endDate);
 
-  if SelectedStartDateTimeEdit.Text = '' then
+  if (SelectedStartDateTimeEdit.Text = '') and
+    (SelectedEndDateTimeEdit.Text = '') then
   begin
     SelectedNuberPlateComboBox.Enabled := true;
     SelectedFullNameComboBox.Enabled := true;
+    SelectedStartDateTimeEdit.Enabled := true;
+  end
+  else if (SelectedStartDateTimeEdit.Text <> '') and
+    (SelectedEndDateTimeEdit.Text = '') then
+  begin
+    SelectedEndDateTimeEdit.Enabled;
+
   end;
 
-  if SelectedEndDateTimeEdit.Text = '' then
-    SelectedStartDateTimeEdit.Enabled := true;
 end;
 
 end.

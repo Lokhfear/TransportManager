@@ -364,7 +364,7 @@ object TripFr: TTripFr
         Enabled = False
         TabOrder = 3
       end
-      object Button2: TButton
+      object SetStartOrEndDateTimeButoon: TButton
         Left = 32
         Top = 122
         Width = 345
@@ -372,7 +372,7 @@ object TripFr: TTripFr
         Anchors = [akLeft, akTop, akRight, akBottom]
         Caption = #1091#1089#1090#1072#1085#1086#1074#1080#1090#1100' '#1076#1072#1090#1091' '#1086#1098#1077#1079#1076#1072'/'#1087#1088#1080#1073#1099#1090#1080#1103
         TabOrder = 4
-        OnClick = Button2Click
+        OnClick = SetStartOrEndDateTimeButoonClick
       end
     end
   end

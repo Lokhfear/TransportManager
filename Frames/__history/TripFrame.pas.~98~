@@ -39,17 +39,22 @@ type
     SelectedVehicleTypeEdit: TEdit;
     SelectedStartDateTimeEdit: TMaskEdit;
     SelectedEndDateTimeEdit: TMaskEdit;
-    picker: TDateTimePicker;
     procedure TripGridCellClick(Column: TColumn);
     procedure AssignDriverAndTransportButtonClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
-
+    procedure SelectedStartDateTimeEditExit(Sender: TObject);
+    procedure SelectedEndDateTimeEditExit(Sender: TObject);
+    procedure LoadButtonClick(Sender: TObject);
 
   private
     { Private declarations }
     ManagerCRUD: TTripManager;
     DriverManagerCRUD: TDriverManager;
     TransportManagerCRUD: TTransportManager;
+
+    startDate, endDate: TDateTime;
+
+    procedure ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
     function ExtractDigits(const Input: string): string;
     procedure ClearSelectedData();
     procedure ReloadData();
@@ -68,7 +73,9 @@ implementation
 
 procedure TTripFr.Button2Click(Sender: TObject);
 begin
-  // ManagerCRUD.UpdateTimes();
+ShowMessage(DateTimeToStr(startDate));
+  ShowMessage(DateTimeToStr(endDate));
+  ManagerCRUD.UpdateTimes(StrToInt(selectedIdEdit.Text), startDate, endDate);
 end;
 
 procedure TTripFr.ClearSelectedData;
@@ -120,8 +127,6 @@ begin
   SelectedNuberPlateComboBox.Enabled := False;
 end;
 
-
-
 function TTripFr.ExtractDigits(const Input: string): string;
 var
   i: Integer;
@@ -129,12 +134,15 @@ begin
   Result := '';
   for i := 1 to Length(Input) do
   begin
-    if CharInSet(Input[i], ['0'..'9']) then
+    if CharInSet(Input[i], ['0' .. '9']) then
       Result := Result + Input[i];
   end;
 end;
 
-
+procedure TTripFr.LoadButtonClick(Sender: TObject);
+begin
+  ReloadData;
+end;
 
 procedure TTripFr.ReloadData;
 begin
@@ -144,17 +152,53 @@ begin
 end;
 
 
+
+//проверять дату? чтобы не была раньше чем сегодня
+//В теории должно стоять просто текущее время.
+procedure TTripFr.ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
+begin
+  if MaskEdit.Text = '' then
+  begin
+    OutDateTime := 0;
+    exit;
+  end;
+
+  try
+    OutDateTime := StrToDateTime(MaskEdit.EditText);
+  except
+    on E: EConvertError do
+    begin
+      MaskEdit.Clear;
+      ShowMessage('Неверный формат даты и времени');
+    end;
+  end;
+
+       ShowMessage('Неверный' + DateTimeToStr(OutDateTime));
+end;
+
+procedure TTripFr.SelectedEndDateTimeEditExit(Sender: TObject);
+begin
+  ValidateDateTime(SelectedEndDateTimeEdit, endDate);
+end;
+
+procedure TTripFr.SelectedStartDateTimeEditExit(Sender: TObject);
+begin
+  ValidateDateTime(SelectedStartDateTimeEdit, startDate);
+end;
+
 procedure TTripFr.TripGridCellClick(Column: TColumn);
 var
-  vehicleTypeId, driver_id: integer;
+  vehicleTypeId, driver_id: Integer;
   numberPlate: String;
   startDateString, endDateString: string;
- // startDateTime, endDateTime: TDateTime;
+  // startDateTime, endDateTime: TDateTime;
 begin
   DisableAllEdit;
 
-  vehicleTypeId := TripGrid.DataSource.DataSet.FieldByName('required_vehicle_type_id').AsInteger;
-  numberPlate := TripGrid.DataSource.DataSet.FieldByName('transport_id').AsString;
+  vehicleTypeId := TripGrid.DataSource.DataSet.FieldByName
+    ('required_vehicle_type_id').AsInteger;
+  numberPlate := TripGrid.DataSource.DataSet.FieldByName
+    ('transport_id').AsString;
   driver_id := TripGrid.DataSource.DataSet.FieldByName('driver_id').AsInteger;
 
   // загрузка свободного транспорта и водителей для данного типа транспорта
@@ -165,27 +209,34 @@ begin
   SelectedFullNameComboBox.KeyValue := driver_id;
 
   selectedIdEdit.Text := TripGrid.DataSource.DataSet.FieldByName('id').AsString;
-  SelectedTripNameEdit.Text := TripGrid.DataSource.DataSet.FieldByName('route_name').AsString;
-  SelectedDistanceEdit.Text := TripGrid.DataSource.DataSet.FieldByName('distance').AsString;
-  SelectedVehicleTypeEdit.Text := TripGrid.DataSource.DataSet.FieldByName('type_name').AsString;
+  SelectedTripNameEdit.Text := TripGrid.DataSource.DataSet.FieldByName
+    ('route_name').AsString;
+  SelectedDistanceEdit.Text := TripGrid.DataSource.DataSet.FieldByName
+    ('distance').AsString;
+  SelectedVehicleTypeEdit.Text := TripGrid.DataSource.DataSet.FieldByName
+    ('type_name').AsString;
 
-
-  startDateString := TripGrid.DataSource.DataSet.FieldByName('start_datetime').AsString;
-  endDateString := TripGrid.DataSource.DataSet.FieldByName('end_datetime').AsString;
+  startDateString := TripGrid.DataSource.DataSet.FieldByName
+    ('start_datetime').AsString;
+  endDateString := TripGrid.DataSource.DataSet.FieldByName
+    ('end_datetime').AsString;
 
   SelectedStartDateTimeEdit.Text := ExtractDigits(startDateString);
   SelectedEndDateTimeEdit.Text := ExtractDigits(endDateString);
 
+  ValidateDateTime(SelectedStartDateTimeEdit, startDate);
+  ValidateDateTime(SelectedEndDateTimeEdit, endDate);
 
-   if SelectedStartDateTimeEdit.Text = ' ' then
+  ShowMessage('ye' + DateTimeToStr(startDate));
+
+  if SelectedStartDateTimeEdit.Text = '' then
   begin
     SelectedNuberPlateComboBox.Enabled := true;
     SelectedFullNameComboBox.Enabled := true;
   end;
 
-  if SelectedEndDateTimeEdit.Text = ' ' then
+  if SelectedEndDateTimeEdit.Text = '' then
     SelectedStartDateTimeEdit.Enabled := true;
 end;
-
 
 end.

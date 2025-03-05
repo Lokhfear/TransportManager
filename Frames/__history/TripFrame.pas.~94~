@@ -44,6 +44,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure SelectedStartDateTimeEditExit(Sender: TObject);
     procedure SelectedEndDateTimeEditExit(Sender: TObject);
+    procedure LoadButtonClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -53,6 +54,7 @@ type
 
     startDate, endDate: TDateTime;
 
+    procedure ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
     function ExtractDigits(const Input: string): string;
     procedure ClearSelectedData();
     procedure ReloadData();
@@ -71,7 +73,7 @@ implementation
 
 procedure TTripFr.Button2Click(Sender: TObject);
 begin
-   ManagerCRUD.UpdateTimes(StrToInt(selectedIdEdit.Text), startDate, endDate);
+  ManagerCRUD.UpdateTimes(StrToInt(selectedIdEdit.Text), startDate, endDate);
 end;
 
 procedure TTripFr.ClearSelectedData;
@@ -135,6 +137,11 @@ begin
   end;
 end;
 
+procedure TTripFr.LoadButtonClick(Sender: TObject);
+begin
+  ReloadData;
+end;
+
 procedure TTripFr.ReloadData;
 begin
   ManagerCRUD.LoadAll;
@@ -142,42 +149,37 @@ begin
   DriverManagerCRUD.LoadAvailableDrivers;
 end;
 
-procedure TTripFr.SelectedEndDateTimeEditExit(Sender: TObject);
+
+
+//провер€ть дату? чтобы не была раньше чем сегодн€
+//¬ теории должно сто€ть просто текущее врем€.
+procedure TTripFr.ValidateDateTime(MaskEdit: TMaskEdit; OutDateTime: TDateTime);
 begin
-  if SelectedEndDateTimeEdit.Text = '' then
+  if MaskEdit.Text = '' then
   begin
-    endDate := 0;
+    OutDateTime := 0;
     exit;
   end;
 
   try
-    StrToDateTime(SelectedEndDateTimeEdit.EditText);
+    OutDateTime := StrToDateTime(MaskEdit.EditText);
   except
     on E: EConvertError do
     begin
-      SelectedEndDateTimeEdit.Clear;
+      MaskEdit.Clear;
       ShowMessage('Ќеверный формат даты и времени');
     end;
   end;
 end;
 
+procedure TTripFr.SelectedEndDateTimeEditExit(Sender: TObject);
+begin
+  ValidateDateTime(SelectedEndDateTimeEdit, endDate);
+end;
+
 procedure TTripFr.SelectedStartDateTimeEditExit(Sender: TObject);
 begin
-  if SelectedStartDateTimeEdit.Text = '' then
-  begin
-    startDate := 0;
-    exit;
-  end;
-
-  try
-    StrToDateTime(SelectedStartDateTimeEdit.EditText);
-  except
-    on E: EConvertError do
-    begin
-      SelectedStartDateTimeEdit.Clear;
-      ShowMessage('Ќеверный формат даты и времени');
-    end;
-  end;
+  ValidateDateTime(SelectedStartDateTimeEdit, startDate);
 end;
 
 procedure TTripFr.TripGridCellClick(Column: TColumn);
@@ -217,6 +219,9 @@ begin
 
   SelectedStartDateTimeEdit.Text := ExtractDigits(startDateString);
   SelectedEndDateTimeEdit.Text := ExtractDigits(endDateString);
+
+  ValidateDateTime(SelectedStartDateTimeEdit, startDate);
+  ValidateDateTime(SelectedEndDateTimeEdit, endDate);
 
   if SelectedStartDateTimeEdit.Text = '' then
   begin

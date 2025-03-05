@@ -179,29 +179,11 @@ object TripFr: TTripFr
         ListSource = DBConnect.AvaibleTransportDataSource
         TabOrder = 4
       end
-      object SelectedEndDateTimePicker: TDateTimePicker
-        AlignWithMargins = True
-        Left = 746
-        Top = 15
-        Width = 84
-        Height = 21
-        Margins.Left = 6
-        Margins.Top = 0
-        Margins.Right = 0
-        Margins.Bottom = 0
-        Align = alLeft
-        Date = 45720.000000000000000000
-        Format = ' '
-        Time = 0.888185127318138300
-        TabOrder = 5
-        OnChange = SelectedEndDateTimePickerChange
-        ExplicitTop = 17
-      end
       object SelectedVehicleTypeEdit: TEdit
         AlignWithMargins = True
         Left = 549
         Top = 15
-        Width = 101
+        Width = 75
         Height = 21
         Margins.Left = 4
         Margins.Top = 0
@@ -209,25 +191,45 @@ object TripFr: TTripFr
         Margins.Bottom = 0
         Align = alLeft
         Enabled = False
-        TabOrder = 6
+        TabOrder = 5
+        ExplicitLeft = 670
+        ExplicitTop = 14
       end
-      object SelectedStartDateTimePicker: TDateTimePicker
+      object SelectedStartDateTimeEdit: TMaskEdit
         AlignWithMargins = True
-        Left = 656
+        Left = 630
         Top = 15
-        Width = 84
+        Width = 119
         Height = 21
         Margins.Left = 6
         Margins.Top = 0
         Margins.Right = 0
         Margins.Bottom = 0
         Align = alLeft
-        Date = 45720.000000000000000000
-        Format = ' '
-        Time = 0.888185127318138300
-        TabOrder = 7
-        OnChange = SelectedStartDateTimePickerChange
+        EditMask = '!99/99/9999 99:99;0;_'
+        MaxLength = 16
+        TabOrder = 6
+        Text = ''
+        OnExit = SelectedStartDateTimeEditExit
         ExplicitTop = 14
+      end
+      object SelectedEndDateTimeEdit: TMaskEdit
+        AlignWithMargins = True
+        Left = 755
+        Top = 15
+        Width = 102
+        Height = 21
+        Margins.Left = 6
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        EditMask = '!99/99/9999 99:99;0;_'
+        MaxLength = 16
+        TabOrder = 7
+        Text = ''
+        OnExit = SelectedEndDateTimeEditExit
+        ExplicitLeft = 756
       end
     end
   end
@@ -350,6 +352,7 @@ object TripFr: TTripFr
         Anchors = [akLeft, akTop, akRight, akBottom]
         Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
         TabOrder = 2
+        OnClick = LoadButtonClick
       end
       object Button1: TButton
         Left = 27
@@ -370,16 +373,6 @@ object TripFr: TTripFr
         Caption = #1091#1089#1090#1072#1085#1086#1074#1080#1090#1100' '#1076#1072#1090#1091' '#1086#1098#1077#1079#1076#1072'/'#1087#1088#1080#1073#1099#1090#1080#1103
         TabOrder = 4
         OnClick = Button2Click
-      end
-      object MaskEdit1: TMaskEdit
-        Left = 194
-        Top = 27
-        Width = 181
-        Height = 26
-        EditMask = '!99/99/00;1;_'
-        MaxLength = 8
-        TabOrder = 5
-        Text = '  .  .  '
       end
     end
   end

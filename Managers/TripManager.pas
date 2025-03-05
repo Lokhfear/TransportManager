@@ -43,6 +43,14 @@ end;
 
 procedure TTripManager.UpdateTimes(AID: Integer; StartTime, EndTime: TDateTime);
 begin
+
+   if (EndTime < StartTime) then
+   begin
+     ShowMessage('Ошибка. Время приезда раньше вермени отъезда');
+     exit;
+   end;
+
+
   try
     FQuery.SQL.Text := 'UPDATE trip SET start_datetime = :StartTime, end_datetime = :EndTime WHERE id = :AID';
 

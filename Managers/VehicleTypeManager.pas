@@ -3,7 +3,7 @@ unit VehicleTypeManager;
 interface
 
 uses
-  ManagerCRUD, FireDAC.Comp.Client, Data.DB, Vcl.Dialogs, SysUtils;
+  FireDAC.Comp.Client, Data.DB, Vcl.Dialogs, SysUtils, ManagerCRUD;
 
 type
   TVehicleTypeManager = class(TManagerCRUD)
@@ -14,6 +14,7 @@ type
     procedure Update(AID: integer; NewTypeName: String);
     procedure Add(typeName: String);
     procedure Search(SearchID: Integer; SearchTypeName : string);
+  private
   end;
 
 implementation

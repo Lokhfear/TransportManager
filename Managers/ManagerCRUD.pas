@@ -9,6 +9,8 @@ type
   TManagerCRUD = class
     procedure DisableFilter;
 
+  public
+
   protected
     FQuery: TFDQuery;
 

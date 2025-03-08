@@ -36,6 +36,7 @@ type
     procedure DBGrid5CellClick(Column: TColumn);
     procedure CongfirmButtonClick(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
+    procedure EditGroupBoxClick(Sender: TObject);
 
   private
     ManagerCRUD: TVehicleTypeManager;
@@ -118,6 +119,11 @@ destructor TVehicleTypeFr.Destroy;
 begin
 
   inherited;
+end;
+
+procedure TVehicleTypeFr.EditGroupBoxClick(Sender: TObject);
+begin
+
 end;
 
 {procedure TVehicleTypeFr.selectedIdEditChange(Sender: TObject);

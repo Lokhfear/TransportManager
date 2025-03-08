@@ -16,8 +16,6 @@ object DriverFr: TDriverFr
     Padding.Right = 4
     Padding.Bottom = 4
     TabOrder = 0
-    ExplicitTop = 162
-    ExplicitHeight = 319
     object driverGrid: TDBGrid
       Left = 5
       Top = 5
@@ -76,9 +74,6 @@ object DriverFr: TDriverFr
       Align = alRight
       Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077
       TabOrder = 0
-      ExplicitLeft = 502
-      ExplicitTop = 0
-      ExplicitHeight = 120
       object CreateButton: TButton
         Left = 18
         Top = 17
@@ -133,13 +128,11 @@ object DriverFr: TDriverFr
       Align = alLeft
       Caption = #1055#1086#1080#1089#1082
       TabOrder = 1
-      ExplicitLeft = -5
-      ExplicitTop = -4
       object Label1: TLabel
         Left = 18
         Top = 68
-        Width = 71
-        Height = 14
+        Width = 31
+        Height = 13
         Caption = 'Label1'
       end
       object Label2: TLabel
@@ -228,8 +221,6 @@ object DriverFr: TDriverFr
         #1090#1077#1089#1090'2')
       Sorted = True
       TabOrder = 2
-      ExplicitLeft = 344
-      ExplicitTop = -4
     end
   end
   object EditGroupbox: TGroupBox
@@ -240,7 +231,6 @@ object DriverFr: TDriverFr
     Align = alTop
     Caption = #1048#1079#1084#1077#1085#1080#1090#1100
     TabOrder = 2
-    ExplicitTop = 123
     object SelectedVehicleTypesEdit: TEdit
       AlignWithMargins = True
       Left = 417

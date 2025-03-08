@@ -47,16 +47,6 @@ object DBConnect: TDBConnect
     Left = 208
     Top = 24
   end
-  object vehicleType: TFDQuery
-    Active = True
-    Connection = FDConnection1
-    UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
-    SQL.Strings = (
-      'SELECT id, type_name as "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
-      'FROM vehicle_type')
-    Left = 560
-    Top = 32
-  end
   object VehicleTypeDataSource: TDataSource
     DataSet = vehicleType
     Left = 608
@@ -238,5 +228,15 @@ object DBConnect: TDBConnect
       '    full_name')
     Left = 496
     Top = 136
+  end
+  object vehicleType: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
+    SQL.Strings = (
+      'SELECT id, type_name as "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
+      'FROM vehicle_type')
+    Left = 560
+    Top = 32
   end
 end

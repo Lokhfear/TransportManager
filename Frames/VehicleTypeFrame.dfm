@@ -80,6 +80,7 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
+    OnClick = EditGroupBoxClick
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
       Left = 261
@@ -109,7 +110,7 @@ object VehicleTypeFr: TVehicleTypeFr
       Enabled = False
       TabOrder = 1
       TextHint = 'ID'
-      ExplicitTop = 20
+      ExplicitHeight = 24
     end
   end
   object TopPanel: TPanel
@@ -131,7 +132,6 @@ object VehicleTypeFr: TVehicleTypeFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 0
-      ExplicitTop = -4
       object IdSearchLabel: TLabel
         Left = 19
         Top = 25
@@ -173,8 +173,6 @@ object VehicleTypeFr: TVehicleTypeFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 1
-      ExplicitLeft = 566
-      ExplicitTop = -4
       DesignSize = (
         339
         81)

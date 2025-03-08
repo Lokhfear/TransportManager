@@ -4,7 +4,7 @@ object CreateVhicleType: TCreateVhicleType
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = #1057#1086#1079#1076#1072#1090#1100' '#1085#1086#1074#1099#1081' '#1090#1080#1087' '#1090#1088#1072#1089#1087#1086#1088#1090#1072
-  ClientHeight = 151
+  ClientHeight = 161
   ClientWidth = 456
   Color = clWhite
   Constraints.MinHeight = 180
@@ -18,7 +18,7 @@ object CreateVhicleType: TCreateVhicleType
   Position = poDesktopCenter
   DesignSize = (
     456
-    151)
+    161)
   PixelsPerInch = 96
   TextHeight = 13
   object TypeNameLabel: TLabel

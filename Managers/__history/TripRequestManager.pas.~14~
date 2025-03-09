@@ -1,0 +1,143 @@
+unit TripRequestManager;
+
+interface
+
+uses
+  ManagerCRUD, FireDAC.Comp.Client, Data.DB, Vcl.Dialogs, SysUtils;
+
+type
+  TTripRequestManager = class(TManagerCRUD)
+  public
+    constructor Create(AQuery: TFDQuery);
+    procedure LoadAll;
+    procedure FilterByStatusPending;
+    procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
+    procedure UpdateStatus(AID: integer; NewStatus: String);
+    procedure Add(RouteName: String; Distance: Double; CreationDate: TDateTime; RequiredVehicleTypeID: Integer; Integer; StartTime, EndTime: TDateTime);
+    //procedure UpdateTimes(AID: Integer; StartTime, EndTime: TDateTime);
+  end;
+
+implementation
+
+constructor TTripRequestManager.Create(AQuery: TFDQuery);
+begin
+  inherited Create(AQuery);
+end;
+
+procedure TTripRequestManager.Add(RouteName: String; Distance: Double; CreationDate: TDateTime; RequiredVehicleTypeID: Integer);
+begin
+try
+  FQuery.SQL.Text := 'INSERT INTO trip_request (route_name, distance, creation_date, required_vehicle_type_id) ' +
+    'VALUES (:RouteName, :Distance, :CreationDate, :RequiredVehicleTypeID)';
+
+  FQuery.ParamByName('RouteName').AsString := RouteName;
+  FQuery.ParamByName('Distance').AsFloat := Distance;
+  FQuery.ParamByName('CreationDate').AsDateTime := CreationDate;
+  FQuery.ParamByName('RequiredVehicleTypeID').AsInteger := RequiredVehicleTypeID;
+
+  FQuery.ExecSQL;
+
+  LoadAll;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось создать новый запрос: ' + E.Message);
+end;
+end;
+
+procedure TTripRequestManager.Delete(AID: integer; ShowDeleteMessage: Boolean);
+begin
+try
+  if not ShowDeleteMessage or (MessageDlg('Подтвердить удаление', mtConfirmation,
+    [mbOK, mbCancel], 0) = 1) then
+  begin
+    FQuery.SQL.Text := 'DELETE FROM trip_request WHERE id = :id';
+    FQuery.ParamByName('id').AsInteger := AID;
+    FQuery.ExecSQL;
+  end;
+
+  LoadAll;
+except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось удалить запрос: ' + E.Message);
+end;
+end;
+
+procedure TTripRequestManager.UpdateStatus(AID: integer; NewStatusID: String);
+begin
+try
+  FQuery.SQL.Text := 'UPDATE trip_request SET status_id = :NewStatus WHERE id = :AID';
+  FQuery.ParamByName('NewStatusID').AsString := NewStatus;
+  FQuery.ParamByName('AID').AsInteger := AID;
+  FQuery.ExecSQL;
+
+  LoadAll;
+
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось обновить статус запроса: ' + E.Message);
+end;
+end;
+
+
+{
+procedure TTripRequestManager.UpdateTimes(AID: Integer; StartTime, EndTime: TDateTime);
+begin
+
+   if (EndTime < StartTime) then
+   begin
+     ShowMessage('Ошибка. Время приезда раньше вермени отъезда');
+     exit;
+   end;
+
+
+  try
+    FQuery.SQL.Text := 'UPDATE trip_request SET start_datetime = :StartTime, end_datetime = :EndTime WHERE id = :AID';
+
+    FQuery.ParamByName('StartTime').AsDateTime := StartTime;
+    FQuery.ParamByName('EndTime').AsDateTime := EndTime;
+    FQuery.ParamByName('AID').AsInteger := AID;
+
+    FQuery.ExecSQL;
+
+  except
+    on E: Exception do
+      ShowMessage('Ошибка. Не удалось обновить время: ' + E.Message);
+  end;
+end;
+
+}
+
+
+
+
+
+procedure TTripRequestManager.LoadAll;
+begin
+try
+  FQuery.SQL.Text := 'SELECT tr.id, ' +
+    'route_name, distance, creation_date, tr.status_id, status_name, ' +
+    'tr.required_vehicle_type_id, vh.type_name, ' +
+    'TO_CHAR(start_datetime, ''DD.MM.YYYY HH24:MI'')  as start_datetime, '+
+    'TO_CHAR(end_datetime, ''DD.MM.YYYY HH24:MI'') as end_datetime '+
+    'FROM trip_request tr ' +
+    'LEFT JOIN vehicle_type vh ON tr.required_vehicle_type_id = vh.id ' +
+    'JOIN status s ON tr.status_id = s.id ' +
+    'AND s.status_name = ''Ожидает подтверждения'' ' +
+    'ORDER BY creation_date';
+  FQuery.Open;
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось загрузить данные запросов: ' + E.Message);
+end;
+end;
+
+procedure TTripRequestManager.FilterByStatusPending;
+begin
+  FQuery.Filtered := False;
+
+ // FQuery.Filter := 'status = ''Ожидает''';
+  FQuery.Filtered := True;
+end;
+
+end.
+

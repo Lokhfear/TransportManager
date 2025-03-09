@@ -15,10 +15,10 @@ type
     procedure Update(AID: integer; NewFullName: String);
     function Add(FullName: String; EmploymentStart: TDateTime): Integer;
     // procedure Search(SearchID: Integer; SearchFullName : string);
-    procedure LoadAvailableDrivers();
+   //procedure LoadAvailableDrivers();
     // procedure FilterByVehicleType(requiredVehicleType: Integer);
-    procedure LoadAvailableDriversByType(requiredVehicleType: integer) overload;
-    procedure LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer) overload;
+   // procedure LoadAvailableDriversByType(requiredVehicleType: integer) overload;
+   // procedure LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer) overload;
     procedure UpdateDriverVehicleTypes(DriverID: integer;
       OldVehicleTypes, NewVehicleTypes: TList<integer>);
     procedure AddDriverVehicleType(DriverID, VehicleTypeId: integer);
@@ -29,7 +29,7 @@ type
 implementation
 
 
-
+   {
 procedure TDriverManager.LoadAvailableDrivers();
 begin
   try
@@ -99,7 +99,7 @@ begin
         requiredVehicleType.ToString + '): ' + E.Message);
   end;
 end;
-
+ }
 
 function TDriverManager.Add(FullName: String; EmploymentStart: TDateTime): Integer;
 begin

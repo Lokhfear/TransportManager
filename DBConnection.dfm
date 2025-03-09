@@ -28,16 +28,21 @@ object DBConnect: TDBConnect
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT tr.id,'
-      ' route_name, '
-      '       distance,'
-      '       creation_date ,'
-      '       status,'
-      '       tr.required_vehicle_type_id,'
-      '       type_name'
-      'FROM trip_request tr '
+      'SELECT '
+      '    tr.id, '
+      '    route_name, '
+      '    distance, '
+      '    creation_date,'
+      '    status_name, '
+      '    tr.required_vehicle_type_id, '
+      '    vh.type_name, '
+      
+        '    TO_CHAR(start_datetime, '#39'DD.MM.YYYY HH24:MI'#39') AS start_datet' +
+        'ime, '
+      '    TO_CHAR(end_datetime, '#39'DD.MM.YYYY HH24:MI'#39') AS end_datetime'
+      'FROM trip_request tr'
       'LEFT JOIN vehicle_type vh ON tr.required_vehicle_type_id = vh.id'
-      'WHERE status = '#39#1054#1078#1080#1076#1072#1077#1090#39
+      'join status s on tr.status_id = s.id and s.id = 1'
       'ORDER BY creation_date')
     Left = 152
     Top = 24
@@ -98,31 +103,29 @@ object DBConnect: TDBConnect
     Top = 248
   end
   object tripQuery: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT '
-      '    t.id,'
-      '    d.full_name,'
-      '    t.driver_id,'
-      '    trq.route_name,'
-      '    trq.distance,'
-      '    t.transport_id,'
-      '    vt.type_name,'
+      '    t.id, '
+      '    t.driver_id, '
+      '    d.full_name, '
+      '    trq.route_name, '
+      '    trq.distance, '
+      '    t.transport_id, '
+      '    vt.type_name, '
+      '    trq.required_vehicle_type_id,'
       
-        '    TO_CHAR(t.start_datetime, '#39'DD.MM.YYYY HH24:MI'#39') as start_dat' +
-        'etime,'
+        '    to_char(trq.start_datetime, '#39'DD.MM.YYYY HH24:MI'#39') AS start_d' +
+        'atetime,'
       
-        '    TO_CHAR(t.end_datetime, '#39'DD.MM.YYYY HH24:MI'#39') as end_datetim' +
-        'e,'
-      '    trq.required_vehicle_type_id'
-      '    '
-      'FROM trip t'
-      'LEFT JOIN transport tr ON t.transport_id = tr.number_plate'
-      'LEFT JOIN vehicle_type vt ON tr.vehicle_type_id = vt.id'
+        '    to_char(trq.end_datetime, '#39'DD.MM.YYYY HH24:MI'#39')   AS end_dat' +
+        'etime'
+      'FROM trip t '
+      'LEFT JOIN transport tr ON t.transport_id = tr.number_plate '
+      'LEFT JOIN vehicle_type vt ON tr.vehicle_type_id = vt.id '
       'LEFT JOIN driver d ON t.driver_id = d.id '
-      'JOIN trip_request trq on t.trip_request_id = trq.id'
-      'ORDER BY t.start_datetime DESC')
+      'JOIN trip_request trq ON t.trip_request_id = trq.id '
+      'ORDER BY trq.start_datetime DESC')
     Left = 56
     Top = 304
   end
@@ -137,7 +140,6 @@ object DBConnect: TDBConnect
     Top = 304
   end
   object AvaibleDriverQuery: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT '
@@ -166,7 +168,6 @@ object DBConnect: TDBConnect
     Top = 192
   end
   object AvaibleTransportQuery: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT '
@@ -201,7 +202,6 @@ object DBConnect: TDBConnect
     Top = 192
   end
   object CheckListBoxQuery: TFDQuery
-    Active = True
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT '

@@ -1,0 +1,109 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 542
+  ClientWidth = 812
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PageControl: TPageControl
+    Left = 0
+    Top = 0
+    Width = 812
+    Height = 542
+    ActivePage = TripRequestPage
+    Align = alClient
+    TabOrder = 0
+    object TripRequestPage: TTabSheet
+      Caption = #1047#1072#1087#1088#1086#1089#1099
+      object TripRequestPageControl: TPageControl
+        Left = 0
+        Top = 0
+        Width = 804
+        Height = 514
+        ActivePage = PendingRequestPage
+        Align = alClient
+        MultiLine = True
+        TabOrder = 0
+        object PendingRequestPage: TTabSheet
+          Caption = #1054#1078#1080#1076#1072#1102#1097#1080#1077' '#1079#1072#1087#1088#1086#1089#1099
+        end
+        object AllRequestPage: TTabSheet
+          Caption = #1042#1089#1077' '#1079#1072#1087#1088#1086#1089#1099
+          ImageIndex = 1
+        end
+      end
+    end
+    object TripPage: TTabSheet
+      Caption = #1052#1072#1088#1096#1088#1091#1090#1099
+      ImageIndex = 4
+    end
+    object transportPage: TTabSheet
+      Caption = #1058#1088#1072#1085#1089#1087#1086#1088#1090
+      ImageIndex = 2
+    end
+    object driverPage: TTabSheet
+      Caption = #1042#1086#1076#1080#1090#1077#1083#1080
+      ImageIndex = 3
+    end
+    object VehicleTypePage: TTabSheet
+      Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+      ImageIndex = 4
+    end
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=FREE'
+      'User_Name=SYSTEM'
+      'Password=220376'
+      'DriverID=Ora'
+      'CharacterSet=UTF8')
+    Connected = True
+    Left = 544
+    Top = 232
+  end
+  object FDQuery1: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'SELECT'
+      '    tr.id,'
+      '    route_name,'
+      '    distance,'
+      '    creation_date,'
+      '    status_name,'
+      '    tr.required_vehicle_type_id,'
+      '    vh.type_name,'
+      
+        '    to_char(start_datetime, '#39'DD.MM.YYYY HH24:MI'#39') AS start_datet' +
+        'ime,'
+      
+        '    to_char(end_datetime, '#39'DD.MM.YYYY HH24:MI'#39')   AS end_datetim' +
+        'e'
+      'FROM'
+      '    trip_request tr'
+      
+        '    LEFT JOIN vehicle_type vh ON tr.required_vehicle_type_id = v' +
+        'h.id'
+      '    JOIN status       s ON tr.status_id = s.id'
+      '                     AND s.status_name = '#39#1054#1078#1080#1076#1072#1077#1090' '#1087#1086#1076#1090#1074#1077#1088#1078#1076#1077#1085#1080#1103#39
+      'ORDER BY'
+      '    creation_date')
+    Left = 592
+    Top = 232
+  end
+  object DataSource1: TDataSource
+    DataSet = FDQuery1
+    Enabled = False
+    Left = 648
+    Top = 232
+  end
+end

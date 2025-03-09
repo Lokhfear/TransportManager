@@ -15,9 +15,9 @@ type
     procedure Add(numberPlate: String;
       StartExploitation: TDateTime; VehicleTypeID: Integer);
 
-    procedure LoadAvailableTransport();
-    procedure LoadAvailableTransportByType(requiredVehicleType: Integer) overload;
-    procedure LoadAvailableTransportByType(requiredVehicleType: Integer; NumberPlate: string) overload;
+   //procedure LoadAvailableTransport();
+   //procedure LoadAvailableTransportByType(requiredVehicleType: Integer) overload;
+   // procedure LoadAvailableTransportByType(requiredVehicleType: Integer; NumberPlate: string) overload;
    // procedure FilterByVehicleType(requiredVehicleType: Integer);
   end;
 
@@ -29,7 +29,7 @@ begin
 end;
 
 
-
+{
 
 procedure TTransportManager.LoadAvailableTransport();
 begin
@@ -110,7 +110,7 @@ begin
   end;
 end;
 
-
+}
 
 procedure TTransportManager.Add(numberPlate: String;
   StartExploitation: TDateTime; VehicleTypeID: Integer);

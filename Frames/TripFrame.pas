@@ -79,7 +79,7 @@ begin
     exit;
   end;
 
-  ManagerCRUD.UpdateTimes(StrToInt(selectedIdEdit.Text), startDate, endDate);
+  //ManagerCRUD.UpdateTimes(StrToInt(selectedIdEdit.Text), startDate, endDate);
   ReloadData;
 end;
 
@@ -118,8 +118,8 @@ begin
   DriverManagerCRUD := TDriverManager.Create(DriverQuery);
 
   ManagerCRUD.LoadAll;
-  TransportManagerCRUD.LoadAvailableTransport;
-  DriverManagerCRUD.LoadAvailableDrivers;
+  //TransportManagerCRUD.LoadAvailableTransport;
+  //DriverManagerCRUD.LoadAvailableDrivers;
 
 end;
 
@@ -152,8 +152,8 @@ end;
 procedure TTripFr.ReloadData;
 begin
   ManagerCRUD.LoadAll;
-  TransportManagerCRUD.LoadAvailableTransport;
-  DriverManagerCRUD.LoadAvailableDrivers;
+ // TransportManagerCRUD.LoadAvailableTransport;
+ // DriverManagerCRUD.LoadAvailableDrivers;
 end;
 
 // проверять дату? чтобы не была раньше чем сегодня
@@ -205,8 +205,8 @@ begin
   driver_id := TripGrid.DataSource.DataSet.FieldByName('driver_id').AsInteger;
 
   // загрузка свободного транспорта и водителей для данного типа транспорта
-  TransportManagerCRUD.LoadAvailableTransportByType(vehicleTypeId, numberPlate);
-  DriverManagerCRUD.LoadAvailableDriversByType(vehicleTypeId, driver_id);
+ // TransportManagerCRUD.LoadAvailableTransportByType(vehicleTypeId, numberPlate);
+ // DriverManagerCRUD.LoadAvailableDriversByType(vehicleTypeId, driver_id);
 
   SelectedNuberPlateComboBox.KeyValue := numberPlate;
   SelectedFullNameComboBox.KeyValue := driver_id;

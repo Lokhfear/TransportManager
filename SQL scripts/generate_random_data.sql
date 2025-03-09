@@ -22,18 +22,24 @@ CREATE OR REPLACE PROCEDURE generate_random_data AS
 BEGIN
     -- 7 видов
     INSERT INTO vehicle_type ( type_name ) VALUES ( 'Легковой автомобиль' );
-
     INSERT INTO vehicle_type ( type_name ) VALUES ( 'Микроавтобус' );
-
     INSERT INTO vehicle_type ( type_name ) VALUES ( 'Спецтранспорт' );
-
     INSERT INTO vehicle_type ( type_name ) VALUES ( 'Грузовой автомобиль' );
-
     INSERT INTO vehicle_type ( type_name ) VALUES ( 'Трактор' );
-
     INSERT INTO vehicle_type ( type_name ) VALUES ( 'Автобус' );
-
     INSERT INTO vehicle_type ( type_name ) VALUES ( 'Газель' );
+
+
+    INSERT INTO status (id, status_name)
+    VALUES 
+    (1, 'Ожидает подтверждения'),
+    --(2, 'Подтверждено'),
+    (2, 'В процессе'),
+    (3, 'Выполнено'),
+    (4, 'Отменено');
+    
+
+
 
     --80 водителей
     FOR i IN 1..80 LOOP
@@ -57,7 +63,7 @@ BEGIN
 
 -- водители и типы тарнспорта
     FOR i IN 1..80 LOOP
-        FOR j IN 1..trunc(dbms_random.value(0, 3)) LOOP
+        FOR j IN 1..trunc(dbms_random.value(1, 3)) LOOP
             INSERT INTO driver_vehicle_type (
                 driver_id,
                 vehicle_type_id

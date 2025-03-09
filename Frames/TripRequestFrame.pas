@@ -62,8 +62,8 @@ begin
   TripManagerCRUD := TTripManager.Create(TripQuery);
 
   ManagerCRUD.LoadAll;
-  TransportManagerCRUD.LoadAvailableTransport;
-  DriverManagerCRUD.LoadAvailableDrivers;
+  //TransportManagerCRUD.LoadAvailableTransport;
+  //DriverManagerCRUD.LoadAvailableDrivers;
 
   clearSelectedData;
 end;
@@ -74,12 +74,12 @@ begin
 if (selectedRequestId = 0) or VarIsNull(DriverDBLookupComboBox.KeyValue) or VarIsNull(TransportDBLookupComboBox.KeyValue) then
      exit;
   TripManagerCRUD.Add(selectedRequestId, TransportDBLookupComboBox.KeyValue, DriverDBLookupComboBox.KeyValue);
-  ManagerCRUD.UpdateStatus(selectedRequestId, 'В процессе');
+  ManagerCRUD.UpdateStatus(selectedRequestId, 2);
 
   clearSelectedData;
 
-  DriverManagerCRUD.LoadAvailableDrivers;
-  TransportManagerCRUD.LoadAvailableTransport;
+  //DriverManagerCRUD.LoadAvailableDrivers;
+  //TransportManagerCRUD.LoadAvailableTransport;
 end;
 
 
@@ -111,9 +111,9 @@ begin
     FieldByName('required_vehicle_type_id').AsInteger;
 
 
-  DriverManagerCRUD.LoadAvailableDriversByType(selectedRequestVehicleTypeId);
-  TransportManagerCRUD.LoadAvailableTransportByType
-    (selectedRequestVehicleTypeId);
+  //DriverManagerCRUD.LoadAvailableDriversByType(selectedRequestVehicleTypeId);
+  //TransportManagerCRUD.LoadAvailableTransportByType
+  // (selectedRequestVehicleTypeId);
 end;
 
 procedure TTripRequestFr.TransportGridCellClick(Column: TColumn);

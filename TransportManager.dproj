@@ -127,8 +127,8 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Frames\TripRequestFrame.pas">
-            <Form>TripRequestFr</Form>
+        <DCCReference Include="Frames\PendingTripRequestFrame.pas">
+            <Form>PendingTripRequestFr</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -150,6 +150,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Managers\DriverVehicleTypeCheckManager.pas"/>
+        <DCCReference Include="Frames\TripRequestFrame.pas">
+            <Form>Form2</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

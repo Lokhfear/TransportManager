@@ -19,13 +19,11 @@ type
     TripGrid: TDBGrid;
     GroupBox5: TGroupBox;
     AssignDriverAndTransportButton: TButton;
-    DeleteButton: TButton;
     LoadButton: TButton;
     selectedIdEdit: TEdit;
     SelectedTripNameEdit: TEdit;
     SelectedDistanceEdit: TEdit;
     Button1: TButton;
-    SetStartOrEndDateTimeButoon: TButton;
     SelectedFullNameComboBox: TDBLookupComboBox;
     SelectedNuberPlateComboBox: TDBLookupComboBox;
     Edit1: TEdit;

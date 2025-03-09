@@ -317,12 +317,14 @@ object TripFr: TTripFr
       Align = alRight
       Caption = 'GroupBox1'
       TabOrder = 1
+      ExplicitLeft = 462
+      ExplicitTop = -3
       DesignSize = (
         396
         151)
       object AssignDriverAndTransportButton: TButton
         Left = 27
-        Top = 90
+        Top = 64
         Width = 350
         Height = 25
         Anchors = [akLeft, akTop, akRight, akBottom]
@@ -330,45 +332,25 @@ object TripFr: TTripFr
         TabOrder = 0
         OnClick = AssignDriverAndTransportButtonClick
       end
-      object DeleteButton: TButton
-        Left = 25
-        Top = 28
-        Width = 163
-        Height = 25
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        Caption = #1059#1076#1072#1083#1080#1090#1100
-        Enabled = False
-        TabOrder = 1
-      end
       object LoadButton: TButton
         Left = 210
-        Top = 59
+        Top = 33
         Width = 161
         Height = 25
         Anchors = [akLeft, akTop, akRight, akBottom]
         Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
-        TabOrder = 2
+        TabOrder = 1
         OnClick = LoadButtonClick
       end
       object Button1: TButton
         Left = 27
-        Top = 59
+        Top = 33
         Width = 161
         Height = 25
         Anchors = [akLeft, akTop, akRight, akBottom]
         Caption = #1054#1090#1084#1077#1085#1080#1090#1100'?'
         Enabled = False
-        TabOrder = 3
-      end
-      object SetStartOrEndDateTimeButoon: TButton
-        Left = 32
-        Top = 122
-        Width = 345
-        Height = 25
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        Caption = #1091#1089#1090#1072#1085#1086#1074#1080#1090#1100' '#1076#1072#1090#1091' '#1086#1098#1077#1079#1076#1072'/'#1087#1088#1080#1073#1099#1090#1080#1103
-        TabOrder = 4
-        OnClick = SetStartOrEndDateTimeButoonClick
+        TabOrder = 2
       end
     end
   end

@@ -24,6 +24,10 @@ object Form1: TForm1
     TabOrder = 0
     object TripRequestPage: TTabSheet
       Caption = #1047#1072#1087#1088#1086#1089#1099
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object TripRequestPageControl: TPageControl
         Left = 0
         Top = 0
@@ -35,6 +39,10 @@ object Form1: TForm1
         TabOrder = 0
         object PendingRequestPage: TTabSheet
           Caption = #1054#1078#1080#1076#1072#1102#1097#1080#1077' '#1079#1072#1087#1088#1086#1089#1099
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
         object AllRequestPage: TTabSheet
           Caption = #1042#1089#1077' '#1079#1072#1087#1088#1086#1089#1099

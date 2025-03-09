@@ -51,10 +51,10 @@ CREATE TABLE trip_request (
     route_name VARCHAR2(255) NOT NULL,
     distance NUMBER,
     creation_date DATE NOT NULL,
-    status_id NUMBER NOT NULL DEFAULT 1,
+    status_id NUMBER NOT NULL,
     required_vehicle_type_id NUMBER,
-    start_datetime TIMESTAMP NOT NULL,
-    end_datetime TIMESTAMP NOT NULL,
+    start_datetime TIMESTAMP(0) NOT NULL,
+    end_datetime TIMESTAMP(0) NOT NULL,
     FOREIGN KEY (required_vehicle_type_id) REFERENCES vehicle_type(id),
     FOREIGN KEY (status_id) REFERENCES status(id)
 );

@@ -4,7 +4,7 @@ interface
 
 uses
   DBConnection, VehicleTypeFrame, DriverFrame, TransportFrame, TripFrame,
-  TripRequestFrame, Data.DB, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
+  PendingTripRequestFrame, Data.DB, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.Controls,
   Vcl.ComCtrls, System.Classes, Vcl.Forms, Vcl.Dialogs;
 
 type
@@ -39,7 +39,7 @@ var
   TripFrame: TTripFr;
   TransportFrame: TTransportFr;
   DriverFrame: TDriverFr;
-  TriptRequestFrame: TTripRequestFr;
+  TriptRequestFrame: TPendingTripRequestFr;
 
   DBConnect: TDBConnect;
 begin
@@ -51,7 +51,7 @@ begin
   TransportFrame := TTransportFr.Create(Self, DBConnect.TransportQuery);
   DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery,
     DBConnect.CheckListBoxQuery);
-  TriptRequestFrame := TTripRequestFr.Create(Self, DBConnect.pendingRequest,
+  TriptRequestFrame := TPendingTripRequestFr.Create(Self, DBConnect.pendingRequest,
     DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery, DBConnect.tripQuery);
 
   TripFrame.Parent := TripPage;

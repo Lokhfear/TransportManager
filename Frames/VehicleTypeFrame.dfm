@@ -50,7 +50,7 @@ object VehicleTypeFr: TVehicleTypeFr
         item
           Expanded = False
           FieldName = 'ID'
-          Visible = True
+          Visible = False
         end
         item
           Expanded = False
@@ -83,7 +83,7 @@ object VehicleTypeFr: TVehicleTypeFr
     OnClick = EditGroupBoxClick
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
-      Left = 261
+      Left = 19
       Top = 18
       Width = 604
       Height = 22
@@ -94,22 +94,7 @@ object VehicleTypeFr: TVehicleTypeFr
       Align = alLeft
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
-      ExplicitHeight = 24
-    end
-    object selectedIdEdit: TEdit
-      AlignWithMargins = True
-      Left = 19
-      Top = 18
-      Width = 230
-      Height = 22
-      Margins.Left = 12
-      Margins.Top = 0
-      Margins.Right = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      Enabled = False
-      TabOrder = 1
-      TextHint = 'ID'
+      ExplicitLeft = 261
       ExplicitHeight = 24
     end
   end
@@ -132,33 +117,19 @@ object VehicleTypeFr: TVehicleTypeFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 0
-      object IdSearchLabel: TLabel
-        Left = 19
-        Top = 25
-        Width = 11
-        Height = 13
-        Caption = 'ID'
-      end
       object VehicleTypeSearchLabel: TLabel
-        Left = 262
+        Left = 18
         Top = 25
         Width = 80
         Height = 13
         Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
       end
-      object IdSearchEdit: TEdit
-        Left = 19
+      object VehicleTypeSearchEdit: TEdit
+        Left = 18
         Top = 44
         Width = 213
         Height = 21
         TabOrder = 0
-      end
-      object VehicleTypeSearchEdit: TEdit
-        Left = 262
-        Top = 44
-        Width = 213
-        Height = 21
-        TabOrder = 1
         TextHint = #1051#1077#1075#1082#1086#1074#1086#1081
       end
     end

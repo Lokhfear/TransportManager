@@ -151,7 +151,7 @@
         </DCCReference>
         <DCCReference Include="Managers\DriverVehicleTypeCheckManager.pas"/>
         <DCCReference Include="Frames\TripRequestFrame.pas">
-            <Form>Form2</Form>
+            <Form>TripRequestFr</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

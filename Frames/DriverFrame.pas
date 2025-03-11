@@ -43,7 +43,8 @@ type
     procedure FullNameCreateEditEnter(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
 
-
+    procedure ReloadData();
+    procedure ClearSelectedData;
   private
 
     SelectedAssignedVehicleTypes: TList<Integer>;
@@ -63,6 +64,14 @@ implementation
 
 {$R *.dfm}
 { TDriverFr }
+
+procedure TDriverFr.ClearSelectedData;
+begin
+SelectedIdEdit.Clear;
+SelectedFullNameEdit.Clear;
+SelectedEmploymentStartEdit.Clear;
+SelectedVehicleTypesEdit.Clear;
+end;
 
 constructor TDriverFr.Create(Owner: TComponent;  Query, CheckListBoxQuery : TFDQuery);
 begin
@@ -131,6 +140,13 @@ end;
 procedure TDriverFr.LoadButtonClick(Sender: TObject);
 begin
 ManagerCRUD.LoadAll;
+end;
+
+procedure TDriverFr.ReloadData;
+begin
+    ClearSelectedData;
+    ManagerCRUD.LoadAll;
+    ManagerCRUD.DisableFilter;
 end;
 
 procedure TDriverFr.ChangeButtonClick(Sender: TObject);

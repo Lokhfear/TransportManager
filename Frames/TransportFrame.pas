@@ -45,6 +45,7 @@ type
     procedure ChangeButtonClick(Sender: TObject);
     procedure CreateButtonClick(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
+    procedure ReloadData();
   private
     { Private declarations }
     ManagerCRUD: TTransportManager;
@@ -65,6 +66,14 @@ begin
     SelectedNumberPlateEdit.Clear;
     SelectedEndExploitationDateTimePicker.date := date;
     SelectedStartExploitationDateTimePicker.date := date;
+end;
+
+
+
+procedure TTransportFr.ReloadData;
+begin
+  clearData;
+  ManagerCRUD.LoadAll;
 end;
 
 procedure TTransportFr.ChangeButtonClick(Sender: TObject);

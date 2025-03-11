@@ -19,7 +19,7 @@ uses
   CreateTransportModal in 'CreateFroms\CreateTransportModal.pas' {CreateTransport},
   CreateDriverModal in 'CreateFroms\CreateDriverModal.pas' {CreateDriver},
   DriverVehicleTypeCheckManager in 'Managers\DriverVehicleTypeCheckManager.pas',
-  TripRequestFrame in 'Frames\TripRequestFrame.pas' {Form2};
+  TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr};
 
 {$R *.res}
 
@@ -28,7 +28,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TDBConnect, DBConnect);
-  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TTripRequestFr, TripRequestFr);
   //Application.CreateForm(TCreateDriver, CreateDriver);
   //Application.CreateForm(TCreateVhicleType, CreateVhicleType);
   //Application.CreateForm(TCreateTransport, CreateTransport);

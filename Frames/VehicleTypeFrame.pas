@@ -15,17 +15,14 @@ type
     DBGrid5: TDBGrid;
     EditGroupBox: TGroupBox;
     SelectedVehicleTypeEdit: TEdit;
-    selectedIdEdit: TEdit;
     TopPanel: TPanel;
     SearchGroupBox: TGroupBox;
     ManipulationGroupBox: TGroupBox;
-    IdSearchEdit: TEdit;
     CongfirmButton: TButton;
     CreateButton: TButton;
     DeleteButton: TButton;
     VehicleTypeSearchEdit: TEdit;
     LoadButton: TButton;
-    IdSearchLabel: TLabel;
     VehicleTypeSearchLabel: TLabel;
     procedure DeleteButtonClick(Sender: TObject);
     procedure CreateButtonClick(Sender: TObject);
@@ -37,7 +34,8 @@ type
     procedure CongfirmButtonClick(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
     procedure EditGroupBoxClick(Sender: TObject);
-
+    procedure ReloadData();
+    procedure clearData();
   private
     ManagerCRUD: TVehicleTypeManager;
     selectedId: Integer;
@@ -73,7 +71,6 @@ begin
     ('Тип транспорта').AsString;
   selectedId := DBGrid5.DataSource.DataSet.FieldByName('id').AsInteger;
 
-  selectedIdEdit.Text := selectedId.ToString;
   SelectedVehicleTypeEdit.Text := selectedTypeName;
 end;
 
@@ -88,6 +85,12 @@ begin
   end
   else
     ShowMessage('Нет выбранных строк или их больше одной');
+end;
+
+procedure TVehicleTypeFr.clearData;
+begin
+SelectedVehicleTypeEdit.Clear;
+VehicleTypeSearchEdit.Clear;
 end;
 
 procedure TVehicleTypeFr.CongfirmButtonClick(Sender: TObject);
@@ -134,6 +137,13 @@ begin
 procedure TVehicleTypeFr.LoadButtonClick(Sender: TObject);
 begin
 ManagerCRUD.LoadAll;
+end;
+
+procedure TVehicleTypeFr.ReLoadData;
+begin
+  clearData;
+  ManagerCRUD.DisableFilter;
+  ManagerCRUD.LoadAll;
 end;
 
 {procedure TVehicleTypeFr.SelectedVehicleTypeEditChange(Sender: TObject);

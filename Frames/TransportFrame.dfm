@@ -12,8 +12,6 @@ object TransportFr: TTransportFr
     Height = 321
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 163
-    ExplicitHeight = 317
     object TransportDBGrid: TDBGrid
       Left = 1
       Top = 1
@@ -262,7 +260,6 @@ object TransportFr: TTransportFr
       Enabled = False
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-      ExplicitTop = 18
     end
     object SelectedEndExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True

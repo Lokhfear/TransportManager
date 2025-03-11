@@ -8,7 +8,7 @@ uses
   Vcl.DBGrids, Vcl.ExtCtrls;
 
 type
-  TForm2 = class(TForm)
+  TTripRequestFr = class(TForm)
     BottomPanel: TPanel;
     PendingRequestDBGrid: TDBGrid;
     TopPanel: TPanel;
@@ -20,7 +20,7 @@ type
   end;
 
 var
-  Form2: TForm2;
+  TripRequestFr: TTripRequestFr;
 
 implementation
 

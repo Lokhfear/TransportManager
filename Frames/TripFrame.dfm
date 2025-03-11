@@ -317,8 +317,6 @@ object TripFr: TTripFr
       Align = alRight
       Caption = 'GroupBox1'
       TabOrder = 1
-      ExplicitLeft = 462
-      ExplicitTop = -3
       DesignSize = (
         396
         151)

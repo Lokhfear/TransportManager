@@ -1,7 +1,7 @@
-object Form2: TForm2
+object TripRequestFr: TTripRequestFr
   Left = 0
   Top = 0
-  Caption = 'Form2'
+  Caption = 'TripRequestFr'
   ClientHeight = 441
   ClientWidth = 844
   Color = clBtnFace
@@ -20,8 +20,6 @@ object Form2: TForm2
     Height = 320
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 209
-    ExplicitHeight = 232
     object PendingRequestDBGrid: TDBGrid
       Left = 1
       Top = 1
@@ -106,8 +104,6 @@ object Form2: TForm2
       Align = alClient
       Caption = #1055#1086#1080#1089#1082
       TabOrder = 0
-      ExplicitWidth = 488
-      ExplicitHeight = 207
     end
   end
 end

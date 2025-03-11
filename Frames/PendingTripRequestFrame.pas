@@ -25,6 +25,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    procedure ReloadData();
     procedure PendingRequestDBGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);
     procedure DriverGridCellClick(Column: TColumn);
@@ -118,6 +119,13 @@ begin
 
   DriverManagerCRUD.LoadAvailableDriversByType(selectedRequestVehicleTypeId, selectedStartDateTime, selectedEndDateTime);
   TransportManagerCRUD.LoadAvailableTransportByType(selectedRequestVehicleTypeId, selectedStartDateTime, selectedEndDateTime);
+end;
+
+procedure TPendingTripRequestFr.ReloadData;
+begin
+    clearSelectedData;
+    ManagerCRUD.LoadAll;
+    ManagerCRUD.DisableFilter;
 end;
 
 procedure TPendingTripRequestFr.TransportGridCellClick(Column: TColumn);

@@ -43,6 +43,8 @@ type
     procedure SelectedStartDateTimeEditExit(Sender: TObject);
     procedure SelectedEndDateTimeEditExit(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
+    procedure ReloadData();
+    procedure ClearSelectedData();
 
   private
     { Private declarations }
@@ -54,8 +56,6 @@ type
 
     procedure ValidateDateTime(MaskEdit: TMaskEdit; var OutDateTime: TDateTime);
     function ExtractDigits(const Input: string): string;
-    procedure ClearSelectedData();
-    procedure ReloadData();
     procedure DisableAllEdit();
 
   public
@@ -149,13 +149,14 @@ end;
 
 procedure TTripFr.ReloadData;
 begin
+  ClearSelectedData;
   ManagerCRUD.LoadAll;
+  ManagerCRUD.DisableFilter;
  // TransportManagerCRUD.LoadAvailableTransport;
  // DriverManagerCRUD.LoadAvailableDrivers;
 end;
 
-// проверять дату? чтобы не была раньше чем сегодня
-// В теории должно стоять просто текущее время.
+
 procedure TTripFr.ValidateDateTime(MaskEdit: TMaskEdit;
   var OutDateTime: TDateTime);
 begin

@@ -224,18 +224,24 @@ object PendingTripRequestFr: TPendingTripRequestFr
           item
             Expanded = False
             FieldName = 'ID'
-            Width = 50
-            Visible = True
+            Visible = False
           end
           item
             Expanded = False
             FieldName = 'FULL_NAME'
-            Width = 180
+            Width = 200
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'EMPLOYMENT_START'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'WORKED_HOURS'
+            Width = 40
             Visible = True
           end>
       end

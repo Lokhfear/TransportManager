@@ -1,22 +1,12 @@
-SELECT 
-    id, 
-    full_name, 
-    employment_start
-FROM 
-    driver d
-JOIN 
-    driver_vehicle_type dvt ON d.id = dvt.driver_id
+SELECT
+    id,
+    full_name,
+    employment_start,
+    availabilitychecker.getdriverworkedhours(id, :workDate) as worked_hours
+FROM
+         driver d
+    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id
+                                    AND dvt.vehicle_type_id = :requeredVehicleTypeId
 WHERE
-    id NOT IN (
-        SELECT
-            driver_id
-        FROM
-            trip t
-        JOIN 
-            trip_request tr ON t.trip_request_id = tr.id
-            AND tr.status = 'В процессе'
-    )
-GROUP BY 
-    id, full_name, employment_start
-ORDER BY 
-    full_name;
+    availabilitychecker.isdriverfree(id, :startDateTime, :endDateTime)
+ORDER BY worked_hours

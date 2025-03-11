@@ -1,40 +1,48 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'E:\Project\Frames\DriverFrame.pas',0,1,1,1,1,0,0,,
-File_1=TSourceModule,'E:\Project\Frames\TripRequestFrame.pas',0,1,43,3,64,0,0,,
-File_2=TSourceModule,'E:\Project\CreateFroms\CreateVehicleTypeModal.pas',0,1,16,2,6,0,0,,
-File_3=TSourceModule,'E:\Project\Managers\TripRequestManager.pas',0,1,82,4,83,0,0,,
-File_4=TSourceModule,'E:\Project\Managers\TripManager.pas',0,1,73,71,80,0,0,,
-File_5=TSourceModule,'E:\Project\Managers\TransportManage.pas',0,1,93,17,109,0,0,,
-File_6=TSourceModule,'E:\Project\HomeForm.pas',0,1,36,29,48,0,0,,
-File_7=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\VCL\Vcl.Forms.pas',0,1,3655,1,3674,0,0,{{1755,4}
-File_8=TSourceModule,'E:\Project\Frames\TripFrame.pas',0,1,40,31,58,0,0,,
-File_9=TSourceModule,'E:\Project\CreateFroms\CreateDriverModal.pas',0,1,1,1,1,0,0,,
-File_10=TSourceModule,'E:\Project\Frames\TransportFrame.pas',0,1,116,26,101,0,0,,
-File_11=TSourceModule,'E:\Project\Managers\DriverManager.pas',0,1,123,39,138,0,0,,
-File_12=TSourceModule,'E:\Project\CreateFroms\CreateTransportModal.pas',0,1,31,52,40,0,0,,
+File_0=TSourceModule,'E:\Project\Frames\TripRequestFrame.pas',0,1,43,3,64,0,0,,
+File_1=TSourceModule,'E:\Project\CreateFroms\CreateVehicleTypeModal.pas',0,1,16,2,6,0,0,,
+File_2=TSourceModule,'E:\Project\Managers\TripRequestManager.pas',0,1,82,4,83,0,0,,
+File_3=TSourceModule,'E:\Project\Managers\TripManager.pas',0,1,73,71,80,0,0,,
+File_4=TSourceModule,'E:\Project\Managers\TransportManage.pas',0,1,93,17,109,0,0,,
+File_5=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\VCL\Vcl.Forms.pas',0,1,3655,1,3674,0,0,{{1755,4}
+File_6=TSourceModule,'E:\Project\Frames\TripFrame.pas',0,1,40,31,58,0,0,,
+File_7=TSourceModule,'E:\Project\CreateFroms\CreateDriverModal.pas',0,1,1,1,1,0,0,,
+File_8=TSourceModule,'E:\Project\Frames\TransportFrame.pas',0,1,116,26,101,0,0,,
+File_9=TSourceModule,'E:\Project\Managers\DriverManager.pas',0,1,123,39,138,0,0,,
+File_10=TSourceModule,'E:\Project\CreateFroms\CreateTransportModal.pas',0,1,31,52,40,0,0,,
 
 [Modules]
-Module0=E:\Project\Frames\VehicleTypeFrame.pas
-Module1=E:\Project\DBConnection.pas
-Module2=E:\Project\Managers\VehicleTypeManager.pas
-Count=3
+Module0=E:\Project\DBConnection.pas
+Module1=E:\Project\HomeForm.pas
+Module2=E:\Project\Frames\DriverFrame.pas
+Module3=E:\Project\Frames\VehicleTypeFrame.pas
+Module4=E:\Project\Managers\VehicleTypeManager.pas
+Count=5
 EditWindowCount=1
 
-[E:\Project\Frames\VehicleTypeFrame.pas]
+[E:\Project\DBConnection.pas]
 ModuleType=TSourceModule
 
-[E:\Project\DBConnection.pas]
+[E:\Project\HomeForm.pas]
+ModuleType=TSourceModule
+
+[E:\Project\Frames\DriverFrame.pas]
+ModuleType=TSourceModule
+
+[E:\Project\Frames\VehicleTypeFrame.pas]
 ModuleType=TSourceModule
 
 [E:\Project\Managers\VehicleTypeManager.pas]
 ModuleType=TSourceModule
 
 [EditWindow0]
-ViewCount=3
-CurrentEditView=E:\Project\Frames\VehicleTypeFrame.pas
+ViewCount=5
+CurrentEditView=E:\Project\DBConnection.pas
 View0=0
 View1=1
 View2=2
+View3=3
+View4=4
 PercentageSizes=1
 Create=1
 Visible=1
@@ -73,9 +81,20 @@ TopLine=28
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=E:\Project\DBConnection.pas
+EditViewName=Borland.FormDesignerView
 
 [View1]
+CustomEditViewType=TEditView
+Module=E:\Project\HomeForm.pas
+CursorX=59
+CursorY=65
+TopLine=40
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=Borland.FormDesignerView
+
+[View2]
 CustomEditViewType=TEditView
 Module=E:\Project\Managers\VehicleTypeManager.pas
 CursorX=28
@@ -86,7 +105,7 @@ Elisions=
 Bookmarks=
 EditViewName=E:\Project\Managers\VehicleTypeManager.pas
 
-[View2]
+[View3]
 CustomEditViewType=TEditView
 Module=E:\Project\Frames\VehicleTypeFrame.pas
 CursorX=1
@@ -96,6 +115,17 @@ LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=Borland.FormDesignerView
+
+[View4]
+CustomEditViewType=TEditView
+Module=E:\Project\Frames\DriverFrame.pas
+CursorX=48
+CursorY=57
+TopLine=31
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=E:\Project\Frames\DriverFrame.pas
 
 [UndockedDesigner]
 Count=0
@@ -274,7 +304,7 @@ SplitPos=111
 [PropInspDesignerSelection]
 ArrangeBy=Name
 SelectedItem=Align,
-ExpandedItems=Anchors=0,Constraints=0
+ExpandedItems=Anchors=0,Constraints=0,BorderIcons=0
 
 [DebugLogView]
 PercentageSizes=1

@@ -16,8 +16,8 @@ type
     function Add(FullName: String; EmploymentStart: TDateTime): Integer;
     // procedure Search(SearchID: Integer; SearchFullName : string);
    //procedure LoadAvailableDrivers();
-    // procedure FilterByVehicleType(requiredVehicleType: Integer);
-   // procedure LoadAvailableDriversByType(requiredVehicleType: integer) overload;
+    procedure LoadDriversWithWorkedHours(startDate: TDate);
+    procedure LoadAvailableDriversByType( requeredVehicleTypeid: Integer; startDateTime, endDateTime: TDateTime);
    // procedure LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer) overload;
     procedure UpdateDriverVehicleTypes(DriverID: integer;
       OldVehicleTypes, NewVehicleTypes: TList<integer>);
@@ -29,46 +29,59 @@ type
 implementation
 
 
-   {
-procedure TDriverManager.LoadAvailableDrivers();
+procedure TDriverManager.LoadDriversWithWorkedHours(startDate: TDate);
 begin
   try
-    FQuery.SQL.Text := 'SELECT id, full_name, employment_start ' +
-      'FROM driver d ' + 'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id '
-      + 'WHERE id NOT IN (' + 'SELECT driver_id ' + 'FROM trip t ' +
-      'JOIN trip_request tr ON t.trip_request_id = tr.id ' +
-      'WHERE tr.status = ''В процессе'')' +
-      'GROUP BY id, full_name, employment_start ' + 'ORDER BY full_name';
+    FQuery.SQL.Text :=
+      'SELECT d.id, d.full_name, d.employment_start, ' +
+      'availabilitychecker.getdriverworkedhours(d.id, :workDate) AS worked_hours ' +
+      'FROM driver d ' +
+      'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
+      'order by worked_hours ';
+
+    FQuery.ParamByName('workDate').AsDateTime := startDate;
 
     FQuery.Open;
   except
     on E: Exception do
-      ShowMessage('Ошибка при загрузке свободных водителей: ' + E.Message);
+      ShowMessage('Ошибка при загрузке данных водителей с отработанными часами: ' + E.Message);
   end;
 end;
 
-procedure TDriverManager.LoadAvailableDriversByType(requiredVehicleType
-  : integer);
+
+procedure TDriverManager.LoadAvailableDriversByType(requeredVehicleTypeid: Integer; startDateTime, endDateTime: TDateTime);
+var
+  WorkDate: TDateTime;
 begin
   try
-    FQuery.SQL.Text := 'SELECT id, full_name, employment_start ' +
-      'FROM driver d ' + 'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id '
-      + 'WHERE dvt.vehicle_type_id = :requiredVehicleType ' + 'AND id NOT IN ('
-      + 'SELECT driver_id ' + 'FROM trip t ' +
-      'JOIN trip_request tr ON t.trip_request_id = tr.id ' +
-      'WHERE tr.status = ''В процессе'') ' +
-      'GROUP BY id, full_name, employment_start ' + 'ORDER BY full_name';
 
-    FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
+    WorkDate := Trunc(startDateTime);
+
+    FQuery.SQL.Text :=
+      'SELECT d.id, d.full_name, d.employment_start, ' +
+      'availabilitychecker.getdriverworkedhours(d.id, :workdate) AS worked_hours ' +
+      'FROM driver d ' +
+      'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
+      'AND dvt.vehicle_type_id = :requerredVehicleTypeid ' +
+      'WHERE availabilitychecker.isdriverfree(d.id, :startdatetime, :enddatetime) ' +
+      'ORDER BY worked_hours ';
+
+
+    FQuery.ParamByName('workdate').AsDateTime := WorkDate;
+    FQuery.ParamByName('requerredVehicleTypeid').AsInteger := requeredVehicleTypeid;
+    FQuery.ParamByName('startdatetime').AsDateTime := startDateTime;
+    FQuery.ParamByName('enddatetime').AsDateTime := endDateTime;
+
+
     FQuery.Open;
+
   except
     on E: Exception do
-      ShowMessage
-        ('Ошибка при загрузке свободных водителей с id типа транспорта (' +
-        requiredVehicleType.ToString + '): ' + E.Message);
+      ShowMessage('Ошибка при загрузке доступных водителей: ' + E.Message);
   end;
 end;
 
+{
 
 
 procedure TDriverManager.LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer);

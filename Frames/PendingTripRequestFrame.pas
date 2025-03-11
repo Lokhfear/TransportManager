@@ -62,8 +62,8 @@ begin
   TripManagerCRUD := TTripManager.Create(TripQuery);
 
   ManagerCRUD.LoadAll;
-  //TransportManagerCRUD.LoadAvailableTransport;
-  //DriverManagerCRUD.LoadAvailableDrivers;
+  TransportManagerCRUD.LoadAll;
+  DriverManagerCRUD.LoadDriversWithWorkedHours(Date);
 
   clearSelectedData;
 end;
@@ -101,19 +101,23 @@ end;
 
 
 procedure TPendingTripRequestFr.PendingRequestDBGridCellClick(Column: TColumn);
+var
+   selectedStartDateTime, selectedEndDateTime: TDateTime;
 begin
-
   clearSelectedData;
 
   selectedRequestId := PendingRequestDBGrid.DataSource.DataSet.FieldByName('id')
     .AsInteger;
   selectedRequestVehicleTypeId := PendingRequestDBGrid.DataSource.DataSet.
     FieldByName('required_vehicle_type_id').AsInteger;
+  selectedStartDateTime := PendingRequestDBGrid.DataSource.DataSet.
+    FieldByName('start_datetime').AsDateTime;
+  selectedEndDateTime := PendingRequestDBGrid.DataSource.DataSet.
+    FieldByName('end_datetime').AsDateTime;
+  RequestIdDBEdit.Text := selectedRequestId.ToString;
 
-
-  //DriverManagerCRUD.LoadAvailableDriversByType(selectedRequestVehicleTypeId);
-  //TransportManagerCRUD.LoadAvailableTransportByType
-  // (selectedRequestVehicleTypeId);
+  DriverManagerCRUD.LoadAvailableDriversByType(selectedRequestVehicleTypeId, selectedStartDateTime, selectedEndDateTime);
+  TransportManagerCRUD.LoadAvailableTransportByType(selectedRequestVehicleTypeId, selectedStartDateTime, selectedEndDateTime);
 end;
 
 procedure TPendingTripRequestFr.TransportGridCellClick(Column: TColumn);

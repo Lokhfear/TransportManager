@@ -16,7 +16,7 @@ type
       StartExploitation: TDateTime; VehicleTypeID: Integer);
 
    //procedure LoadAvailableTransport();
-   //procedure LoadAvailableTransportByType(requiredVehicleType: Integer) overload;
+    procedure LoadAvailableTransportByType(requiredVehicleType: Integer; startDateTime, endDateTime: TDateTime);
    // procedure LoadAvailableTransportByType(requiredVehicleType: Integer; NumberPlate: string) overload;
    // procedure FilterByVehicleType(requiredVehicleType: Integer);
   end;
@@ -29,56 +29,37 @@ begin
 end;
 
 
-{
-
-procedure TTransportManager.LoadAvailableTransport();
+procedure TTransportManager.LoadAvailableTransportByType(requiredVehicleType: Integer; startDateTime, endDateTime: TDateTime);
 begin
-try
-  FQuery.SQL.Text :=
-    'SELECT t.number_plate, t.start_exploitation, t.end_exploitation, vt.type_name ' +
-    'FROM transport t ' +
-    'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id ' +
-    'WHERE (t.end_exploitation IS NULL OR t.end_exploitation >= SYSDATE) ' +
-    'AND t.number_plate NOT IN (' +
-    'SELECT transport_id ' +
-    'FROM trip trip ' +
-    'JOIN trip_request tr ON trip.trip_request_id = tr.id ' +
-    'WHERE tr.status = ''В процессе'') ' +
-    'ORDER BY t.number_plate';
+  try
+    FQuery.SQL.Text :=
+      'SELECT t.number_plate, vt.type_name, t.start_exploitation, t.end_exploitation ' +
+      'FROM transport t ' +
+      'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id ' +
+      'WHERE availabilitychecker.istransportfree(t.number_plate, :startDateTime, :endDateTime) = 1 ' + // Проверка на доступность
+      'AND (t.end_exploitation IS NULL OR t.end_exploitation > SYSDATE) ' +
+      'AND vt.id = :requiredVehicleType ' + // Фильтрация по типу транспорта
+      'ORDER BY t.number_plate';
 
-  FQuery.Open;
-except
-  on E: Exception do
-    ShowMessage('Ошибка. Не удалось загрузить свободный транспорт: ' + E.Message);
-end;
-end;
-
-
-
- procedure TTransportManager.LoadAvailableTransportByType(requiredVehicleType: Integer);
-begin
-try
-  FQuery.SQL.Text :=
-    'SELECT t.number_plate, t.start_exploitation, t.end_exploitation, vt.type_name ' +
-    'FROM transport t ' +
-    'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id ' +
-    'WHERE (t.end_exploitation IS NULL OR t.end_exploitation >= SYSDATE) ' +
-    'AND t.number_plate NOT IN (' +
-    'SELECT transport_id ' +
-    'FROM trip trip ' +
-    'JOIN trip_request tr ON trip.trip_request_id = tr.id ' +
-    'WHERE tr.status = ''В процессе'') ' +
-    'AND vt.id = :requiredVehicleType ' +
-    'ORDER BY t.number_plate';
-
-  FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
-  FQuery.Open;
+    FQuery.ParamByName('startDateTime').AsDateTime := startDateTime;
+    FQuery.ParamByName('endDateTime').AsDateTime := endDateTime;
+    FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
+    FQuery.Open;
 
   except
-  on E: Exception do
-    ShowMessage('Ошибка. Не удалось загрузить свободный транспорт по заданному типу: ' + E.Message);
+    on E: Exception do
+      ShowMessage('Ошибка. Не удалось загрузить свободный транспорт по заданному типу: ' + E.Message);
+  end;
 end;
-end;
+
+
+
+
+
+
+
+{
+
 
 
 

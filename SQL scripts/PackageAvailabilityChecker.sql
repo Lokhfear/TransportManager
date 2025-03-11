@@ -34,9 +34,8 @@ END GetDriverWorkedHours;
     SELECT COUNT(*)
     INTO flag
     FROM trip_request tr
-    JOIN trip t ON t.id = t.trip_request_id
-    WHERE t.driver_id = p_driver_id
-      AND (p_start_time BETWEEN tr.start_datetime AND tr.end_datetime    --начинается в промежутке
+    JOIN trip t ON t.id = t.trip_request_id and t.driver_id = p_driver_id
+    WHERE (p_start_time BETWEEN tr.start_datetime AND tr.end_datetime    --начинается в промежутке
         OR p_end_time BETWEEN tr.start_datetime AND tr.end_datetime)     --заканчивается в промежутке
         OR (p_start_time <= tr.start_datetime AND p_end_time >= tr.end_datetime);  --покрывает весь промежуток(т е вермя старой поездки полностью находиться в новой поезде)
     RETURN flag = 0;
@@ -49,9 +48,8 @@ END GetDriverWorkedHours;
     SELECT COUNT(*)
     INTO flag
     FROM trip_request tr
-    JOIN trip t ON tr.id = t.trip_request_id
-    WHERE t.transport_id = p_transport_id
-      AND (p_start_time BETWEEN tr.start_datetime AND tr.end_datetime
+    JOIN trip t ON tr.id = t.trip_request_id and  t.transport_id = p_transport_id
+    WHERE (p_start_time BETWEEN tr.start_datetime AND tr.end_datetime
         OR p_end_time BETWEEN tr.start_datetime AND tr.end_datetime)
         OR (p_start_time <= tr.start_datetime AND p_end_time >= tr.end_datetime);
     RETURN flag = 0;

@@ -101,7 +101,7 @@ try
 'FROM trip_request tr ' +
 'LEFT JOIN vehicle_type vh ON tr.required_vehicle_type_id = vh.id ' +
 'join status s on tr.status_id = s.id and s.id = 1 ' +
-'ORDER BY creation_date';
+'ORDER BY creation_date, start_datetime';
 
   FQuery.Open;
   except

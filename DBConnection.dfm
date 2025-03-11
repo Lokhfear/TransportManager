@@ -140,30 +140,20 @@ object DBConnect: TDBConnect
     Top = 304
   end
   object AvaibleDriverQuery: TFDQuery
+    Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT '
-      '    id, '
-      '    full_name, '
-      '    employment_start'
-      'FROM '
-      '    driver d'
-      'JOIN '
-      '    driver_vehicle_type dvt ON d.id = dvt.driver_id'
-      'WHERE'
-      '    id NOT IN ('
-      '        SELECT'
-      '            driver_id'
-      '        FROM'
-      '            trip t'
-      '        JOIN '
-      '            trip_request tr ON t.trip_request_id = tr.id'
-      '            AND tr.status = '#39#1042' '#1087#1088#1086#1094#1077#1089#1089#1077#39
-      '    )'
-      'GROUP BY '
-      '    id, full_name, employment_start'
-      'ORDER BY '
-      '    full_name')
+      'SELECT'
+      '    id,'
+      '    full_name,'
+      '    employment_start,'
+      
+        '    availabilitychecker.getdriverworkedhours(id, SYSDATE)as work' +
+        'ed_hours'
+      'FROM'
+      '         driver d'
+      '    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id'
+      'order by worked_hours ')
     Left = 288
     Top = 192
   end

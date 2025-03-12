@@ -224,7 +224,7 @@ object DBConnect: TDBConnect
     Connection = FDConnection1
     UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
     SQL.Strings = (
-      'SELECT id, type_name as "'#1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072'"'
+      'SELECT id, type_name '
       'FROM vehicle_type')
     Left = 560
     Top = 32

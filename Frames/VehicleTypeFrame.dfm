@@ -54,7 +54,8 @@ object VehicleTypeFr: TVehicleTypeFr
         end
         item
           Expanded = False
-          FieldName = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+          FieldName = 'TYPE_NAME'
+          Title.Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
           Visible = True
         end>
     end
@@ -80,7 +81,6 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
-    OnClick = EditGroupBoxClick
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
       Left = 19
@@ -131,6 +131,7 @@ object VehicleTypeFr: TVehicleTypeFr
         Height = 21
         TabOrder = 0
         TextHint = #1051#1077#1075#1082#1086#1074#1086#1081
+        OnChange = VehicleTypeSearchEditChange
       end
     end
     object ManipulationGroupBox: TGroupBox

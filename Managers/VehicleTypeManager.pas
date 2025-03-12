@@ -13,7 +13,7 @@ type
     procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
     procedure Update(AID: integer; NewTypeName: String);
     procedure Add(typeName: String);
-    procedure Search(SearchID: Integer; SearchTypeName : string);
+    procedure SearchByTypeName(SearchTypeName : string);
   private
   end;
 
@@ -55,7 +55,7 @@ procedure TVehicleTypeManager.LoadAll;
 begin
 try
   FQuery.SQL.Text := 'SELECT ' +
-    'id, type_name as "Тип транспорта" ' +
+    'id, type_name ' +
     'FROM vehicle_type';
   FQuery.Open;
 except
@@ -79,14 +79,14 @@ except
 end;
 end;
 
-procedure TVehicleTypeManager.Search(SearchID: integer; SearchTypeName: string);
+procedure TVehicleTypeManager.SearchByTypeName(SearchTypeName: string);
 begin
   FQuery.Filtered := False;
 
-  FQuery.Filter := Format(
-    '(id = %d) and (Тип транспорта LIKE ''%%%s%%'')',
-    [SearchID, LowerCase(SearchTypeName)]
-  );
+  if SearchTypeName = '' then
+    Exit
+  else
+   FQuery.Filter := Format('type_name LIKE ''%%%s%%''', [SearchTypeName]);
 
   FQuery.Filtered := True;
 end;

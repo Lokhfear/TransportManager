@@ -5,7 +5,8 @@ SELECT
     availabilitychecker.getdriverworkedhours(id, :workDate) as worked_hours
 FROM
          driver d
-    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id
+    JOIN driver_license dl ON d.id = dl.driver_id
+    JOIN vehilce_type vt ON dl.license_category_id = vt.required_license_id 
                                     AND dvt.vehicle_type_id = :requeredVehicleTypeId
 WHERE
     availabilitychecker.isdriverfree(id, :startDateTime, :endDateTime);

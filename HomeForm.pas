@@ -63,7 +63,7 @@ begin
   TransportFrame.Parent := transportPage;
   DriverFrame.Parent := driverPage;
   PendingTriptRequestFrame.Parent := PendingRequestPage;
-  TripRequestFrame.Parent := TripRequestFrame;
+  TripRequestFrame.Parent := AllRequestPage;   //?
   VehicleTypeFrame.Parent := VehicleTypePage;
 
 end;

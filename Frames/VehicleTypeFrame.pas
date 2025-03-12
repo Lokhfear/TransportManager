@@ -26,16 +26,13 @@ type
     VehicleTypeSearchLabel: TLabel;
     procedure DeleteButtonClick(Sender: TObject);
     procedure CreateButtonClick(Sender: TObject);
-//    procedure SelectedVehicleTypeEditChange(Sender: TObject);
-//   procedure selectedIdEditChange(Sender: TObject);
 
-//    procedure searchByParam();
     procedure DBGrid5CellClick(Column: TColumn);
     procedure CongfirmButtonClick(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
-    procedure EditGroupBoxClick(Sender: TObject);
     procedure ReloadData();
     procedure clearData();
+    procedure VehicleTypeSearchEditChange(Sender: TObject);
   private
     ManagerCRUD: TVehicleTypeManager;
     selectedId: Integer;
@@ -124,16 +121,6 @@ begin
   inherited;
 end;
 
-procedure TVehicleTypeFr.EditGroupBoxClick(Sender: TObject);
-begin
-
-end;
-
-{procedure TVehicleTypeFr.selectedIdEditChange(Sender: TObject);
-begin
-  searchByParam();
-  end;
-  }
 procedure TVehicleTypeFr.LoadButtonClick(Sender: TObject);
 begin
 ManagerCRUD.LoadAll;
@@ -146,20 +133,9 @@ begin
   ManagerCRUD.LoadAll;
 end;
 
-{procedure TVehicleTypeFr.SelectedVehicleTypeEditChange(Sender: TObject);
+procedure TVehicleTypeFr.VehicleTypeSearchEditChange(Sender: TObject);
 begin
-  searchByParam();
-  end;
-  }
-{procedure TVehicleTypeFr.searchByParam();
-var
-  SearchID: Integer;
-  begin
-    if (SelectedVehicleTypeEdit.Text = '') and (idSearchEdit.Text = '') then
-        ManagerCRUD.DisableFilter;
-
-          if TryStrToInt(idSearchEdit.Text, SearchID) then
-              ManagerCRUD.Search(SearchID, SelectedVehicleTypeEdit.Text)
-              end;}
+ManagerCRUD.SearchByTypeName(VehicleTypeSearchEdit.Text);
+end;
 
 end.

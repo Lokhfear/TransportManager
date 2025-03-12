@@ -30,7 +30,7 @@ object Form1: TForm1
         Top = 0
         Width = 804
         Height = 514
-        ActivePage = PendingRequestPage
+        ActivePage = AllRequestPage
         Align = alClient
         MultiLine = True
         TabOrder = 0
@@ -41,10 +41,6 @@ object Form1: TForm1
         object AllRequestPage: TTabSheet
           Caption = #1042#1089#1077' '#1079#1072#1087#1088#1086#1089#1099
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end

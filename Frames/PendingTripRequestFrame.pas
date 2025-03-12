@@ -21,10 +21,10 @@ type
     DriverGrid: TDBGrid;
     DriverDBLookupComboBox: TDBLookupComboBox;
     TransportDBLookupComboBox: TDBLookupComboBox;
-    RequestIdDBEdit: TDBEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    RequestIdDBEdit: TEdit;
     procedure ReloadData();
     procedure PendingRequestDBGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);

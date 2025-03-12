@@ -148,14 +148,11 @@ object PendingTripRequestFr: TPendingTripRequestFr
         ListSource = DBConnect.AvaibleTransportDataSource
         TabOrder = 2
       end
-      object RequestIdDBEdit: TDBEdit
+      object RequestIdDBEdit: TEdit
         Left = 50
         Top = 44
         Width = 145
-        Height = 21
-        DataField = 'ID'
-        DataSource = DBConnect.tripRequestDataSource
-        ReadOnly = True
+        Height = 20
         TabOrder = 3
       end
     end

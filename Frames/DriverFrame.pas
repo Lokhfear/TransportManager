@@ -36,6 +36,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
+    DBGrid1: TDBGrid;
     procedure DeleteButtonClick(Sender: TObject);
     procedure driverGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);

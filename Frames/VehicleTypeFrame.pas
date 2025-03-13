@@ -24,6 +24,8 @@ type
     VehicleTypeSearchEdit: TEdit;
     LoadButton: TButton;
     VehicleTypeSearchLabel: TLabel;
+    Edit1: TEdit;
+    Label1: TLabel;
     procedure DeleteButtonClick(Sender: TObject);
     procedure CreateButtonClick(Sender: TObject);
 
@@ -65,7 +67,7 @@ end;
 procedure TVehicleTypeFr.DBGrid5CellClick(Column: TColumn);
 begin
   selectedTypeName := DBGrid5.DataSource.DataSet.FieldByName
-    ('Тип транспорта').AsString;
+    ('type_name').AsString;
   selectedId := DBGrid5.DataSource.DataSet.FieldByName('id').AsInteger;
 
   SelectedVehicleTypeEdit.Text := selectedTypeName;

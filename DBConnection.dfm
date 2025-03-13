@@ -224,9 +224,26 @@ object DBConnect: TDBConnect
     Connection = FDConnection1
     UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
     SQL.Strings = (
-      'SELECT id, type_name '
-      'FROM vehicle_type')
+      'SELECT vt.id, type_name, category_name as license_category'
+      
+        'FROM vehicle_type vt join license_category lc on vt.required_lic' +
+        'ense_id = lc.id'
+      'order by category_name ')
     Left = 560
     Top = 32
+  end
+  object licenseCategoryQuery: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
+    SQL.Strings = (
+      'select * from license_category')
+    Left = 48
+    Top = 376
+  end
+  object licenseCategoryDataSource: TDataSource
+    DataSet = licenseCategoryQuery
+    Left = 136
+    Top = 384
   end
 end

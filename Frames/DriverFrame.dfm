@@ -58,6 +58,27 @@ object DriverFr: TDriverFr
           Visible = True
         end>
     end
+    object DBGrid1: TDBGrid
+      Left = 168
+      Top = 40
+      Width = 489
+      Height = 192
+      DataSource = DBConnect.licenseCategoryDataSource
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          PickList.Strings = (
+            'dsfsf'
+            'asdfasdf')
+          Visible = True
+        end>
+    end
   end
   object UpperPanel: TPanel
     Left = 0

@@ -12,18 +12,19 @@ type
     procedure LoadAll;
     procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
     procedure Update(AID: integer; NewTypeName: String);
-    procedure Add(typeName: String);
+    procedure Add(typeName: String; requiredLicenseId : Integer);
     procedure SearchByTypeName(SearchTypeName : string);
   private
   end;
 
 implementation
 
-procedure TVehicleTypeManager.Add(typeName: String);
+procedure TVehicleTypeManager.Add(typeName: String; requiredLicenseId : Integer);
 begin
 try
-  FQuery.SQL.Text := 'INSERT INTO vehicle_type (type_name) VALUES (:typeName)';
+  FQuery.SQL.Text := 'INSERT INTO vehicle_type (type_name, required_license_id) VALUES (:typeName, :requiredLicenseId)';
   FQuery.ParamByName('typeName').AsString := typeName;
+  FQuery.ParamByName('requiredLicenseId').AsInteger := requiredLicenseId;
   FQuery.ExecSQL;
 
   LoadAll;
@@ -55,8 +56,9 @@ procedure TVehicleTypeManager.LoadAll;
 begin
 try
   FQuery.SQL.Text := 'SELECT ' +
-    'id, type_name ' +
-    'FROM vehicle_type';
+    'vt.id, type_name, category_name as license_category ' +
+    'FROM vehicle_type vt JOIN license_category lc on vt.required_license_id = lc.id ' +
+    'order by category_name ';
   FQuery.Open;
 except
   on E: Exception do

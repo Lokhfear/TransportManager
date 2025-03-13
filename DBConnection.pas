@@ -29,6 +29,8 @@ type
     AvaibleDriverDataSource: TDataSource;
     CheckListBoxQuery: TFDQuery;
     vehicleType: TFDQuery;
+    licenseCategoryQuery: TFDQuery;
+    licenseCategoryDataSource: TDataSource;
   private
     { Private declarations }
   public

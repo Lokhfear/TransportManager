@@ -4,7 +4,7 @@ object CreateVhicleType: TCreateVhicleType
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = #1057#1086#1079#1076#1072#1090#1100' '#1085#1086#1074#1099#1081' '#1090#1080#1087' '#1090#1088#1072#1089#1087#1086#1088#1090#1072
-  ClientHeight = 161
+  ClientHeight = 156
   ClientWidth = 456
   Color = clWhite
   Constraints.MinHeight = 180
@@ -18,19 +18,26 @@ object CreateVhicleType: TCreateVhicleType
   Position = poDesktopCenter
   DesignSize = (
     456
-    161)
+    156)
   PixelsPerInch = 96
   TextHeight = 13
   object TypeNameLabel: TLabel
     Left = 24
-    Top = 24
+    Top = 27
     Width = 135
     Height = 13
     Caption = #1053#1072#1079#1074#1072#1085#1080#1077' '#1090#1080#1087#1072' '#1090#1088#1072#1089#1087#1086#1088#1090#1072':'
   end
+  object Label1: TLabel
+    Left = 24
+    Top = 72
+    Width = 152
+    Height = 13
+    Caption = #1058#1088#1077#1073#1091#1077#1084#1072#1103' '#1082#1072#1090#1077#1075#1088#1075#1086#1088#1080#1103' '#1087#1088#1072#1074':'
+  end
   object CancelButton: TButton
     Left = 173
-    Top = 104
+    Top = 123
     Width = 117
     Height = 25
     Anchors = [akLeft, akTop, akRight, akBottom]
@@ -41,7 +48,7 @@ object CreateVhicleType: TCreateVhicleType
   end
   object CreateButton: TButton
     Left = 312
-    Top = 104
+    Top = 123
     Width = 117
     Height = 25
     Anchors = [akLeft, akTop, akRight, akBottom]
@@ -53,9 +60,9 @@ object CreateVhicleType: TCreateVhicleType
   end
   object typeNameEdit: TEdit
     AlignWithMargins = True
-    Left = 24
-    Top = 44
-    Width = 405
+    Left = 208
+    Top = 24
+    Width = 221
     Height = 25
     Margins.Left = 4
     Margins.Top = 4
@@ -67,5 +74,15 @@ object CreateVhicleType: TCreateVhicleType
     ParentCtl3D = False
     TabOrder = 2
     TextHint = #1042#1074#1077#1076#1080#1090#1077' '#1090#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
+  end
+  object LicenseCategoryComboBox: TDBLookupComboBox
+    Left = 208
+    Top = 72
+    Width = 221
+    Height = 21
+    KeyField = 'ID'
+    ListField = 'CATEGORY_NAME'
+    ListSource = DBConnect.licenseCategoryDataSource
+    TabOrder = 3
   end
 end

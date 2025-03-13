@@ -55,7 +55,13 @@ object VehicleTypeFr: TVehicleTypeFr
         item
           Expanded = False
           FieldName = 'TYPE_NAME'
-          Title.Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+          Title.Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'LICENSE_CATEGORY'
+          Title.Caption = #1058#1088#1077#1073#1091#1077#1084#1099#1077' '#1087#1088#1072#1074#1072
           Visible = True
         end>
     end
@@ -81,6 +87,7 @@ object VehicleTypeFr: TVehicleTypeFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 1
+    ExplicitLeft = -3
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
       Left = 19
@@ -94,7 +101,6 @@ object VehicleTypeFr: TVehicleTypeFr
       Align = alLeft
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
-      ExplicitLeft = 261
       ExplicitHeight = 24
     end
   end
@@ -117,12 +123,20 @@ object VehicleTypeFr: TVehicleTypeFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 0
+      ExplicitTop = -4
       object VehicleTypeSearchLabel: TLabel
         Left = 18
         Top = 25
-        Width = 80
+        Width = 84
         Height = 13
-        Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+        Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072':'
+      end
+      object Label1: TLabel
+        Left = 266
+        Top = 20
+        Width = 93
+        Height = 13
+        Caption = #1058#1088#1077#1073#1091#1077#1084#1099#1077' '#1087#1088#1072#1074#1072':'
       end
       object VehicleTypeSearchEdit: TEdit
         Left = 18
@@ -130,6 +144,15 @@ object VehicleTypeFr: TVehicleTypeFr
         Width = 213
         Height = 21
         TabOrder = 0
+        TextHint = #1051#1077#1075#1082#1086#1074#1086#1081
+        OnChange = VehicleTypeSearchEditChange
+      end
+      object Edit1: TEdit
+        Left = 266
+        Top = 44
+        Width = 213
+        Height = 21
+        TabOrder = 1
         TextHint = #1051#1077#1075#1082#1086#1074#1086#1081
         OnChange = VehicleTypeSearchEditChange
       end

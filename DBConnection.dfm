@@ -191,7 +191,7 @@ object DBConnect: TDBConnect
     Left = 352
     Top = 192
   end
-  object CheckListBoxQuery: TFDQuery
+  object DriverLicensesQuery: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
       'SELECT '
@@ -245,5 +245,10 @@ object DBConnect: TDBConnect
     DataSet = licenseCategoryQuery
     Left = 136
     Top = 384
+  end
+  object DriverLicensesDataSource: TDataSource
+    DataSet = vehicleType
+    Left = 544
+    Top = 136
   end
 end

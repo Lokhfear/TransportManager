@@ -3,7 +3,7 @@ unit DriverFrame;
 interface
 
 uses
-  DBConnection, DriverManager, CreateDriverModal, DriverVehicleTypeCheckManager, Data.DB, FireDAC.Comp.Client,
+  DBConnection, DriverLicensesFrame, DriverManager, CreateDriverModal, DriverVehicleTypeCheckManager, Data.DB, FireDAC.Comp.Client,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids,
@@ -26,7 +26,6 @@ type
     Edit2: TEdit;
     Edit3: TEdit;
     Edit4: TEdit;
-    VehicleTypeCheckListBox: TCheckListBox;
     EditGroupbox: TGroupBox;
     SelectedVehicleTypesEdit: TEdit;
     SelectedEmploymentStartEdit: TEdit;
@@ -36,7 +35,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    DBGrid1: TDBGrid;
+    DriverLicensesPanel: TPanel;
     procedure DeleteButtonClick(Sender: TObject);
     procedure driverGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);
@@ -47,7 +46,7 @@ type
     procedure ReloadData();
     procedure ClearSelectedData;
   private
-
+    DriverLicensesFrame: TDriverLicensesFr;
     SelectedAssignedVehicleTypes: TList<Integer>;
 
     CheckListBoxManager: VehicleTypesCheckBoxListManager;
@@ -79,11 +78,13 @@ begin
   inherited Create(Owner);
   ManagerCRUD := TDriverManager.Create(Query);
   ManagerCRUD.LoadAll;
-  CheckListBoxManager := VehicleTypesCheckBoxListManager.Create(CheckListBoxQuery, VehicleTypeCheckListBox);
 
-  SelectedAssignedVehicleTypes := TList<Integer>.Create;
+  DriverLicensesFrame := TDriverLicensesFr.Create(Self, ManagerCRUD);
+  DriverLicensesFrame.Parent := DriverLicensesPanel;
+  DriverLicensesFrame.DriverLicenseStringGrid.ColWidths[0] := 0;
+  DriverLicensesFrame.align := alClient;
+  DriverLicensesFrame.ResizeColums(DriverLicensesPanel.Width);
 
-  CheckListBoxManager.LoadVehicleTypes;
 end;
 
 procedure TDriverFr.CreateButtonClick(Sender: TObject);
@@ -91,12 +92,11 @@ var
   CreateDriverForm: TCreateDriver;
 begin
 try
-    CreateDriverForm := TCreateDriver.Create(Self, ManagerCRUD, CheckListBoxManager);
+    CreateDriverForm := TCreateDriver.Create(Self, ManagerCRUD);
     CreateDriverForm.ShowModal();
     ManagerCRUD.LoadAll;
 
 finally
-      CheckListBoxManager.AssignCheckListBox(VehicleTypeCheckListBox);
       CreateDriverForm.Free;
   end;
 end;

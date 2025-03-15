@@ -291,6 +291,7 @@ object TransportFr: TTransportFr
       Time = 0.840898888891388200
       Enabled = False
       TabOrder = 2
+      ExplicitTop = 17
     end
     object SelectedNumberPlateEdit: TEdit
       AlignWithMargins = True

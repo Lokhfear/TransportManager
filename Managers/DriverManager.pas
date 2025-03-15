@@ -22,6 +22,13 @@ type
     procedure UpdateDriverVehicleTypes(DriverID: integer;
       OldVehicleTypes, NewVehicleTypes: TList<integer>);
     procedure AddDriverVehicleType(DriverID, VehicleTypeId: integer);
+    procedure AddDriverLicenses(
+  DriverID: Integer;
+  LicenseCategoryIDs: TArray<Integer>;
+  IssueDates: TArray<TDate>;
+  ExpirationDates: TArray<TDate>
+);
+
     procedure DeleteDriverVehicleType(DriverID, VehicleTypeId: integer);
 
   end;
@@ -227,6 +234,55 @@ begin
   end;
 end;
 
+
+
+procedure TDriverManager.AddDriverLicenses(
+  DriverID: Integer;
+  LicenseCategoryIDs: TArray<Integer>;
+  IssueDates: TArray<TDate>;
+  ExpirationDates: TArray<TDate>
+);
+var
+  i: Integer;
+begin
+  if (DriverID = -1) or
+     (Length(LicenseCategoryIDs) <> Length(IssueDates)) or
+     (Length(LicenseCategoryIDs) <> Length(ExpirationDates)) then
+  begin
+    raise Exception.Create('Ќесоответствие размеров массивов входных данных или пустой DriverID.');
+  end;
+
+  ShowMessage(IntToStr(DriverID) + ' '+ IntToStr(LicenseCategoryIDs[1]));
+
+  FQuery.SQL.Text :=
+    'INSERT INTO driver_license (driver_id, license_category_id, issue_date, expiration_date) ' +
+    'VALUES (:DriverID, :CategoryID, :IssueDate, :ExpirationDate)';
+
+  try
+
+    for i := 0 to High(LicenseCategoryIDs) do
+    begin
+      FQuery.ParamByName('DriverID').AsInteger := DriverID;
+      FQuery.ParamByName('CategoryID').AsInteger := LicenseCategoryIDs[i];
+      FQuery.ParamByName('IssueDate').AsDate := IssueDates[i];
+      FQuery.ParamByName('ExpirationDate').AsDate := ExpirationDates[i];
+
+
+      FQuery.ExecSQL;
+    end;
+
+
+  except
+    on E: Exception do
+    begin
+      ShowMessage('ќшибка при добавлении водительских прав: ' + E.Message);
+    end;
+  end;
+end;
+
+
+
+
 procedure TDriverManager.UpdateDriverVehicleTypes(DriverID: integer;
   OldVehicleTypes, NewVehicleTypes: TList<integer>);
 var
@@ -235,24 +291,6 @@ var
 begin
 
   try
-    // находим типы машин на удаление
-    for i := 0 to OldVehicleTypes.Count - 1 do
-    begin
-      VehicleTypeId := OldVehicleTypes[i];
-      if NewVehicleTypes.IndexOf(VehicleTypeId) = -1 then
-        DeleteDriverVehicleType(DriverID, VehicleTypeId);
-
-    end;
-
-    // находим типы машин на добавление
-    for i := 0 to NewVehicleTypes.Count - 1 do
-    begin
-
-      VehicleTypeId := NewVehicleTypes[i];
-      if OldVehicleTypes.IndexOf(VehicleTypeId) = -1 then
-        AddDriverVehicleType(DriverID, VehicleTypeId);
-
-    end;
 
     LoadAll
   except

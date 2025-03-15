@@ -1,0 +1,92 @@
+unit CreateDriverModal;
+
+interface
+
+uses
+  DBConnection, DriverLicensesFrame, DriverManager, DriverVehicleTypeCheckManager,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.DBCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.CheckLst, Vcl.ComCtrls,
+  System.Generics.Collections,
+  Datasnap.DBClient, Vcl.Mask, Vcl.ExtCtrls;
+
+type
+  TCreateDriver = class(TForm)
+    FullNameCreateEdit: TEdit;
+    employmentStartDatePicker: TDateTimePicker;
+    FullNameLabel: TLabel;
+    EmploymentStartDateLabel: TLabel;
+    CreateButton: TButton;
+    CancelButton: TButton;
+    VehicleTypesLabel: TLabel;
+    DriverLicensesPanel: TPanel;
+    procedure CreateButtonClick(Sender: TObject);
+
+
+  private
+    ManagerCRUD: TDriverManager;
+    DriverLicensesFrame: TDriverLicensesFr;
+
+ 
+
+    { Private declarations }
+  public
+    constructor Create(AOwner: TComponent; AManagerCRUD: TDriverManager);
+
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+constructor TCreateDriver.Create(AOwner: TComponent;
+  AManagerCRUD: TDriverManager);
+begin
+  inherited Create(AOwner);
+  ManagerCRUD := AManagerCRUD;
+
+  DriverLicensesFrame := TDriverLicensesFr.Create(Self, AManagerCRUD);
+  DriverLicensesFrame.Parent := DriverLicensesPanel;
+  DriverLicensesFrame.Align := alClient;
+  DriverLicensesFrame.ResizeColums(DriverLicensesPanel.Width);
+end;
+
+procedure TCreateDriver.CreateButtonClick(Sender: TObject);
+var
+  createdId: Integer;
+begin
+
+ DriverLicensesFrame.GetDriverLicensesFromGrid(DriverLicensesFrame.NewDriverLicenseData);
+      ShowMessage(high(DriverLicensesFrame.NewDriverLicenseData.IssueDates).ToString +
+       DateToStr(DriverLicensesFrame.NewDriverLicenseData.IssueDates[high(DriverLicensesFrame.NewDriverLicenseData.IssueDates)]));
+  try
+    if FullNameCreateEdit.Text <> '' then
+    begin
+      createdId := ManagerCRUD.Add(FullNameCreateEdit.Text,
+        employmentStartDatePicker.Date);
+
+           ShowMessage(IntToStr(createdId));
+
+      ManagerCRUD.AddDriverLicenses(createdId,
+        DriverLicensesFrame.NewDriverLicenseData.LicenseCategoryIDs,
+        DriverLicensesFrame.NewDriverLicenseData.IssueDates,
+        DriverLicensesFrame.NewDriverLicenseData.ExpirationDates);
+    end
+    else
+    begin
+      ShowMessage('Пожалуйста, укажите ФИО водителя.');
+    end;
+  except
+    on E: Exception do
+
+      ShowMessage('Ошибка при создании водителя или добавлении лицензий: ' + E.Message);
+    end;
+  end;
+
+
+
+
+
+end.

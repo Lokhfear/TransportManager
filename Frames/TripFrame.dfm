@@ -209,6 +209,7 @@ object TripFr: TTripFr
         TabOrder = 6
         Text = ''
         OnExit = SelectedStartDateTimeEditExit
+        ExplicitTop = 14
       end
       object SelectedEndDateTimeEdit: TMaskEdit
         AlignWithMargins = True

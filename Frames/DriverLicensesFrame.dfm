@@ -14,7 +14,6 @@ object DriverLicensesFr: TDriverLicensesFr
     Height = 200
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 300
     object DriverLicenseStringGrid: TStringGrid
       Left = 1
       Top = 58
@@ -25,8 +24,6 @@ object DriverLicensesFr: TDriverLicensesFr
       RowCount = 3
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 57
     end
     object BottonPanel: TPanel
       Left = 1
@@ -35,9 +32,6 @@ object DriverLicensesFr: TDriverLicensesFr
       Height = 25
       Align = alTop
       TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = 7
-      ExplicitWidth = 246
       object EditButton: TButton
         AlignWithMargins = True
         Left = 3
@@ -52,7 +46,6 @@ object DriverLicensesFr: TDriverLicensesFr
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100
         TabOrder = 0
         OnClick = EditButtonClick
-        ExplicitTop = 4
       end
       object addButton: TButton
         AlignWithMargins = True
@@ -68,7 +61,6 @@ object DriverLicensesFr: TDriverLicensesFr
         Caption = #1044#1086#1073#1072#1074#1080#1090#1100
         TabOrder = 1
         OnClick = addButtonClick
-        ExplicitTop = 4
       end
       object DeleteButton: TButton
         AlignWithMargins = True
@@ -84,7 +76,6 @@ object DriverLicensesFr: TDriverLicensesFr
         Caption = #1059#1076#1072#1083#1080#1090#1100
         TabOrder = 2
         OnClick = DeleteButtonClick
-        ExplicitTop = 4
       end
     end
     object EditPanel: TPanel
@@ -97,8 +88,6 @@ object DriverLicensesFr: TDriverLicensesFr
       Margins.Right = 0
       Align = alTop
       TabOrder = 2
-      ExplicitLeft = 4
-      ExplicitTop = 58
       object LicenseCategoryComboBox: TDBLookupComboBox
         AlignWithMargins = True
         Left = 9
@@ -132,7 +121,7 @@ object DriverLicensesFr: TDriverLicensesFr
         MaxLength = 10
         TabOrder = 1
         Text = '  .  .    '
-        ExplicitTop = 0
+        ExplicitTop = 2
       end
       object expirationDateEditMask: TMaskEdit
         AlignWithMargins = True

@@ -81,24 +81,19 @@ object DBConnect: TDBConnect
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT'
-      '    d.id,'
-      '    d.full_name,'
+      'SELECT '
+      '    d.id, '
+      '    d.full_name, '
       '    d.employment_start,'
-      '    LISTAGG(vt.type_name, '#39', '#39') WITHIN GROUP('
-      '    ORDER BY'
-      '        vt.type_name'
-      '    )                  AS vehicle_types'
-      'FROM'
-      '         driver d'
-      '    JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id'
-      '    JOIN vehicle_type        vt ON dvt.vehicle_type_id = vt.id'
-      'GROUP BY'
-      '    d.id,'
-      '    d.full_name,'
-      '    d.employment_start'
-      'ORDER BY'
-      '    d.full_name')
+      '    d.employment_end,'
+      
+        '    LISTAGG(lc.category_name, '#39', '#39') WITHIN GROUP (ORDER BY lc.ca' +
+        'tegory_name) AS license_categories'
+      'FROM driver d'
+      'LEFT JOIN driver_license dl ON d.id = dl.driver_id'
+      'LEFT JOIN license_category lc ON dl.license_category_id = lc.id'
+      'GROUP BY d.id, d.full_name, d.employment_start, d.employment_end'
+      'ORDER BY d.full_name')
     Left = 56
     Top = 248
   end
@@ -192,30 +187,16 @@ object DBConnect: TDBConnect
     Top = 192
   end
   object DriverLicensesQuery: TFDQuery
+    Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT '
-      '    id, '
-      '    full_name, '
-      '    employment_start'
-      'FROM '
-      '    driver d'
-      'JOIN '
-      '    driver_vehicle_type dvt ON d.id = dvt.driver_id'
-      'WHERE'
-      '    id NOT IN ('
-      '        SELECT'
-      '            driver_id'
-      '        FROM'
-      '            trip t'
-      '        JOIN '
-      '            trip_request tr ON t.trip_request_id = tr.id'
-      '            AND tr.status = '#39#1042' '#1087#1088#1086#1094#1077#1089#1089#1077#39
-      '    )'
-      'GROUP BY '
-      '    id, full_name, employment_start'
-      'ORDER BY '
-      '    full_name')
+      
+        'SELECT driver_id, license_category_id, issue_date, expiration_da' +
+        'te'
+      
+        'from driver_license dl join license_category lc on dl.license_ca' +
+        'tegory_id = lc.id'
+      'order by dl.driver_id, lc.category_name')
     Left = 496
     Top = 136
   end
@@ -248,7 +229,7 @@ object DBConnect: TDBConnect
   end
   object DriverLicensesDataSource: TDataSource
     DataSet = vehicleType
-    Left = 544
+    Left = 560
     Top = 136
   end
 end

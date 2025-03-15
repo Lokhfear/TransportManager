@@ -3,7 +3,7 @@ unit DriverLicensesFrame;
 interface
 
 uses
-  DriverManager,
+  DriverManager,  FireDAC.Comp.Client,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
@@ -35,8 +35,10 @@ type
     procedure DeleteButtonClick(Sender: TObject);
     procedure ClearData();
     procedure GetDriverLicensesFromGrid(var Data: TDriverLicenseData);
+    procedure LoadDriverLicenses(DriverID: Integer);
   private
     ManagerCrud: TDriverManager;
+    FQuery: TFDQuery;
 
     procedure AddRowToStringGrid(category: String;
       issueDate, expirationDate: TDate; categoryId: Integer);
@@ -49,7 +51,7 @@ type
     NewDriverLicenseData: TDriverLicenseData;
 
     procedure ResizeColums(TotalWith: Integer);
-    constructor Create(TOwner: TComponent; TManagerCRUD: TDriverManager);
+    constructor Create(TOwner: TComponent; TManagerCRUD: TDriverManager; AQuery: TFDQuery);
   end;
 
 implementation
@@ -57,11 +59,13 @@ implementation
 {$R *.dfm}
 
 constructor TDriverLicensesFr.Create(TOwner: TComponent;
-  TManagerCRUD: TDriverManager);
+  TManagerCRUD: TDriverManager; AQuery: TFDQuery);
 var
   TotalWidth: Integer;
 begin
   inherited Create(TOwner);
+
+  FQuery:= AQuery;
 
   OldDriverLicenseData := TDriverLicenseData.Create;
   NewDriverLicenseData := TDriverLicenseData.Create;
@@ -244,5 +248,45 @@ begin
     end;
   end;
 end;
+
+
+
+
+
+ procedure TDriverLicensesFr.LoadDriverLicenses(DriverID: Integer);
+var
+  RowIndex: Integer;
+begin
+  if DriverID = -1 then Exit;
+
+  DriverLicenseStringGrid.RowCount := 1; // Очистка грида
+
+  FQuery.Close;
+  FQuery.SQL.Text :=
+    'SELECT dl.license_category_id, lc.category_name, dl.issue_date, dl.expiration_date ' +
+    'FROM driver_license dl ' +
+    'JOIN license_category lc ON dl.license_category_id = lc.id ' +
+    'WHERE dl.driver_id = :DriverID ' +
+    'ORDER BY lc.category_name';
+
+  FQuery.ParamByName('DriverID').AsInteger := DriverID;
+  FQuery.Open;
+
+  while not FQuery.Eof do
+  begin
+    RowIndex := DriverLicenseStringGrid.RowCount;
+    DriverLicenseStringGrid.RowCount := RowIndex + 1;
+
+    DriverLicenseStringGrid.Cells[0, RowIndex] := FQuery.FieldByName('category_name').AsString;
+    DriverLicenseStringGrid.Cells[1, RowIndex] := DateToStr(FQuery.FieldByName('issue_date').AsDateTime);
+    DriverLicenseStringGrid.Cells[2, RowIndex] := DateToStr(FQuery.FieldByName('expiration_date').AsDateTime);
+    DriverLicenseStringGrid.Cells[3, RowIndex] := FQuery.FieldByName('license_category_id').AsString;
+
+    FQuery.Next;
+  end;
+end;
+
+
+
 
 end.

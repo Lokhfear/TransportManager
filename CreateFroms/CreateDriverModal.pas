@@ -3,7 +3,7 @@ unit CreateDriverModal;
 interface
 
 uses
-  DBConnection, DriverLicensesFrame, DriverManager, DriverVehicleTypeCheckManager,
+  DBConnection,  FireDAC.Comp.Client, DriverLicensesFrame, DriverManager, DriverVehicleTypeCheckManager,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.DBCtrls, Data.DB,
@@ -32,7 +32,7 @@ type
 
     { Private declarations }
   public
-    constructor Create(AOwner: TComponent; AManagerCRUD: TDriverManager);
+    constructor Create(AOwner: TComponent; AManagerCRUD: TDriverManager; DriverLicensesQuery: TFDQuery);
 
     { Public declarations }
   end;
@@ -42,12 +42,12 @@ implementation
 {$R *.dfm}
 
 constructor TCreateDriver.Create(AOwner: TComponent;
-  AManagerCRUD: TDriverManager);
+  AManagerCRUD: TDriverManager; DriverLicensesQuery: TFDQuery);
 begin
   inherited Create(AOwner);
   ManagerCRUD := AManagerCRUD;
 
-  DriverLicensesFrame := TDriverLicensesFr.Create(Self, AManagerCRUD);
+  DriverLicensesFrame := TDriverLicensesFr.Create(Self, AManagerCRUD, DriverLicensesQuery);
   DriverLicensesFrame.Parent := DriverLicensesPanel;
   DriverLicensesFrame.Align := alClient;
   DriverLicensesFrame.ResizeColums(DriverLicensesPanel.Width);

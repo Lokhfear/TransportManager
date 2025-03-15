@@ -202,16 +202,22 @@ end;
 procedure TDriverManager.LoadAll;
 begin
   try
-    FQuery.SQL.Text := 'SELECT ' + 'd.id, ' + 'd.full_name, ' +
-      'd.employment_start, ' +
-      'LISTAGG(vt.type_name, '', '') WITHIN GROUP (ORDER BY vt.type_name) AS vehicle_types '
-      + 'FROM driver d ' +
-      'LEFT JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
-      'LEFT JOIN vehicle_type vt ON dvt.vehicle_type_id = vt.id ' +
-      'GROUP BY d.id, d.full_name, d.employment_start ' +
-      'ORDER BY d.full_name';
+     FQuery.SQL.Text :=
+
+    'SELECT ' +
+    'd.id, ' +
+    'd.full_name, ' +
+    'd.employment_start, ' +
+    'd.employment_end, ' +
+    'LISTAGG(lc.category_name, '', '') WITHIN GROUP (ORDER BY lc.category_name) AS license_categories ' +
+    'FROM driver d ' +
+    'LEFT JOIN driver_license dl ON d.id = dl.driver_id ' +
+    'LEFT JOIN license_category lc ON dl.license_category_id = lc.id ' +
+    'GROUP BY d.id, d.full_name, d.employment_start, d.employment_end ' +
+    'ORDER BY d.full_name';
 
     FQuery.Open;
+
   except
     on E: Exception do
       ShowMessage('Ошибка при загрузке данных водителей: ' + E.Message);
@@ -251,8 +257,6 @@ begin
   begin
     raise Exception.Create('Несоответствие размеров массивов входных данных или пустой DriverID.');
   end;
-
-  ShowMessage(IntToStr(DriverID) + ' '+ IntToStr(LicenseCategoryIDs[1]));
 
   FQuery.SQL.Text :=
     'INSERT INTO driver_license (driver_id, license_category_id, issue_date, expiration_date) ' +

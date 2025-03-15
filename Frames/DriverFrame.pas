@@ -27,15 +27,15 @@ type
     Edit3: TEdit;
     Edit4: TEdit;
     EditGroupbox: TGroupBox;
-    SelectedVehicleTypesEdit: TEdit;
-    SelectedEmploymentStartEdit: TEdit;
+    SelectedLicenseCategoriesEdit: TEdit;
     SelectedFullNameEdit: TEdit;
-    SelectedIdEdit: TEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     DriverLicensesPanel: TPanel;
+    SelectedEmploymentEndEdit: TMaskEdit;
+    SelectedEmploymentStartEdit: TMaskEdit;
     procedure DeleteButtonClick(Sender: TObject);
     procedure driverGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);
@@ -46,6 +46,9 @@ type
     procedure ReloadData();
     procedure ClearSelectedData;
   private
+    DriverLicensesQuery: TFDQuery;
+
+    selectedId: Integer;
     DriverLicensesFrame: TDriverLicensesFr;
     SelectedAssignedVehicleTypes: TList<Integer>;
 
@@ -55,7 +58,7 @@ type
 
 
   public
-    constructor Create(Owner: TComponent; Query, CheckListBoxQuery : TFDQuery);
+    constructor Create(Owner: TComponent; Query, DriverLicenses : TFDQuery);
     destructor Destroy;
     { Public declarations }
   end;
@@ -67,19 +70,21 @@ implementation
 
 procedure TDriverFr.ClearSelectedData;
 begin
-SelectedIdEdit.Clear;
 SelectedFullNameEdit.Clear;
 SelectedEmploymentStartEdit.Clear;
-SelectedVehicleTypesEdit.Clear;
+SelectedLicenseCategoriesEdit.Clear;
+selectedId := -1;
 end;
 
-constructor TDriverFr.Create(Owner: TComponent;  Query, CheckListBoxQuery : TFDQuery);
+constructor TDriverFr.Create(Owner: TComponent;  Query, DriverLicenses : TFDQuery);
 begin
   inherited Create(Owner);
+  DriverLicensesQuery:=  DriverLicenses;
+
   ManagerCRUD := TDriverManager.Create(Query);
   ManagerCRUD.LoadAll;
 
-  DriverLicensesFrame := TDriverLicensesFr.Create(Self, ManagerCRUD);
+  DriverLicensesFrame := TDriverLicensesFr.Create(Self, ManagerCRUD, DriverLicenses);
   DriverLicensesFrame.Parent := DriverLicensesPanel;
   DriverLicensesFrame.DriverLicenseStringGrid.ColWidths[0] := 0;
   DriverLicensesFrame.align := alClient;
@@ -92,7 +97,7 @@ var
   CreateDriverForm: TCreateDriver;
 begin
 try
-    CreateDriverForm := TCreateDriver.Create(Self, ManagerCRUD);
+    CreateDriverForm := TCreateDriver.Create(Self, ManagerCRUD, DriverLicensesQuery);
     CreateDriverForm.ShowModal();
     ManagerCRUD.LoadAll;
 
@@ -122,14 +127,14 @@ end;
 procedure TDriverFr.driverGridCellClick(Column: TColumn);
 begin
    SelectedFullNameEdit.Text := driverGrid.DataSource.DataSet.FieldByName('full_name').AsString;
-   SelectedIdEdit.Text := driverGrid.DataSource.DataSet.FieldByName('id').AsString;
-   SelectedVehicleTypesEdit.Text :=  driverGrid.DataSource.DataSet.FieldByName('vehicle_types').AsString;
+   selectedId := driverGrid.DataSource.DataSet.FieldByName('id').AsInteger;
+   SelectedLicenseCategoriesEdit.Text :=  driverGrid.DataSource.DataSet.FieldByName('license_categories').AsString;
    SelectedEmploymentStartEdit.Text :=  driverGrid.DataSource.DataSet.FieldByName('employment_start').AsString;
 
-  CheckListBoxManager.UpdateCheckedCategories(StrToInt(SelectedIdEdit.Text));
+   DriverLicensesFrame.LoadDriverLicenses(selectedId);
 
-  SelectedAssignedVehicleTypes.clear;
-  SelectedAssignedVehicleTypes :=  CheckListBoxManager.GetSelectedVehicleTypes();
+  //SelectedAssignedVehicleTypes.clear;
+  //SelectedAssignedVehicleTypes :=  CheckListBoxManager.GetSelectedVehicleTypes();
 end;
 
 procedure TDriverFr.FullNameCreateEditEnter(Sender: TObject);
@@ -152,18 +157,18 @@ end;
 
 procedure TDriverFr.ChangeButtonClick(Sender: TObject);
 begin
-  if (SelectedFullNameEdit.Text <> '') and (SelectedIdEdit.Text <> '') then
+  if (SelectedFullNameEdit.Text <> '') and (selectedId <> -1) then
     //if fullNameChangeEdit.Text <> SelectedFullName then
     begin
-      ManagerCRUD.Update(StrToInt(SelectedIdEdit.Text), SelectedFullNameEdit.Text);
-      ManagerCRUD.UpdateDriverVehicleTypes(StrToInt(SelectedIdEdit.Text),
+      ManagerCRUD.Update(selectedId, SelectedFullNameEdit.Text);
+      ManagerCRUD.UpdateDriverVehicleTypes(selectedId,
 	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
     end
     else
-      ManagerCRUD.UpdateDriverVehicleTypes(StrToInt(SelectedIdEdit.Text),
+      ManagerCRUD.UpdateDriverVehicleTypes(selectedId,
 	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
 
-  SelectedIdEdit.Text := '';
+  selectedId := -1;
   SelectedFullNameEdit.Text := '';
 
   CheckListBoxManager.LoadVehicleTypes;

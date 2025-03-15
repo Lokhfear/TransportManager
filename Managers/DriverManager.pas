@@ -21,15 +21,19 @@ type
    // procedure LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer) overload;
     procedure UpdateDriverVehicleTypes(DriverID: integer;
       OldVehicleTypes, NewVehicleTypes: TList<integer>);
-    procedure AddDriverVehicleType(DriverID, VehicleTypeId: integer);
+    //procedure AddDriverVehicleType(DriverID, VehicleTypeId: integer);
     procedure AddDriverLicenses(
-  DriverID: Integer;
-  LicenseCategoryIDs: TArray<Integer>;
-  IssueDates: TArray<TDate>;
-  ExpirationDates: TArray<TDate>
-);
+      DriverID: Integer;
+      LicenseCategoryIDs: TList<Integer>;
+      IssueDates: TList<TDate>;
+      ExpirationDates: TList<TDate>
+    );
 
-    procedure DeleteDriverVehicleType(DriverID, VehicleTypeId: integer);
+  procedure DeleteDriverLicenses(
+    DriverID: Integer;
+    LicenseCategoryIDs: TList<Integer>
+  );
+   // procedure DeleteDriverVehicleType(DriverID, VehicleTypeId: integer);
 
   end;
 
@@ -142,22 +146,6 @@ begin
   end;
 end;
 
-procedure TDriverManager.AddDriverVehicleType(DriverID, VehicleTypeId: integer);
-begin
-  try
-    FQuery.SQL.Text :=
-      'INSERT INTO driver_vehicle_type (driver_id, vehicle_type_id) VALUES (:driverID, :vehicleTypeId)';
-    FQuery.ParamByName('driverID').AsInteger := DriverID;
-    FQuery.ParamByName('vehicleTypeId').AsInteger := VehicleTypeId;
-    FQuery.ExecSQL;
-
-  except
-    on E: Exception do
-      ShowMessage('Ошибка при добавлении типа транспорта (' +
-        VehicleTypeId.ToString + ') водителю: ' + E.Message);
-  end;
-  // LoadAll;
-end;
 
 constructor TDriverManager.Create(AQuery: TFDQuery);
 begin
@@ -182,6 +170,26 @@ begin
   end;
 end;
 
+(*
+
+procedure TDriverManager.AddDriverVehicleType(DriverID, VehicleTypeId: integer);
+begin
+  try
+    FQuery.SQL.Text :=
+      'INSERT INTO driver_vehicle_type (driver_id, vehicle_type_id) VALUES (:driverID, :vehicleTypeId)';
+    FQuery.ParamByName('driverID').AsInteger := DriverID;
+    FQuery.ParamByName('vehicleTypeId').AsInteger := VehicleTypeId;
+    FQuery.ExecSQL;
+
+  except
+    on E: Exception do
+      ShowMessage('Ошибка при добавлении типа транспорта (' +
+        VehicleTypeId.ToString + ') водителю: ' + E.Message);
+  end;
+  // LoadAll;
+end;
+
+
 procedure TDriverManager.DeleteDriverVehicleType(DriverID,
   VehicleTypeId: integer);
 begin
@@ -198,7 +206,7 @@ begin
   end;
   // LoadAll;
 end;
-
+ *)
 procedure TDriverManager.LoadAll;
 begin
   try
@@ -243,17 +251,17 @@ end;
 
 
 procedure TDriverManager.AddDriverLicenses(
-  DriverID: Integer;
-  LicenseCategoryIDs: TArray<Integer>;
-  IssueDates: TArray<TDate>;
-  ExpirationDates: TArray<TDate>
-);
+      DriverID: Integer;
+      LicenseCategoryIDs: TList<Integer>;
+      IssueDates: TList<TDate>;
+      ExpirationDates: TList<TDate>
+    );
 var
   i: Integer;
 begin
   if (DriverID = -1) or
-     (Length(LicenseCategoryIDs) <> Length(IssueDates)) or
-     (Length(LicenseCategoryIDs) <> Length(ExpirationDates)) then
+     (LicenseCategoryIDs.Count <> IssueDates.count) or
+     (LicenseCategoryIDs.Count <> ExpirationDates.Count) then
   begin
     raise Exception.Create('Несоответствие размеров массивов входных данных или пустой DriverID.');
   end;
@@ -264,7 +272,7 @@ begin
 
   try
 
-    for i := 0 to High(LicenseCategoryIDs) do
+    for i := 0 to LicenseCategoryIDs.Count - 1 do
     begin
       FQuery.ParamByName('DriverID').AsInteger := DriverID;
       FQuery.ParamByName('CategoryID').AsInteger := LicenseCategoryIDs[i];
@@ -284,6 +292,38 @@ begin
   end;
 end;
 
+procedure TDriverManager.DeleteDriverLicenses(
+  DriverID: Integer;
+  LicenseCategoryIDs: TList<Integer>
+);
+var
+  i: Integer;
+begin
+  if (DriverID = -1) or (LicenseCategoryIDs.Count = 0) then
+  begin
+    exit;
+  end;
+
+  FQuery.SQL.Text :=
+    'DELETE FROM driver_license WHERE driver_id = :DriverID AND license_category_id = :CategoryID';
+
+  try
+    for i := 0 to LicenseCategoryIDs.Count - 1  do
+    begin
+      FQuery.ParamByName('DriverID').AsInteger := DriverID;
+      FQuery.ParamByName('CategoryID').AsInteger := LicenseCategoryIDs[i];
+
+      FQuery.ExecSQL;
+    end;
+
+    ShowMessage('Лицензии удалены успешно.');
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Ошибка при удалении водительских прав: ' + E.Message);
+    end;
+  end;
+end;
 
 
 

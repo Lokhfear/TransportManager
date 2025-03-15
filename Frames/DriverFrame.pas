@@ -133,8 +133,7 @@ begin
 
    DriverLicensesFrame.LoadDriverLicenses(selectedId);
 
-  //SelectedAssignedVehicleTypes.clear;
-  //SelectedAssignedVehicleTypes :=  CheckListBoxManager.GetSelectedVehicleTypes();
+
 end;
 
 procedure TDriverFr.FullNameCreateEditEnter(Sender: TObject);
@@ -161,12 +160,10 @@ begin
     //if fullNameChangeEdit.Text <> SelectedFullName then
     begin
       ManagerCRUD.Update(selectedId, SelectedFullNameEdit.Text);
-      ManagerCRUD.UpdateDriverVehicleTypes(selectedId,
-	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
+      DriverLicensesFrame.UpdateDriverLicenses();
     end
     else
-      ManagerCRUD.UpdateDriverVehicleTypes(selectedId,
-	SelectedAssignedVehicleTypes, CheckListBoxManager.GetSelectedVehicleTypes);
+      DriverLicensesFrame.UpdateDriverLicenses();
 
   selectedId := -1;
   SelectedFullNameEdit.Text := '';

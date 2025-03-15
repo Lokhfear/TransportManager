@@ -3,7 +3,7 @@ unit DriverLicensesFrame;
 interface
 
 uses
-  DriverManager,  FireDAC.Comp.Client,
+  DriverManager,  FireDAC.Comp.Client, System.Generics.Collections,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
@@ -13,10 +13,12 @@ type
   TDriverLicenseData = class
   public
     DriverID: Integer;
-    LicenseCategoryIDs: TArray<Integer>;
-    LicenseCategoryNames: TArray<string>;
-    IssueDates: TArray<TDate>;
-    ExpirationDates: TArray<TDate>;
+    LicenseCategoryIDs: TList<Integer>;
+    LicenseCategoryNames: TList<string>;
+    IssueDates: TList<TDate>;
+    ExpirationDates: TList<TDate>;
+
+    constructor Create;
   end;
 
   TDriverLicensesFr = class(TFrame)
@@ -34,22 +36,27 @@ type
     procedure EditButtonClick(Sender: TObject);
     procedure DeleteButtonClick(Sender: TObject);
     procedure ClearData();
+    procedure ClearListData();
     procedure GetDriverLicensesFromGrid(var Data: TDriverLicenseData);
     procedure LoadDriverLicenses(DriverID: Integer);
+    procedure UpdateDriverLicenseRow(RowIndex: Integer;
+  const CategoryName: String; IssueDate, ExpirationDate: TDate; LicenseID: Integer);
+    procedure DriverLicenseStringGridClick(Sender: TObject);
   private
     ManagerCrud: TDriverManager;
     FQuery: TFDQuery;
 
+    function IsLicenseIdExists(const licenseId: Integer): Boolean;
     procedure AddRowToStringGrid(category: String;
       issueDate, expirationDate: TDate; categoryId: Integer);
     function ValidateDate(MaskEdit: TMaskEdit; var OutDate: TDate): Boolean;
 
-    procedure CompareDriverLicenses(OldData, NewData: TDriverLicenseData;
-      out AddedData, RemovedData: TDriverLicenseData);
+
   public
     OldDriverLicenseData: TDriverLicenseData;
     NewDriverLicenseData: TDriverLicenseData;
 
+    procedure UpdateDriverLicenses();
     procedure ResizeColums(TotalWith: Integer);
     constructor Create(TOwner: TComponent; TManagerCRUD: TDriverManager; AQuery: TFDQuery);
   end;
@@ -57,6 +64,17 @@ type
 implementation
 
 {$R *.dfm}
+
+
+constructor TDriverLicenseData.Create;
+begin
+  inherited Create;
+  LicenseCategoryIDs := TList<Integer>.Create;
+  LicenseCategoryNames := TList<string>.Create;
+  IssueDates := TList<TDate>.Create;
+  ExpirationDates := TList<TDate>.Create;
+end;
+
 
 constructor TDriverLicensesFr.Create(TOwner: TComponent;
   TManagerCRUD: TDriverManager; AQuery: TFDQuery);
@@ -89,6 +107,22 @@ begin
   expirationDateEditMask.Clear;
 end;
 
+procedure TDriverLicensesFr.ClearListData;
+begin
+   OldDriverLicenseData.DriverID := -1;
+   NewDriverLicenseData.DriverID := -1;
+
+   OldDriverLicenseData.LicenseCategoryIDs.Clear;
+   OldDriverLicenseData.LicenseCategoryNames.Clear;
+   OldDriverLicenseData.IssueDates.Clear;
+   OldDriverLicenseData.ExpirationDates.Clear;
+
+   NewDriverLicenseData.LicenseCategoryIDs.Clear;
+   NewDriverLicenseData.LicenseCategoryNames.Clear;
+   NewDriverLicenseData.IssueDates.Clear;
+   NewDriverLicenseData.ExpirationDates.Clear;
+end;
+
 procedure TDriverLicensesFr.ResizeColums(TotalWith: Integer);
 begin
   DriverLicenseStringGrid.ColWidths[0] := TotalWith div 5; // 20%
@@ -99,37 +133,133 @@ begin
 end;
 
 procedure TDriverLicensesFr.DeleteButtonClick(Sender: TObject);
+var
+  RowIndex, i: Integer;
+  LicenseCategoryID: Integer;
 begin
+  RowIndex := DriverLicenseStringGrid.Row;
+
+  if RowIndex > 0 then
+  begin
+    LicenseCategoryID := StrToIntDef(DriverLicenseStringGrid.Cells[3, RowIndex], -1);
+
+    if OldDriverLicenseData.LicenseCategoryIDs.Contains(LicenseCategoryID) then
+    begin
+      ShowMessage('Нельзя удалить уже сущестующую категорию прав');
+      Exit;
+    end;
+
+    // Удаляем строку из грида
+    for i := RowIndex to DriverLicenseStringGrid.RowCount - 2 do
+    begin
+      DriverLicenseStringGrid.Rows[i] := DriverLicenseStringGrid.Rows[i + 1];
+    end;
+    DriverLicenseStringGrid.RowCount := DriverLicenseStringGrid.RowCount - 1;
+
+    NewDriverLicenseData.LicenseCategoryNames.Delete(RowIndex - 1);
+    NewDriverLicenseData.IssueDates.Delete(RowIndex - 1);
+    NewDriverLicenseData.ExpirationDates.Delete(RowIndex - 1);
+    NewDriverLicenseData.LicenseCategoryIDs.Delete(RowIndex - 1);
+  end;
+
   ClearData;
+end;
+
+
+procedure TDriverLicensesFr.DriverLicenseStringGridClick(Sender: TObject);
+var
+ RowIndex: Integer;
+begin
+  RowIndex := DriverLicenseStringGrid.Row;
+
+  if RowIndex > 0 then
+  begin
+  issueDateEditMask.Text :=  DriverLicenseStringGrid.Cells[1, RowIndex];
+  expirationDateEditMask.Text := DriverLicenseStringGrid.Cells[2, RowIndex];
+  LicenseCategoryComboBox.KeyValue :=  StrToInt(DriverLicenseStringGrid.Cells[3, RowIndex])
+  end;
 end;
 
 procedure TDriverLicensesFr.GetDriverLicensesFromGrid(var Data: TDriverLicenseData);
 var
   i, RowCount: Integer;
 begin
-  RowCount := DriverLicenseStringGrid.RowCount - 1;
+  ClearListData;
+  RowCount := DriverLicenseStringGrid.RowCount;
 
-  SetLength(Data.LicenseCategoryIDs, RowCount);
-  SetLength(Data.IssueDates, RowCount);
-  SetLength(Data.ExpirationDates, RowCount);
-  SetLength(Data.LicenseCategoryNames, RowCount);
-
-
-  for i := 1 to RowCount do
+  if RowCount > 1 then
   begin
-    Data.LicenseCategoryNames[i - 1] := DriverLicenseStringGrid.Cells[3, i];
-    Data.IssueDates[i - 1] := StrToDateDef(DriverLicenseStringGrid.Cells[1, i], 0);
-    Data.ExpirationDates[i - 1] := StrToDateDef(DriverLicenseStringGrid.Cells[2, i], 0);
-    Data.LicenseCategoryIDs[i - 1] := StrToIntDef(DriverLicenseStringGrid.Cells[3, i], -1);
+    for i := 1 to RowCount - 1 do
+    begin
+      Data.LicenseCategoryNames.Add(DriverLicenseStringGrid.Cells[0, i]);
+      Data.IssueDates.Add(StrToDateDef(DriverLicenseStringGrid.Cells[1, i], 0));
+      Data.ExpirationDates.Add(StrToDateDef(DriverLicenseStringGrid.Cells[2, i], 0));
+      Data.LicenseCategoryIDs.Add(StrToIntDef(DriverLicenseStringGrid.Cells[3, i], -1));
+    end;
   end;
 end;
 
 
-
 procedure TDriverLicensesFr.EditButtonClick(Sender: TObject);
+var
+  issueDate, expirationDate: TDate;
+  RowIndex: Integer;
+  LicenseCategoryID: Integer;
 begin
-  LicenseCategoryComboBox.KeyValue := Null;
+  RowIndex := DriverLicenseStringGrid.Row;
+  if RowIndex > 0 then
+  begin
+    LicenseCategoryID := StrToIntDef(DriverLicenseStringGrid.Cells[3, RowIndex], -1);
+
+    if OldDriverLicenseData.LicenseCategoryIDs.Contains(LicenseCategoryID) then
+    begin
+      ShowMessage('Невозможно изменить категорию прав, которая уже существует');
+      Exit;
+    end;
+
+    if ValidateDate(issueDateEditMask, issueDate) and
+       ValidateDate(expirationDateEditMask, expirationDate) and
+       not VarIsNull(LicenseCategoryComboBox.KeyValue) then
+    begin
+      UpdateDriverLicenseRow(RowIndex, LicenseCategoryComboBox.Text,
+                             issueDate, expirationDate, LicenseCategoryComboBox.KeyValue);
+    end;
+
+    LicenseCategoryComboBox.KeyValue := Null;
+  end
+  else
+    ShowMessage('Выберите строку для редактирования');
 end;
+
+
+
+
+procedure TDriverLicensesFr.UpdateDriverLicenseRow(RowIndex: Integer;
+  const CategoryName: String; IssueDate, ExpirationDate: TDate; LicenseID: Integer);
+begin
+
+  if (RowIndex <= 0) or (RowIndex >= DriverLicenseStringGrid.RowCount) then
+  begin
+    ShowMessage('Неверный индекс строки.');
+    Exit;
+  end;
+
+  if ExpirationDate < IssueDate then
+  begin
+    ShowMessage('Дата окончания не может быть раньше даты выдачи.');
+    Exit;
+  end;
+
+
+  DriverLicenseStringGrid.Cells[0, RowIndex] := CategoryName;
+  DriverLicenseStringGrid.Cells[1, RowIndex] := DateToStr(IssueDate);
+  DriverLicenseStringGrid.Cells[2, RowIndex] := DateToStr(ExpirationDate);
+  DriverLicenseStringGrid.Cells[3, RowIndex] := IntToStr(LicenseID);
+
+end;
+
+
+
 
 procedure TDriverLicensesFr.addButtonClick(Sender: TObject);
 var
@@ -144,11 +274,25 @@ begin
   end;
 end;
 
+
+function TDriverLicensesFr.IsLicenseIdExists(const licenseId: Integer): Boolean;
+begin
+  Result := NewDriverLicenseData.LicenseCategoryIDs.Contains(licenseId);
+end;
+
+
 procedure TDriverLicensesFr.AddRowToStringGrid(category: String;
   issueDate, expirationDate: TDate; categoryId: Integer);
 var
   RowIndex: Integer;
 begin
+
+  if IsLicenseIdExists(categoryId) then
+  begin
+    ShowMessage('Такой licenseId уже существует!');
+    Exit;
+  end;
+
   RowIndex := DriverLicenseStringGrid.RowCount;
   DriverLicenseStringGrid.RowCount := RowIndex + 1;
 
@@ -156,7 +300,13 @@ begin
   DriverLicenseStringGrid.Cells[1, RowIndex] := DateToStr(issueDate);
   DriverLicenseStringGrid.Cells[2, RowIndex] := DateToStr(expirationDate);
   DriverLicenseStringGrid.Cells[3, RowIndex] := IntToStr(categoryId);
+
+  NewDriverLicenseData.LicenseCategoryIDs.Add(categoryId);
+  NewDriverLicenseData.LicenseCategoryNames.Add(category);
+  NewDriverLicenseData.IssueDates.Add(issueDate);
+  NewDriverLicenseData.ExpirationDates.Add(expirationDate);
 end;
+
 
 function TDriverLicensesFr.ValidateDate(MaskEdit: TMaskEdit;
   var OutDate: TDate): Boolean;
@@ -182,21 +332,25 @@ end;
 
 
 
-procedure TDriverLicensesFr.CompareDriverLicenses(OldData,
-  NewData: TDriverLicenseData; out AddedData, RemovedData: TDriverLicenseData);
+procedure TDriverLicensesFr.UpdateDriverLicenses();
 var
   i, j: Integer;
   Found: Boolean;
+
+  AddedData, RemovedData: TDriverLicenseData;
 begin
   AddedData := TDriverLicenseData.Create;
   RemovedData := TDriverLicenseData.Create;
 
-  for i := 0 to High(NewData.LicenseCategoryIDs) do
+  AddedData.DriverID := OldDriverLicenseData.DriverID;
+  RemovedData.DriverID := OldDriverLicenseData.DriverID;
+
+  for i := 0 to NewDriverLicenseData.LicenseCategoryIDs.Count - 1 do
   begin
     Found := False;
-    for j := 0 to High(OldData.LicenseCategoryIDs) do
+    for j := 0 to OldDriverLicenseData.LicenseCategoryIDs.Count - 1 do
     begin
-      if (NewData.LicenseCategoryIDs[i] = OldData.LicenseCategoryIDs[j]) then
+      if (NewDriverLicenseData.LicenseCategoryIDs[i] = OldDriverLicenseData.LicenseCategoryIDs[j]) then
       begin
         Found := True;
         Break;
@@ -205,26 +359,19 @@ begin
 
     if not Found then
     begin
-      SetLength(AddedData.LicenseCategoryIDs,
-        Length(AddedData.LicenseCategoryIDs) + 1);
-      SetLength(AddedData.IssueDates, Length(AddedData.IssueDates) + 1);
-      SetLength(AddedData.ExpirationDates,
-        Length(AddedData.ExpirationDates) + 1);
-
-      AddedData.LicenseCategoryIDs[High(AddedData.LicenseCategoryIDs)] :=
-        NewData.LicenseCategoryIDs[i];
-      AddedData.IssueDates[High(AddedData.IssueDates)] := NewData.IssueDates[i];
-      AddedData.ExpirationDates[High(AddedData.ExpirationDates)] :=
-        NewData.ExpirationDates[i];
+      AddedData.LicenseCategoryIDs.Add(NewDriverLicenseData.LicenseCategoryIDs[i]);
+      AddedData.IssueDates.Add(NewDriverLicenseData.IssueDates[i]);
+      AddedData.ExpirationDates.Add(NewDriverLicenseData.ExpirationDates[i]);
     end;
+
   end;
 
-  for i := 0 to High(OldData.LicenseCategoryIDs) do
+  for i := 0 to OldDriverLicenseData.LicenseCategoryIDs.Count - 1  do
   begin
     Found := False;
-    for j := 0 to High(NewData.LicenseCategoryIDs) do
+    for j := 0 to NewDriverLicenseData.LicenseCategoryIDs.Count - 1 do
     begin
-      if (OldData.LicenseCategoryIDs[i] = NewData.LicenseCategoryIDs[j]) then
+      if (OldDriverLicenseData.LicenseCategoryIDs[i] = NewDriverLicenseData.LicenseCategoryIDs[j]) then
       begin
         Found := True;
         Break;
@@ -233,20 +380,16 @@ begin
 
     if not Found then
     begin
-      SetLength(RemovedData.LicenseCategoryIDs,
-        Length(RemovedData.LicenseCategoryIDs) + 1);
-      SetLength(RemovedData.IssueDates, Length(RemovedData.IssueDates) + 1);
-      SetLength(RemovedData.ExpirationDates,
-        Length(RemovedData.ExpirationDates) + 1);
-
-      RemovedData.LicenseCategoryIDs[High(RemovedData.LicenseCategoryIDs)] :=
-        OldData.LicenseCategoryIDs[i];
-      RemovedData.IssueDates[High(RemovedData.IssueDates)] :=
-        OldData.IssueDates[i];
-      RemovedData.ExpirationDates[High(RemovedData.ExpirationDates)] :=
-        OldData.ExpirationDates[i];
+      RemovedData.LicenseCategoryIDs.Add(OldDriverLicenseData.LicenseCategoryIDs[i]);
+      RemovedData.IssueDates.Add(OldDriverLicenseData.IssueDates[i]);
+      RemovedData.ExpirationDates.Add(OldDriverLicenseData.ExpirationDates[i]);
     end;
   end;
+
+
+  ManagerCrud.DeleteDriverLicenses(RemovedData.DriverID, RemovedData.LicenseCategoryIDs);
+  ManagerCrud.AddDriverLicenses(AddedData.DriverID, AddedData.LicenseCategoryIDs, AddedData.IssueDates, AddedData.ExpirationDates);
+  ClearListData;
 end;
 
 
@@ -258,6 +401,9 @@ var
   RowIndex: Integer;
 begin
   if DriverID = -1 then Exit;
+
+  OldDriverLicenseData.DriverID := DriverID;
+  NewDriverLicenseData.DriverID := DriverID;
 
   DriverLicenseStringGrid.RowCount := 1; // Очистка грида
 
@@ -284,6 +430,9 @@ begin
 
     FQuery.Next;
   end;
+
+  GetDriverLicensesFromGrid(OldDriverLicenseData);
+  GetDriverLicensesFromGrid(NewDriverLicenseData);
 end;
 
 

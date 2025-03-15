@@ -24,6 +24,8 @@ object DriverLicensesFr: TDriverLicensesFr
       RowCount = 3
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
       TabOrder = 0
+      OnClick = DriverLicenseStringGridClick
+      ExplicitTop = 61
     end
     object BottonPanel: TPanel
       Left = 1
@@ -76,6 +78,7 @@ object DriverLicensesFr: TDriverLicensesFr
         Caption = #1059#1076#1072#1083#1080#1090#1100
         TabOrder = 2
         OnClick = DeleteButtonClick
+        ExplicitTop = 4
       end
     end
     object EditPanel: TPanel

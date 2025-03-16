@@ -51,11 +51,12 @@ type
       issueDate, expirationDate: TDate; categoryId: Integer);
     function ValidateDate(MaskEdit: TMaskEdit; var OutDate: TDate): Boolean;
 
-    procedure UpdateDriverLicenses();
+
   public
     OldDriverLicenseData: TDriverLicenseData;
     NewDriverLicenseData: TDriverLicenseData;
 
+    procedure UpdateDriverLicenses();
     procedure ResizeColums(TotalWith: Integer);
     constructor Create(TOwner: TComponent; TManagerCRUD: TDriverManager; AQuery: TFDQuery);
   end;
@@ -335,13 +336,14 @@ procedure TDriverLicensesFr.UpdateDriverLicenses();
 var
   i, j: Integer;
   Found: Boolean;
-
   AddedData, RemovedData: TDriverLicenseData;
 begin
   AddedData := TDriverLicenseData.Create;
   RemovedData := TDriverLicenseData.Create;
 
-  RemovedData.DriverID := AddedData.DriverID := OldDriverLicenseData.DriverID;
+  AddedData.DriverID := OldDriverLicenseData.DriverID;
+  RemovedData.DriverID := OldDriverLicenseData.DriverID;
+
 
   for i := 0 to NewDriverLicenseData.LicenseCategoryIDs.Count - 1 do
   begin
@@ -361,10 +363,10 @@ begin
       AddedData.IssueDates.Add(NewDriverLicenseData.IssueDates[i]);
       AddedData.ExpirationDates.Add(NewDriverLicenseData.ExpirationDates[i]);
     end;
-
   end;
 
-  for i := 0 to OldDriverLicenseData.LicenseCategoryIDs.Count - 1  do
+
+  for i := 0 to OldDriverLicenseData.LicenseCategoryIDs.Count - 1 do
   begin
     Found := False;
     for j := 0 to NewDriverLicenseData.LicenseCategoryIDs.Count - 1 do
@@ -384,9 +386,12 @@ begin
     end;
   end;
 
+  if RemovedData.LicenseCategoryIDs.Count > 0 then
+    ManagerCrud.DeleteDriverLicenses(RemovedData.DriverID, RemovedData.LicenseCategoryIDs);
 
-  ManagerCrud.DeleteDriverLicenses(RemovedData.DriverID, RemovedData.LicenseCategoryIDs);
-  ManagerCrud.AddDriverLicenses(AddedData.DriverID, AddedData.LicenseCategoryIDs, AddedData.IssueDates, AddedData.ExpirationDates);
+  if AddedData.LicenseCategoryIDs.Count > 0 then
+    ManagerCrud.AddDriverLicenses(AddedData.DriverID, AddedData.LicenseCategoryIDs, AddedData.IssueDates, AddedData.ExpirationDates);
+
   ClearListData;
 end;
 

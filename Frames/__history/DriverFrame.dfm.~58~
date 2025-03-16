@@ -37,13 +37,12 @@ object DriverFr: TDriverFr
         item
           Expanded = False
           FieldName = 'ID'
-          Width = 80
-          Visible = True
+          Visible = False
         end
         item
           Expanded = False
           FieldName = 'FULL_NAME'
-          Width = 200
+          Width = 300
           Visible = True
         end
         item
@@ -53,8 +52,12 @@ object DriverFr: TDriverFr
         end
         item
           Expanded = False
-          FieldName = 'VEHICLE_TYPES'
-          Width = 450
+          FieldName = 'EMPLOYMENT_END'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'LICENSE_CATEGORIES'
           Visible = True
         end>
     end
@@ -66,7 +69,6 @@ object DriverFr: TDriverFr
     Height = 185
     Align = alTop
     TabOrder = 1
-    ExplicitTop = -6
     object ManipulationGroupBox: TGroupBox
       Left = 624
       Top = 1
@@ -78,7 +80,7 @@ object DriverFr: TDriverFr
       object CreateButton: TButton
         Left = 40
         Top = 112
-        Width = 163
+        Width = 160
         Height = 25
         Caption = #1057#1086#1079#1076#1072#1090#1100
         TabOrder = 0
@@ -87,34 +89,34 @@ object DriverFr: TDriverFr
       object DeleteButton: TButton
         Left = 40
         Top = 79
-        Width = 163
+        Width = 160
         Height = 25
         Caption = #1059#1076#1072#1083#1080#1090#1100
         Enabled = False
         TabOrder = 1
       end
       object DriverHistoryButton: TButton
-        Left = 44
+        Left = 40
         Top = 143
-        Width = 151
+        Width = 160
         Height = 29
         Caption = #1048#1089#1090#1086#1088#1080#1103' '#1074#1086#1076#1080#1090#1077#1083#1103
         Enabled = False
         TabOrder = 2
       end
       object LoadButton: TButton
-        Left = 35
+        Left = 40
         Top = 48
-        Width = 163
+        Width = 160
         Height = 25
         Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
         TabOrder = 3
         OnClick = LoadButtonClick
       end
       object ChangeButton: TButton
-        Left = 35
+        Left = 40
         Top = 17
-        Width = 163
+        Width = 160
         Height = 25
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100
         TabOrder = 4
@@ -124,7 +126,7 @@ object DriverFr: TDriverFr
     object SearchBoxGroupBox: TGroupBox
       Left = 1
       Top = 1
-      Width = 376
+      Width = 368
       Height = 183
       Align = alLeft
       Caption = #1055#1086#1080#1089#1082
@@ -191,17 +193,14 @@ object DriverFr: TDriverFr
       end
     end
     object DriverLicensesPanel: TPanel
-      Left = 377
+      Left = 369
       Top = 1
-      Width = 247
+      Width = 255
       Height = 183
       Align = alClient
-      Padding.Top = 10
       TabOrder = 2
-      ExplicitLeft = 417
-      ExplicitTop = 74
-      ExplicitWidth = 185
-      ExplicitHeight = 41
+      ExplicitLeft = 375
+      ExplicitTop = -4
     end
   end
   object EditGroupbox: TGroupBox
@@ -212,11 +211,13 @@ object DriverFr: TDriverFr
     Align = alTop
     Caption = #1048#1079#1084#1077#1085#1080#1090#1100
     TabOrder = 2
-    object SelectedVehicleTypesEdit: TEdit
+    ExplicitLeft = 1
+    ExplicitTop = 184
+    object SelectedLicenseCategoriesEdit: TEdit
       AlignWithMargins = True
-      Left = 417
+      Left = 553
       Top = 15
-      Width = 417
+      Width = 290
       Height = 19
       Margins.Left = 8
       Margins.Top = 0
@@ -225,11 +226,42 @@ object DriverFr: TDriverFr
       Align = alLeft
       Enabled = False
       TabOrder = 0
-      ExplicitHeight = 21
+      ExplicitLeft = 680
     end
-    object SelectedEmploymentStartEdit: TEdit
+    object SelectedFullNameEdit: TEdit
       AlignWithMargins = True
-      Left = 305
+      Left = 10
+      Top = 15
+      Width = 304
+      Height = 19
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      TabOrder = 1
+    end
+    object SelectedEmploymentEndEdit: TMaskEdit
+      AlignWithMargins = True
+      Left = 434
+      Top = 15
+      Width = 111
+      Height = 19
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Anchors = [akLeft, akTop, akRight]
+      EditMask = '!99/99/9999'
+      MaxLength = 10
+      TabOrder = 2
+      Text = '  .  .    '
+      ExplicitTop = 14
+    end
+    object SelectedEmploymentStartEdit: TMaskEdit
+      AlignWithMargins = True
+      Left = 322
       Top = 15
       Width = 104
       Height = 19
@@ -238,38 +270,12 @@ object DriverFr: TDriverFr
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alLeft
-      Enabled = False
-      TabOrder = 1
-      ExplicitHeight = 21
-    end
-    object SelectedFullNameEdit: TEdit
-      AlignWithMargins = True
-      Left = 105
-      Top = 15
-      Width = 192
-      Height = 19
-      Margins.Left = 8
-      Margins.Top = 0
-      Margins.Right = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      TabOrder = 2
-      ExplicitHeight = 21
-    end
-    object SelectedIdEdit: TEdit
-      AlignWithMargins = True
-      Left = 10
-      Top = 15
-      Width = 87
-      Height = 19
-      Margins.Left = 8
-      Margins.Top = 0
-      Margins.Right = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      Enabled = False
+      Anchors = [akLeft, akTop, akRight]
+      EditMask = '!99/99/9999'
+      MaxLength = 10
       TabOrder = 3
-      ExplicitHeight = 21
+      Text = '  .  .    '
+      ExplicitTop = 14
     end
   end
 end

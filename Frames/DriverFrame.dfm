@@ -199,8 +199,6 @@ object DriverFr: TDriverFr
       Height = 183
       Align = alClient
       TabOrder = 2
-      ExplicitLeft = 375
-      ExplicitTop = -4
     end
   end
   object EditGroupbox: TGroupBox
@@ -211,8 +209,6 @@ object DriverFr: TDriverFr
     Align = alTop
     Caption = #1048#1079#1084#1077#1085#1080#1090#1100
     TabOrder = 2
-    ExplicitLeft = 1
-    ExplicitTop = 184
     object SelectedLicenseCategoriesEdit: TEdit
       AlignWithMargins = True
       Left = 553
@@ -226,7 +222,7 @@ object DriverFr: TDriverFr
       Align = alLeft
       Enabled = False
       TabOrder = 0
-      ExplicitLeft = 680
+      ExplicitHeight = 21
     end
     object SelectedFullNameEdit: TEdit
       AlignWithMargins = True
@@ -240,6 +236,7 @@ object DriverFr: TDriverFr
       Margins.Bottom = 0
       Align = alLeft
       TabOrder = 1
+      ExplicitHeight = 21
     end
     object SelectedEmploymentEndEdit: TMaskEdit
       AlignWithMargins = True
@@ -257,7 +254,7 @@ object DriverFr: TDriverFr
       MaxLength = 10
       TabOrder = 2
       Text = '  .  .    '
-      ExplicitTop = 14
+      ExplicitHeight = 21
     end
     object SelectedEmploymentStartEdit: TMaskEdit
       AlignWithMargins = True
@@ -275,7 +272,7 @@ object DriverFr: TDriverFr
       MaxLength = 10
       TabOrder = 3
       Text = '  .  .    '
-      ExplicitTop = 14
+      ExplicitHeight = 21
     end
   end
 end

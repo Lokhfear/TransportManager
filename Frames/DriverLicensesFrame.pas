@@ -56,7 +56,7 @@ type
     OldDriverLicenseData: TDriverLicenseData;
     NewDriverLicenseData: TDriverLicenseData;
 
-    procedure UpdateDriverLicenses();
+    procedure UpdateDriverLicenses(DriverId: integer);
     procedure ResizeColums(TotalWith: Integer);
     constructor Create(TOwner: TComponent; TManagerCRUD: TDriverManager; AQuery: TFDQuery);
   end;
@@ -184,7 +184,7 @@ procedure TDriverLicensesFr.GetDriverLicensesFromGrid(var Data: TDriverLicenseDa
 var
   i, RowCount: Integer;
 begin
-  ClearListData;
+
   RowCount := DriverLicenseStringGrid.RowCount;
 
   if RowCount > 1 then
@@ -197,6 +197,7 @@ begin
       Data.LicenseCategoryIDs.Add(StrToIntDef(DriverLicenseStringGrid.Cells[3, i], -1));
     end;
   end;
+  //ShowMessage(Data.LicenseCategoryIDs.count.ToString);
 end;
 
 
@@ -332,63 +333,56 @@ end;
 
 
 
-procedure TDriverLicensesFr.UpdateDriverLicenses();
+procedure TDriverLicensesFr.UpdateDriverLicenses(DriverId: integer);
 var
-  i, j: Integer;
-  Found: Boolean;
-
+  i: Integer;
   AddedData, RemovedData: TDriverLicenseData;
 begin
+
+ // ShowMessage(OldDriverLicenseData.LicenseCategoryIDs.Count.ToString);
+ // ShowMessage(NewDriverLicenseData.LicenseCategoryIDs.Count.ToString);
+
+  if (NewDriverLicenseData = nil) or (OldDriverLicenseData = nil) then
+  begin
+    ShowMessage('Îøèáêà: äàííûå ëèöåíçèé íå çàãðóæåíû.');
+    Exit;
+  end;
+
   AddedData := TDriverLicenseData.Create;
   RemovedData := TDriverLicenseData.Create;
 
-  AddedData.DriverID := OldDriverLicenseData.DriverID;
-  RemovedData.DriverID := OldDriverLicenseData.DriverID;
+  AddedData.DriverID := DriverId;
+  RemovedData.DriverID := DriverId;
+
 
   for i := 0 to NewDriverLicenseData.LicenseCategoryIDs.Count - 1 do
   begin
-    Found := False;
-    for j := 0 to OldDriverLicenseData.LicenseCategoryIDs.Count - 1 do
-    begin
-      if (NewDriverLicenseData.LicenseCategoryIDs[i] = OldDriverLicenseData.LicenseCategoryIDs[j]) then
-      begin
-        Found := True;
-        Break;
-      end;
-    end;
-
-    if not Found then
+    if not OldDriverLicenseData.LicenseCategoryIDs.Contains(NewDriverLicenseData.LicenseCategoryIDs[i]) then
     begin
       AddedData.LicenseCategoryIDs.Add(NewDriverLicenseData.LicenseCategoryIDs[i]);
       AddedData.IssueDates.Add(NewDriverLicenseData.IssueDates[i]);
       AddedData.ExpirationDates.Add(NewDriverLicenseData.ExpirationDates[i]);
     end;
-
   end;
 
-  for i := 0 to OldDriverLicenseData.LicenseCategoryIDs.Count - 1  do
+  (*  ÍÅËÜÇß ÓÄÀËßÒÜ ÑÓÙÅÑÂÓÞÙÈÅ ÒÈÏÛ
+
+
+  for i := 0 to OldDriverLicenseData.LicenseCategoryIDs.Count - 1 do
   begin
-    Found := False;
-    for j := 0 to NewDriverLicenseData.LicenseCategoryIDs.Count - 1 do
-    begin
-      if (OldDriverLicenseData.LicenseCategoryIDs[i] = NewDriverLicenseData.LicenseCategoryIDs[j]) then
-      begin
-        Found := True;
-        Break;
-      end;
-    end;
-
-    if not Found then
-    begin
+    if not NewDriverLicenseData.LicenseCategoryIDs.Contains(OldDriverLicenseData.LicenseCategoryIDs[i]) then
       RemovedData.LicenseCategoryIDs.Add(OldDriverLicenseData.LicenseCategoryIDs[i]);
-      RemovedData.IssueDates.Add(OldDriverLicenseData.IssueDates[i]);
-      RemovedData.ExpirationDates.Add(OldDriverLicenseData.ExpirationDates[i]);
-    end;
   end;
 
 
-  ManagerCrud.DeleteDriverLicenses(RemovedData.DriverID, RemovedData.LicenseCategoryIDs);
-  ManagerCrud.AddDriverLicenses(AddedData.DriverID, AddedData.LicenseCategoryIDs, AddedData.IssueDates, AddedData.ExpirationDates);
+  if RemovedData.LicenseCategoryIDs.Count > 0 then
+    ManagerCrud.DeleteDriverLicenses(RemovedData.DriverID, RemovedData.LicenseCategoryIDs);
+
+  *)
+
+  if AddedData.LicenseCategoryIDs.Count > 0 then
+    ManagerCrud.AddDriverLicenses(AddedData.DriverID, AddedData.LicenseCategoryIDs, AddedData.IssueDates, AddedData.ExpirationDates);
+
   ClearListData;
 end;
 
@@ -431,6 +425,7 @@ begin
     FQuery.Next;
   end;
 
+  ClearListData;
   GetDriverLicensesFromGrid(OldDriverLicenseData);
   GetDriverLicensesFromGrid(NewDriverLicenseData);
 end;

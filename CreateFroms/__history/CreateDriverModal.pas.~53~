@@ -58,7 +58,7 @@ var
   createdId: Integer;
 begin
 
-// DriverLicensesFrame.GetDriverLicensesFromGrid(DriverLicensesFrame.NewDriverLicenseData);
+ DriverLicensesFrame.GetDriverLicensesFromGrid(DriverLicensesFrame.NewDriverLicenseData);
   try
   ModalResult := mrNone;
 
@@ -67,7 +67,7 @@ begin
       createdId := ManagerCRUD.Add(FullNameCreateEdit.Text,
         employmentStartDatePicker.Date);
 
-         //  ShowMessage(IntToStr(createdId));
+           ShowMessage(IntToStr(createdId));
 
       ManagerCRUD.AddDriverLicenses(createdId,
         DriverLicensesFrame.NewDriverLicenseData.LicenseCategoryIDs,

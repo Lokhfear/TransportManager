@@ -160,15 +160,15 @@ begin
     //if fullNameChangeEdit.Text <> SelectedFullName then
     begin
       ManagerCRUD.Update(selectedId, SelectedFullNameEdit.Text);
-      DriverLicensesFrame.UpdateDriverLicenses();
+      DriverLicensesFrame.UpdateDriverLicenses(selectedId);
     end
     else
-      DriverLicensesFrame.UpdateDriverLicenses();
+      DriverLicensesFrame.UpdateDriverLicenses(selectedId);
 
   selectedId := -1;
   SelectedFullNameEdit.Text := '';
 
-  CheckListBoxManager.LoadVehicleTypes;
+
 end;
 
 

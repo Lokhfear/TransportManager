@@ -20,7 +20,8 @@ uses
   CreateDriverModal in 'CreateFroms\CreateDriverModal.pas' {CreateDriver},
   DriverVehicleTypeCheckManager in 'Managers\DriverVehicleTypeCheckManager.pas',
   TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr},
-  DriverLicensesFrame in 'Frames\DriverLicensesFrame.pas' {DriverLicensesFr: TFrame};
+  DriverLicensesFrame in 'Frames\DriverLicensesFrame.pas' {DriverLicensesFr: TFrame},
+  Helper in 'Helper.pas';
 
 {$R *.res}
 

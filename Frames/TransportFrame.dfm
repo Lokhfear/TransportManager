@@ -33,29 +33,71 @@ object TransportFr: TTransportFr
         item
           Expanded = False
           FieldName = 'NUMBER_PLATE'
-          Title.Caption = #1053#1054#1052#1045#1056
-          Width = 90
+          Title.Caption = #1053#1086#1084#1077#1088
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -11
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Width = 100
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TYPE_NAME'
-          Title.Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-          Width = 500
+          Title.Caption = #1058#1080#1087
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -11
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'LICENSE_CATEGORY'
+          Title.Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -11
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Width = 25
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'BRAND_NAME'
+          Title.Caption = #1052#1072#1088#1082#1072
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -11
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
+          Width = 280
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'START_EXPLOITATION'
           Title.Caption = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
-          Width = 120
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -11
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'END_EXPLOITATION'
           Title.Caption = #1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
-          Width = 120
+          Title.Font.Charset = DEFAULT_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -11
+          Title.Font.Name = 'Tahoma'
+          Title.Font.Style = [fsBold]
           Visible = True
         end>
     end
@@ -66,96 +108,43 @@ object TransportFr: TTransportFr
     Width = 860
     Height = 121
     Align = alTop
+    ParentBackground = False
     TabOrder = 1
-    object ManipulationGroupBox: TGroupBox
-      Left = 501
-      Top = 1
-      Width = 358
-      Height = 119
-      Align = alRight
-      Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077
-      TabOrder = 0
-      DesignSize = (
-        358
-        119)
-      object CreateButton: TButton
-        Left = 18
-        Top = 17
-        Width = 163
-        Height = 25
-        Caption = #1057#1086#1079#1076#1072#1090#1100
-        TabOrder = 0
-        OnClick = CreateButtonClick
-      end
-      object DeleteButton: TButton
-        Left = 18
-        Top = 48
-        Width = 163
-        Height = 25
-        Caption = #1059#1076#1072#1083#1080#1090#1100
-        Enabled = False
-        TabOrder = 1
-      end
-      object LoadButton: TButton
-        Left = 187
-        Top = 48
-        Width = 163
-        Height = 25
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
-        TabOrder = 2
-        OnClick = LoadButtonClick
-      end
-      object ChangeButton: TButton
-        Left = 187
-        Top = 17
-        Width = 163
-        Height = 25
-        Caption = #1048#1079#1084#1077#1085#1080#1090#1100
-        TabOrder = 3
-        OnClick = ChangeButtonClick
-      end
-      object TransportHistoryButton: TButton
-        Left = 32
-        Top = 79
-        Width = 306
-        Height = 32
-        Caption = #1048#1089#1090#1086#1088#1080#1103' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-        Enabled = False
-        TabOrder = 4
-      end
-    end
     object SearchGroupBox: TGroupBox
       Left = 1
       Top = 1
-      Width = 500
+      Width = 663
       Height = 119
       Align = alClient
       Caption = #1055#1086#1080#1089#1082
-      TabOrder = 1
+      Color = clBtnFace
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 0
+      ExplicitTop = -4
       object VehicleTypeCreateLabel: TLabel
-        Left = 224
+        Left = 120
         Top = 22
         Width = 80
         Height = 13
         Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
       end
       object NumberPlateCreateLabel: TLabel
-        Left = 3
+        Left = 12
         Top = 22
         Width = 31
         Height = 13
         Caption = #1053#1086#1084#1077#1088
       end
       object Label1: TLabel
-        Left = 4
+        Left = 12
         Top = 71
         Width = 110
         Height = 13
         Caption = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
       end
       object Label2: TLabel
-        Left = 224
+        Left = 272
         Top = 71
         Width = 104
         Height = 13
@@ -169,59 +158,157 @@ object TransportFr: TTransportFr
         Caption = #1087#1086
       end
       object Label4: TLabel
-        Left = 324
+        Left = 364
         Top = 93
         Width = 12
         Height = 13
         Caption = #1087#1086
       end
-      object Edit3: TEdit
+      object Label5: TLabel
+        Left = 272
+        Top = 22
+        Width = 54
+        Height = 13
+        Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103
+      end
+      object Brandlabel: TLabel
+        Left = 358
+        Top = 22
+        Width = 32
+        Height = 13
+        Caption = #1052#1072#1088#1082#1072
+      end
+      object NumberPlateSearchEdit: TEdit
         Left = 12
         Top = 41
-        Width = 192
+        Width = 84
         Height = 21
         TabOrder = 0
-        Text = 'Edit3'
-      end
-      object Edit4: TEdit
-        Left = 234
-        Top = 41
-        Width = 192
-        Height = 21
-        TabOrder = 1
-        Text = 'Edit3'
+        OnChange = NumberPlateSearchEditChange
       end
       object Edit5: TEdit
         Left = 12
         Top = 90
         Width = 84
         Height = 21
-        TabOrder = 2
-        Text = 'Edit3'
+        TabOrder = 1
       end
       object Edit6: TEdit
         Left = 120
         Top = 90
         Width = 84
         Height = 21
-        TabOrder = 3
-        Text = 'Edit3'
+        TabOrder = 2
       end
       object Edit7: TEdit
-        Left = 234
+        Left = 274
         Top = 90
+        Width = 84
+        Height = 21
+        TabOrder = 3
+      end
+      object Edit8: TEdit
+        Left = 382
+        Top = 93
         Width = 84
         Height = 21
         TabOrder = 4
-        Text = 'Edit3'
       end
-      object Edit8: TEdit
-        Left = 342
-        Top = 90
-        Width = 84
+      object VehicleTypeSearchComboBox: TDBLookupComboBox
+        Left = 120
+        Top = 41
+        Width = 120
         Height = 21
+        KeyField = 'ID'
+        ListField = 'TYPE_NAME'
+        ListSource = DBConnect.VehicleTypeDataSource
         TabOrder = 5
-        Text = 'Edit3'
+        OnClick = VehicleTypeSearchComboBoxClick
+      end
+      object LicenseCategorySearchComboBox: TDBLookupComboBox
+        Left = 274
+        Top = 41
+        Width = 56
+        Height = 21
+        KeyField = 'ID'
+        ListField = 'CATEGORY_NAME'
+        ListSource = DBConnect.licenseCategoryDataSource
+        TabOrder = 6
+        OnClick = LicenseCategorySearchComboBoxClick
+      end
+      object TransportBrandSearchComboBox: TDBLookupComboBox
+        Left = 358
+        Top = 41
+        Width = 152
+        Height = 21
+        KeyField = 'ID'
+        ListField = 'BRAND_NAME'
+        ListSource = DBConnect.TransportBrandDataSource
+        TabOrder = 7
+        OnClick = TransportBrandSearchComboBoxClick
+      end
+      object ClearButton: TButton
+        Left = 528
+        Top = 91
+        Width = 120
+        Height = 25
+        Caption = #1054#1090#1095#1080#1089#1090#1080#1090#1100
+        TabOrder = 8
+        OnClick = ClearButtonClick
+      end
+    end
+    object ManipulationGroupBox: TGroupBox
+      Left = 664
+      Top = 1
+      Width = 195
+      Height = 119
+      Align = alRight
+      Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077
+      Color = clBtnFace
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 1
+      ExplicitLeft = 670
+      ExplicitTop = -4
+      DesignSize = (
+        195
+        119)
+      object LoadButton: TButton
+        Left = 24
+        Top = 22
+        Width = 161
+        Height = 25
+        Anchors = [akTop, akRight, akBottom]
+        Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
+        TabOrder = 0
+        OnClick = LoadButtonClick
+      end
+      object CreateButton: TButton
+        Left = 24
+        Top = 53
+        Width = 163
+        Height = 25
+        Caption = #1057#1086#1079#1076#1072#1090#1100
+        TabOrder = 1
+        OnClick = CreateButtonClick
+      end
+      object ChangeButton: TButton
+        Left = 24
+        Top = 84
+        Width = 163
+        Height = 25
+        Caption = #1048#1079#1084#1077#1085#1080#1090#1100
+        TabOrder = 2
+        OnClick = ChangeButtonClick
+      end
+      object TransportHistoryButton: TButton
+        Left = 6
+        Top = 59
+        Width = 16
+        Height = 19
+        Caption = #1048#1089#1090#1086#1088#1080#1103' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+        Enabled = False
+        TabOrder = 3
       end
     end
   end
@@ -248,11 +335,11 @@ object TransportFr: TTransportFr
     TabOrder = 2
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
-      Left = 117
+      Left = 119
       Top = 15
-      Width = 484
+      Width = 192
       Height = 21
-      Margins.Left = 12
+      Margins.Left = 4
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
@@ -263,11 +350,11 @@ object TransportFr: TTransportFr
     end
     object SelectedEndExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True
-      Left = 736
+      Left = 744
       Top = 15
       Width = 111
       Height = 21
-      Margins.Left = 12
+      Margins.Left = 4
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
@@ -278,11 +365,11 @@ object TransportFr: TTransportFr
     end
     object SelectedStartExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True
-      Left = 613
+      Left = 629
       Top = 15
       Width = 111
       Height = 21
-      Margins.Left = 12
+      Margins.Left = 4
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
@@ -291,13 +378,12 @@ object TransportFr: TTransportFr
       Time = 0.840898888891388200
       Enabled = False
       TabOrder = 2
-      ExplicitTop = 17
     end
     object SelectedNumberPlateEdit: TEdit
       AlignWithMargins = True
       Left = 19
       Top = 15
-      Width = 86
+      Width = 96
       Height = 21
       Margins.Left = 12
       Margins.Top = 0
@@ -307,6 +393,34 @@ object TransportFr: TTransportFr
       Enabled = False
       TabOrder = 3
       TextHint = #1053#1086#1084#1077#1088
+    end
+    object SelectedBrandNameEdit: TEdit
+      AlignWithMargins = True
+      Left = 349
+      Top = 15
+      Width = 276
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Enabled = False
+      TabOrder = 4
+    end
+    object SelectedLicenseCategoryEdit: TEdit
+      AlignWithMargins = True
+      Left = 315
+      Top = 15
+      Width = 30
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Enabled = False
+      TabOrder = 5
     end
   end
 end

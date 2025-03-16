@@ -1,72 +1,56 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\firedac\FireDAC.Phys.OracleWrapper.pas',0,1,4488,1,4504,0,0,,
-File_1=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\firedac\FireDAC.Phys.Oracle.pas',0,1,3975,1,3991,0,0,,
-File_2=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\firedac\FireDAC.Phys.pas',0,1,8231,1,8244,0,0,,
-File_3=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\firedac\FireDAC.Stan.Error.pas',0,1,178,1,191,0,0,,
-File_4=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\RTL\SYS\System.pas',0,1,21270,65,21283,0,0,,
-File_5=TSourceModule,'E:\Project\Managers\VehicleTypeManager.pas',0,1,68,25,91,0,0,,
-File_6=TSourceModule,'E:\Project\CreateFroms\CreateTransportModal.pas',0,1,31,52,40,0,0,,
-File_7=TSourceModule,'E:\Project\Frames\TripFrame.pas',0,1,157,1,160,0,0,,
-File_8=TSourceModule,'E:\Project\Frames\PendingTripRequestFrame.pas',0,1,13,3,13,0,0,,
-File_9=TSourceModule,'E:\Project\Frames\TransportFrame.pas',0,1,55,23,76,0,0,,
-File_10=TSourceModule,'E:\Project\Frames\TripRequestFrame.pas',0,1,1,17,11,0,0,,
-File_11=TSourceModule,'E:\Project\CreateFroms\CreateVehicleTypeModal.pas',0,1,6,2,6,0,0,,
-File_12=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\VCL\Vcl.Forms.pas',0,1,3831,1,3844,0,0,{{1755,4}
-File_13=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\rtl\common\System.Generics.Collections.pas',0,1,4788,1,4803,0,0,,
-File_14=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\firedac\FireDAC.Comp.Client.pas',0,1,11477,1,11492,0,0,,
+File_0=TSourceModule,'E:\Project\Managers\DriverManager.pas',0,1,253,1,266,0,0,,
+File_1=TSourceModule,'E:\Project\Frames\DriverFrame.pas',0,1,118,30,163,0,0,,
+File_2=TSourceModule,'E:\Project\Frames\DriverLicensesFrame.pas',0,1,345,66,368,0,0,,
+File_3=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\vclctrls\Vcl.DbGrids.pas',0,1,3800,1,3813,0,0,,
+File_4=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\VCL\Vcl.Controls.pas',0,1,9964,1,9977,0,0,,
+File_5=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\rtl\common\System.Classes.pas',0,1,17944,1,17957,0,0,,
+File_6=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\VCL\Vcl.Forms.pas',0,1,10891,1,10915,0,0,{{1755,4}
+File_7=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\firedac\FireDAC.Phys.OracleWrapper.pas',0,1,3229,1,3242,0,0,,
+File_8=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\VCL\Vcl.StdCtrls.pas',0,1,5308,1,5308,0,0,{{1657,4}
+File_9=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\rtl\common\System.Generics.Collections.pas',0,1,1409,1,1422,0,0,,
+File_10=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\VCL\Vcl.Grids.pas',0,1,6732,1,6745,0,0,,
+File_11=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\SOURCE\RTL\SYS\System.pas',0,1,25625,1,25638,0,0,,
+File_12=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\Data.DB.pas',0,1,12559,1,12573,0,0,,
+File_13=TSourceModule,'c:\program files (x86)\embarcadero\studio\20.0\source\data\firedac\FireDAC.Comp.DataSet.pas',0,1,1659,1,1674,0,0,,
 
 [Modules]
-Module0=E:\Project\Managers\DriverVehicleTypeCheckManager.pas
-Module1=E:\Project\CreateFroms\CreateDriverModal.pas
-Module2=E:\Project\TransportManager.dproj
-Module3=E:\Project\Managers\DriverManager.pas
-Module4=E:\Project\Frames\VehicleTypeFrame.pas
+Module0=E:\Project\Frames\TransportFrame.pas
+Module1=E:\Project\CreateFroms\CreateTransportModal.pas
+Module2=E:\Project\Managers\TransportManage.pas
+Module3=E:\Project\CreateFroms\CreateDriverModal.pas
+Module4=E:\Project\CreateFroms\CreateVehicleTypeModal.pas
 Module5=E:\Project\DBConnection.pas
-Module6=E:\Project\Frames\DriverLicensesFrame.pas
-Module7=E:\Project\HomeForm.pas
-Module8=E:\Project\Frames\DriverFrame.pas
-Count=9
+Count=6
 EditWindowCount=1
 
-[E:\Project\Managers\DriverVehicleTypeCheckManager.pas]
+[E:\Project\Frames\TransportFrame.pas]
+ModuleType=TSourceModule
+
+[E:\Project\CreateFroms\CreateTransportModal.pas]
+ModuleType=TSourceModule
+
+[E:\Project\Managers\TransportManage.pas]
 ModuleType=TSourceModule
 
 [E:\Project\CreateFroms\CreateDriverModal.pas]
 ModuleType=TSourceModule
 
-[E:\Project\TransportManager.dproj]
-ModuleType=TBaseProject
-
-[E:\Project\Managers\DriverManager.pas]
-ModuleType=TSourceModule
-
-[E:\Project\Frames\VehicleTypeFrame.pas]
+[E:\Project\CreateFroms\CreateVehicleTypeModal.pas]
 ModuleType=TSourceModule
 
 [E:\Project\DBConnection.pas]
 ModuleType=TSourceModule
 
-[E:\Project\Frames\DriverLicensesFrame.pas]
-ModuleType=TSourceModule
-
-[E:\Project\HomeForm.pas]
-ModuleType=TSourceModule
-
-[E:\Project\Frames\DriverFrame.pas]
-ModuleType=TSourceModule
-
 [EditWindow0]
-ViewCount=9
-CurrentEditView=E:\Project\Managers\DriverVehicleTypeCheckManager.pas
+ViewCount=6
+CurrentEditView=E:\Project\Frames\TransportFrame.pas
 View0=0
 View1=1
 View2=2
 View3=3
 View4=4
 View5=5
-View6=6
-View7=7
-View8=8
 PercentageSizes=1
 Create=1
 Visible=1
@@ -74,24 +58,24 @@ Docked=1
 State=0
 Left=0
 Top=0
-Width=8698
-Height=7100
+Width=9896
+Height=8786
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=8698
-ClientHeight=7100
+ClientWidth=9896
+ClientHeight=8786
 DockedToMainForm=1
 BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
 LeftPanelSize=1895
 LeftPanelClients=PropertyInspector,DockSite3
-LeftPanelData=00000800010100000000E10E0000000000000167070000000000000100000000550E000009000000446F636B53697465330100000000731A00001100000050726F7065727479496E73706563746F72FFFFFFFF
+LeftPanelData=000008000101000000009F0E0000000000000167070000000000000100000000550E000009000000446F636B53697465330100000000FF1900001100000050726F7065727479496E73706563746F72FFFFFFFF
 RightPanelSize=1999
 RightPanelClients=DockSite2,DockSite4
-RightPanelData=00000800010100000000E10E00000000000001CF0700000000000001000000004412000009000000446F636B53697465320100000000731A000009000000446F636B5369746534FFFFFFFF
-BottomPanelSize=0
+RightPanelData=000008000101000000009F0E00000000000001CF0700000000000001000000004412000009000000446F636B53697465320100000000FF19000009000000446F636B5369746534FFFFFFFF
+BottomPanelSize=1632
 BottomPanelClients=DockSite1,MessageView
-BottomPanelData=0000080001020200000009000000446F636B53697465310F0000004D65737361676556696577466F726D1534000000000000022606000000000000FFFFFFFF
+BottomPanelData=0000080001020100000009000000446F636B5369746531B9440000000000000260060000000000000100000000B94400000F0000004D65737361676556696577466F726DFFFFFFFF
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779D1D00000000000002F606000000000000FFFFFFFF
@@ -100,52 +84,52 @@ BottomMiddelPanelData=0000080001020200000009000000446F636B5369746530100000004772
 CustomEditViewType=TEditView
 Module=E:\Project\DBConnection.pas
 CursorX=1
-CursorY=56
+CursorY=60
+TopLine=58
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=Borland.FormDesignerView
+
+[View1]
+CustomEditViewType=TEditView
+Module=E:\Project\Managers\TransportManage.pas
+CursorX=48
+CursorY=102
+TopLine=88
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=E:\Project\Managers\TransportManage.pas
+
+[View2]
+CustomEditViewType=TEditView
+Module=E:\Project\Frames\TransportFrame.pas
+CursorX=1
+CursorY=1
 TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=E:\Project\DBConnection.pas
-
-[View1]
-CustomEditViewType=TEditView
-Module=E:\Project\Frames\DriverFrame.pas
-CursorX=65
-CursorY=86
-TopLine=68
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=E:\Project\Frames\DriverFrame.pas
-
-[View2]
-CustomEditViewType=TEditView
-Module=E:\Project\HomeForm.pas
-CursorX=1
-CursorY=51
-TopLine=38
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=E:\Project\HomeForm.pas
+EditViewName=Borland.FormDesignerView
 
 [View3]
 CustomEditViewType=TEditView
-Module=E:\Project\TransportManager.dpr
-CursorX=1
-CursorY=27
-TopLine=14
+Module=E:\Project\CreateFroms\CreateTransportModal.pas
+CursorX=19
+CursorY=50
+TopLine=40
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=E:\Project\TransportManager.dpr
+EditViewName=Borland.FormDesignerView
 
 [View4]
 CustomEditViewType=TEditView
 Module=E:\Project\CreateFroms\CreateDriverModal.pas
-CursorX=1
-CursorY=62
-TopLine=57
+CursorX=24
+CursorY=63
+TopLine=50
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -153,47 +137,14 @@ EditViewName=E:\Project\CreateFroms\CreateDriverModal.pas
 
 [View5]
 CustomEditViewType=TEditView
-Module=E:\Project\Managers\DriverVehicleTypeCheckManager.pas
+Module=E:\Project\CreateFroms\CreateVehicleTypeModal.pas
 CursorX=1
 CursorY=1
-TopLine=1
+TopLine=10
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=E:\Project\Managers\DriverVehicleTypeCheckManager.pas
-
-[View6]
-CustomEditViewType=TEditView
-Module=E:\Project\Frames\DriverLicensesFrame.pas
-CursorX=25
-CursorY=115
-TopLine=90
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=E:\Project\Frames\DriverLicensesFrame.pas
-
-[View7]
-CustomEditViewType=TEditView
-Module=E:\Project\Frames\VehicleTypeFrame.pas
-CursorX=35
-CursorY=113
-TopLine=100
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=Borland.FormDesignerView
-
-[View8]
-CustomEditViewType=TEditView
-Module=E:\Project\Managers\DriverManager.pas
-CursorX=23
-CursorY=251
-TopLine=235
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=E:\Project\Managers\DriverManager.pas
+EditViewName=E:\Project\CreateFroms\CreateVehicleTypeModal.pas
 
 [UndockedDesigner]
 Count=0
@@ -223,9 +174,8 @@ Dockable=1
 StayOnTop=0
 
 [Breakpoints]
-Count=2
-Breakpoint0='E:\Project\CreateFroms\CreateDriverModal.pas',61,'',0,1,'',1,0,0,'',1,'','','',0,''
-Breakpoint1='E:\Project\Managers\DriverManager.pas',247,'',0,1,'',1,0,0,'',1,'','','',0,''
+Count=1
+Breakpoint0='E:\Project\Frames\DriverLicensesFrame.pas',429,'',0,1,'',1,0,0,'',1,'','','',0,''
 
 [EmbarcaderoWin32Debugger_AddressBreakpoints]
 Count=0
@@ -238,16 +188,18 @@ PercentageSizes=1
 Create=1
 Visible=1
 Docked=0
-State=1
+State=2
 Left=143
 Top=279
 Width=8932
 Height=8519
 MaxLeft=-7
 MaxTop=-12
-ClientWidth=8828
-ClientHeight=8046
-BottomPanelSize=6771
+MaxWidth=8932
+MaxHeight=8519
+ClientWidth=10026
+ClientHeight=9733
+BottomPanelSize=8380
 BottomPanelClients=EditWindow0
 BottomPanelData=0000080000000000000000000000000000000000000000000000000100000000000000000C0000004564697457696E646F775F30FFFFFFFF
 
@@ -273,18 +225,18 @@ StayOnTop=0
 [MessageView]
 PercentageSizes=1
 Create=1
-Visible=0
+Visible=1
 Docked=1
 State=0
 Left=0
-Top=0
-Width=2767
-Height=1420
+Top=28
+Width=9896
+Height=1371
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=2767
-ClientHeight=1420
-TBDockHeight=1420
+ClientWidth=9896
+ClientHeight=1371
+TBDockHeight=1371
 LRDockWidth=2767
 Dockable=1
 StayOnTop=0
@@ -298,11 +250,11 @@ State=0
 Left=0
 Top=0
 Width=1999
-Height=1857
+Height=1735
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1999
-ClientHeight=1857
+ClientHeight=1735
 TBDockHeight=7148
 LRDockWidth=1999
 Dockable=1
@@ -358,16 +310,21 @@ State=0
 Left=0
 Top=345
 Width=1895
-Height=2913
+Height=2791
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1895
-ClientHeight=2913
+ClientHeight=2791
 TBDockHeight=9017
 LRDockWidth=1895
 Dockable=1
 StayOnTop=0
 SplitPos=111
+
+[PropInspDesignerSelection]
+ArrangeBy=Name
+SelectedItem=Name,
+ExpandedItems=Font=0,HorzScrollBar=0,LiveBindings=0,"LiveBindings Designer=0",Margins=0,Padding=0
 
 [DebugLogView]
 PercentageSizes=1
@@ -840,11 +797,11 @@ State=0
 Left=0
 Top=432
 Width=1999
-Height=1857
+Height=1735
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1999
-ClientHeight=1857
+ClientHeight=1735
 TBDockHeight=9017
 LRDockWidth=1999
 Dockable=1

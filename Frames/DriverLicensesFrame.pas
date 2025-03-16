@@ -3,7 +3,7 @@ unit DriverLicensesFrame;
 interface
 
 uses
-  DriverManager,  FireDAC.Comp.Client, System.Generics.Collections,
+  DriverManager, Helper, FireDAC.Comp.Client, System.Generics.Collections,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
@@ -49,7 +49,7 @@ type
     function IsLicenseIdExists(const licenseId: Integer): Boolean;
     procedure AddRowToStringGrid(category: String;
       issueDate, expirationDate: TDate; categoryId: Integer);
-    function ValidateDate(MaskEdit: TMaskEdit; var OutDate: TDate): Boolean;
+    //function ValidateDate(MaskEdit: TMaskEdit; var OutDate: TDate): Boolean;
 
 
   public
@@ -308,31 +308,7 @@ begin
   NewDriverLicenseData.ExpirationDates.Add(expirationDate);
 end;
 
-
-function TDriverLicensesFr.ValidateDate(MaskEdit: TMaskEdit;
-  var OutDate: TDate): Boolean;
-begin
-  if MaskEdit.Text = '' then
-  begin
-    OutDate := 0;
-    Exit(False);
-  end;
-
-  try
-    OutDate := StrToDate(MaskEdit.EditText);
-  except
-    on E: EConvertError do
-    begin
-      MaskEdit.Clear;
-      ShowMessage('Неверный формат даты');
-      Exit(False);
-    end;
-  end;
-  Exit(True);
-end;
-
-
-
+
 procedure TDriverLicensesFr.UpdateDriverLicenses(DriverId: integer);
 var
   i: Integer;

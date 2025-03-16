@@ -24,8 +24,9 @@ type
     VehicleTypeSearchEdit: TEdit;
     LoadButton: TButton;
     VehicleTypeSearchLabel: TLabel;
-    Edit1: TEdit;
     Label1: TLabel;
+    LicenseCategoryLookupComboBox: TDBLookupComboBox;
+    ClearButton: TButton;
     procedure DeleteButtonClick(Sender: TObject);
     procedure CreateButtonClick(Sender: TObject);
 
@@ -35,6 +36,8 @@ type
     procedure ReloadData();
     procedure clearData();
     procedure VehicleTypeSearchEditChange(Sender: TObject);
+    procedure LicenseCategoryLookupComboBoxClick(Sender: TObject);
+    procedure ClearButtonClick(Sender: TObject);
   private
     ManagerCRUD: TVehicleTypeManager;
     selectedId: Integer;
@@ -86,6 +89,13 @@ begin
     ShowMessage('Ќет выбранных строк или их больше одной');
 end;
 
+procedure TVehicleTypeFr.ClearButtonClick(Sender: TObject);
+begin
+VehicleTypeSearchEdit.Clear;
+LicenseCategoryLookupComboBox.KeyValue := -1;
+ManagerCRUD.DisableFilter;
+end;
+
 procedure TVehicleTypeFr.clearData;
 begin
 SelectedVehicleTypeEdit.Clear;
@@ -123,6 +133,11 @@ begin
   inherited;
 end;
 
+procedure TVehicleTypeFr.LicenseCategoryLookupComboBoxClick(Sender: TObject);
+begin
+ManagerCRUD.SearchByParam(VehicleTypeSearchEdit.Text, LicenseCategoryLookupComboBox.Text);
+end;
+
 procedure TVehicleTypeFr.LoadButtonClick(Sender: TObject);
 begin
 ManagerCRUD.LoadAll;
@@ -137,7 +152,7 @@ end;
 
 procedure TVehicleTypeFr.VehicleTypeSearchEditChange(Sender: TObject);
 begin
-ManagerCRUD.SearchByTypeName(VehicleTypeSearchEdit.Text);
+ManagerCRUD.SearchByParam(VehicleTypeSearchEdit.Text, LicenseCategoryLookupComboBox.Text);
 end;
 
 end.

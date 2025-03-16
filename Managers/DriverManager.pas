@@ -12,16 +12,11 @@ type
     constructor Create(AQuery: TFDQuery);
     procedure LoadAll;
     procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
-    procedure Update(AID: integer; NewFullName: String);
+    procedure Update(AID: integer; NewFullName: String; EmploymentEnd: TDate);
     function Add(FullName: String; EmploymentStart: TDateTime): Integer;
-    // procedure Search(SearchID: Integer; SearchFullName : string);
-   //procedure LoadAvailableDrivers();
+    procedure SearchByParam(SearchFullName: string);
     procedure LoadDriversWithWorkedHours(startDate: TDate);
     procedure LoadAvailableDriversByType( requeredVehicleTypeid: Integer; startDateTime, endDateTime: TDateTime);
-   // procedure LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer) overload;
-    procedure UpdateDriverVehicleTypes(DriverID: integer;
-      OldVehicleTypes, NewVehicleTypes: TList<integer>);
-    //procedure AddDriverVehicleType(DriverID, VehicleTypeId: integer);
     procedure AddDriverLicenses(
       DriverID: Integer;
       LicenseCategoryIDs: TList<Integer>;
@@ -92,44 +87,12 @@ begin
   end;
 end;
 
-{
-
-
-procedure TDriverManager.LoadAvailableDriversByType(requiredVehicleType: Integer; driverId: Integer);
-begin
-  try
-    FQuery.SQL.Text :=
-      'SELECT d.id, d.full_name, d.employment_start ' +
-      'FROM driver d ' +
-      'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
-      'WHERE dvt.vehicle_type_id = :requiredVehicleType ' +
-      'AND d.id NOT IN (' +
-      '  SELECT driver_id ' +
-      '  FROM trip t ' +
-      '  JOIN trip_request tr ON t.trip_request_id = tr.id ' +
-      '  WHERE tr.status = ''В процессе'' ' +
-      ') ' +
-      'or (d.id = :driverId) ' +
-      'GROUP BY d.id, d.full_name, d.employment_start ' +
-      'ORDER BY d.full_name';
-
-    FQuery.ParamByName('requiredVehicleType').AsInteger := requiredVehicleType;
-    FQuery.ParamByName('driverId').AsInteger := driverId;
-    FQuery.Open;
-
-  except
-    on E: Exception do
-      ShowMessage('Ошибка при загрузке свободных водителей с id типа транспорта (' +
-        requiredVehicleType.ToString + '): ' + E.Message);
-  end;
-end;
- }
 
 function TDriverManager.Add(FullName: String; EmploymentStart: TDateTime): Integer;
 begin
   try
     FQuery.SQL.Text :=
-      'INSERT INTO driver (full_name, employment_start) VALUES (:fullName, :employmentStart) '
+      'INSERT INTO driver (full_name, employment_start, employment_end) VALUES (:fullName, :employmentStart) '
       + ' RETURNING id INTO :NewID';
     FQuery.ParamByName('fullName').AsString := FullName;
     FQuery.ParamByName('employmentStart').AsDateTime := EmploymentStart;
@@ -207,6 +170,7 @@ begin
   // LoadAll;
 end;
  *)
+
 procedure TDriverManager.LoadAll;
 begin
   try
@@ -232,19 +196,22 @@ begin
   end;
 end;
 
-procedure TDriverManager.Update(AID: integer; NewFullName: String);
+
+//нельзя поменять дату на null (а надо ли?)
+procedure TDriverManager.Update(AID: integer; NewFullName: String; EmploymentEnd: TDate);
 begin
   try
     FQuery.SQL.Text :=
-      'UPDATE driver SET full_name = :NewFullName WHERE id = :AID';
+     'UPDATE driver SET full_name = :NewFullName, employment_end = :EmploymentEnd WHERE id = :AID';
     FQuery.ParamByName('NewFullName').AsString := NewFullName;
+    FQuery.ParamByName('EmploymentEnd').AsDate := EmploymentEnd;
     FQuery.ParamByName('AID').AsInteger := AID;
     FQuery.ExecSQL;
 
     LoadAll;
   except
     on E: Exception do
-      ShowMessage('Ошибка при попытке обновления ФИО водителя: ' + E.Message);
+      ShowMessage('Ошибка при попытке обновления водителя: ' + E.Message);
   end;
 end;
 
@@ -326,22 +293,19 @@ begin
 end;
 
 
-
-procedure TDriverManager.UpdateDriverVehicleTypes(DriverID: integer;
-  OldVehicleTypes, NewVehicleTypes: TList<integer>);
-var
-  i: integer;
-  VehicleTypeId: integer;
+
+procedure TDriverManager.SearchByParam(SearchFullName: string);
 begin
+  FQuery.Filtered := False;
+  FQuery.FilterOptions := [foCaseInsensitive];
 
-  try
-
-    LoadAll
-  except
-    on E: Exception do
-      ShowMessage('Ошибка при попытке обновления типов транспорта у водителя: '
-        + E.Message);
-  end;
+  if SearchFullName <> '' then
+    begin
+       FQuery.Filter := Format('full_name LIKE ''%%%s%%''', [SearchFullName]);
+       FQuery.Filtered := True;
+    end;
 end;
+
+
 
 end.

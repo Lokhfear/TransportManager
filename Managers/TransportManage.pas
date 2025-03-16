@@ -13,8 +13,8 @@ type
     procedure Delete(numberPlate: String; ShowDeleteMessage: Boolean);
     procedure Update(numberPlate: String; EndExploitation: TDate);
     procedure Add(numberPlate: String;
-      StartExploitation: TDateTime; VehicleTypeID: Integer);
-
+      StartExploitation: TDateTime; VehicleTypeID, TransportBrandID: Integer);
+  procedure SearchByParam(NumberPlate, VehicleTypeName, LicenseCategory, TransportBrand: string);
    //procedure LoadAvailableTransport();
     procedure LoadAvailableTransportByType(requiredVehicleType: Integer; startDateTime, endDateTime: TDateTime);
    // procedure LoadAvailableTransportByType(requiredVehicleType: Integer; NumberPlate: string) overload;
@@ -94,13 +94,14 @@ end;
 }
 
 procedure TTransportManager.Add(numberPlate: String;
-  StartExploitation: TDateTime; VehicleTypeID: Integer);
+  StartExploitation: TDateTime; VehicleTypeID, TransportBrandID: Integer);
 begin
 try
   FQuery.SQL.Text :=
-    'INSERT INTO transport (number_plate, vehicle_type_id, start_exploitation) '
-    + 'VALUES (:numberPlate, :vehicleTypeID, :startExploitation)';
+    'INSERT INTO transport (number_plate, transport_brand_id, vehicle_type_id, start_exploitation) '
+    + 'VALUES (:numberPlate, :transportBrandID, :vehicleTypeID, :startExploitation)';
   FQuery.ParamByName('numberPlate').AsString := numberPlate;
+  FQuery.ParamByName('transportBrandID').AsInteger := TransportBrandID;
   FQuery.ParamByName('vehicleTypeID').AsInteger := VehicleTypeID;
   FQuery.ParamByName('startExploitation').AsDateTime := StartExploitation;
   FQuery.ExecSQL;
@@ -137,9 +138,13 @@ procedure TTransportManager.LoadAll;
 begin
 try
   FQuery.SQL.Text :=
-    'SELECT t.number_plate, vt.type_name, ' +
-    't.start_exploitation, t.end_exploitation '
-    + 'FROM transport t ' + 'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id';
+   'SELECT t.number_plate, vt.type_name, lc.category_name AS license_category, ' +
+      'tb.brand_name, t.start_exploitation, t.end_exploitation ' +
+      'FROM transport t ' +
+      'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id ' +
+      'JOIN license_category lc ON vt.required_license_id = lc.id ' +
+      'JOIN transport_brand tb ON t.transport_brand_id = tb.id ' +
+      'ORDER BY vt.type_name';
   FQuery.Open;
 except
   on E: Exception do
@@ -168,5 +173,35 @@ try
     ShowMessage('Ошибка. Не удалось обновить выбранный транспорт: ' + E.Message);
 end;
 end;
+
+
+procedure TTransportManager.SearchByParam(NumberPlate, VehicleTypeName, LicenseCategory, TransportBrand: string);
+var FilterString : string;
+begin
+  try
+    FQuery.Filtered := False;
+
+    FQuery.Filter := '';
+    FQuery.FilterOptions := [foCaseInsensitive];
+
+     FilterString := Format('number_plate LIKE ''%%%s%%''', [NumberPlate]);
+
+    if VehicleTypeName <> '' then
+      FilterString := FilterString + ' AND ' + Format('type_name = ''%s''', [VehicleTypeName]);
+    if LicenseCategory <> '' then
+      FilterString := FilterString + ' AND ' + Format('license_category = ''%s''', [LicenseCategory]);
+    if TransportBrand <> '' then
+      FilterString := FilterString + ' AND ' + Format('brand_name = ''%s''', [TransportBrand]);
+
+    FQuery.Filter := FilterString;
+    FQuery.Filtered := True;
+  except
+    on E: Exception do
+      ShowMessage('Ошибка при фильтрации данных: ' + E.Message);
+  end;
+end;
+
+
+
 end.
 

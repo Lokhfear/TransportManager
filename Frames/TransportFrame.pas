@@ -15,7 +15,6 @@ type
     BottomPanel: TPanel;
     TransportDBGrid: TDBGrid;
     TopPanel: TPanel;
-    ManipulationGroupBox: TGroupBox;
     EditGroupBox: TGroupBox;
     SelectedVehicleTypeEdit: TEdit;
     SelectedEndExploitationDateTimePicker: TDateTimePicker;
@@ -24,8 +23,7 @@ type
     SearchGroupBox: TGroupBox;
     VehicleTypeCreateLabel: TLabel;
     NumberPlateCreateLabel: TLabel;
-    Edit3: TEdit;
-    Edit4: TEdit;
+    NumberPlateSearchEdit: TEdit;
     Edit5: TEdit;
     Edit6: TEdit;
     Edit7: TEdit;
@@ -34,11 +32,19 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    CreateButton: TButton;
-    DeleteButton: TButton;
+    SelectedBrandNameEdit: TEdit;
+    SelectedLicenseCategoryEdit: TEdit;
+    VehicleTypeSearchComboBox: TDBLookupComboBox;
+    LicenseCategorySearchComboBox: TDBLookupComboBox;
+    Label5: TLabel;
+    TransportBrandSearchComboBox: TDBLookupComboBox;
+    ManipulationGroupBox: TGroupBox;
     LoadButton: TButton;
+    CreateButton: TButton;
     ChangeButton: TButton;
     TransportHistoryButton: TButton;
+    Brandlabel: TLabel;
+    ClearButton: TButton;
 
     constructor Create(Owner: TComponent; Query: TFDQuery);
     procedure TransportDBGridCellClick(Column: TColumn);
@@ -46,6 +52,11 @@ type
     procedure CreateButtonClick(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
     procedure ReloadData();
+    procedure ClearButtonClick(Sender: TObject);
+    procedure NumberPlateSearchEditChange(Sender: TObject);
+    procedure VehicleTypeSearchComboBoxClick(Sender: TObject);
+    procedure LicenseCategorySearchComboBoxClick(Sender: TObject);
+    procedure TransportBrandSearchComboBoxClick(Sender: TObject);
   private
     { Private declarations }
     ManagerCRUD: TTransportManager;
@@ -60,10 +71,22 @@ implementation
 
 {$R *.dfm}
 
+procedure TTransportFr.ClearButtonClick(Sender: TObject);
+begin
+ NumberPlateSearchEdit.Clear;
+ VehicleTypeSearchComboBox.KeyValue := -1;
+ LicenseCategorySearchComboBox.KeyValue := -1;
+ TransportBrandSearchComboBox.KeyValue := -1;
+
+ ManagerCRUD.DisableFilter;
+end;
+
 procedure TTransportFr.clearData;
 begin
     SelectedVehicleTypeEdit.Clear;
     SelectedNumberPlateEdit.Clear;
+    SelectedBrandNameEdit.Clear;
+    SelectedLicenseCategoryEdit.Clear;
     SelectedEndExploitationDateTimePicker.date := date;
     SelectedStartExploitationDateTimePicker.date := date;
 end;
@@ -99,6 +122,9 @@ begin
 
   clearData;
 
+  VehicleTypeSearchComboBox.KeyValue := -1;
+  LicenseCategorySearchComboBox.KeyValue := -1;
+  TransportBrandSearchComboBox.KeyValue := -1;
 end;
 
 procedure TTransportFr.CreateButtonClick(Sender: TObject);
@@ -119,9 +145,27 @@ end;
 
 
 
+procedure TTransportFr.LicenseCategorySearchComboBoxClick(Sender: TObject);
+begin
+ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
+LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
+end;
+
 procedure TTransportFr.LoadButtonClick(Sender: TObject);
 begin
   ManagerCRUD.LoadAll;
+end;
+
+procedure TTransportFr.NumberPlateSearchEditChange(Sender: TObject);
+begin
+ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
+LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
+end;
+
+procedure TTransportFr.TransportBrandSearchComboBoxClick(Sender: TObject);
+begin
+ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
+LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
 end;
 
 procedure TTransportFr.TransportDBGridCellClick(Column: TColumn);
@@ -130,6 +174,10 @@ begin
     ('number_plate').AsString;
   SelectedVehicleTypeEdit.Text := TransportDBGrid.DataSource.DataSet.FieldByName
     ('type_name').AsString;
+  SelectedBrandNameEdit.Text := TransportDBGrid.DataSource.DataSet.FieldByName
+    ('brand_name').AsString;
+  SelectedLicenseCategoryEdit.Text := TransportDBGrid.DataSource.DataSet.FieldByName
+    ('license_category').AsString;
   SelectedEndExploitationDateTimePicker.Date :=
     Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('end_exploitation')
     .AsDateTime);
@@ -137,6 +185,12 @@ begin
     Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('start_exploitation')
     .AsDateTime);
 
+end;
+
+procedure TTransportFr.VehicleTypeSearchComboBoxClick(Sender: TObject);
+begin
+ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
+LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
 end;
 
 end.

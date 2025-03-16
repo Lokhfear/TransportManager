@@ -32,6 +32,8 @@ type
     licenseCategoryQuery: TFDQuery;
     licenseCategoryDataSource: TDataSource;
     DriverLicensesDataSource: TDataSource;
+    TransportBrandQuery: TFDQuery;
+    TransportBrandDataSource: TDataSource;
   private
     { Private declarations }
   public

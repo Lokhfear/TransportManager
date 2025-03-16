@@ -5,7 +5,7 @@ object CreateTransport: TCreateTransport
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = #1057#1086#1079#1076#1072#1090#1100' '#1090#1088#1072#1085#1089#1087#1086#1088#1090
-  ClientHeight = 171
+  ClientHeight = 178
   ClientWidth = 454
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,12 +18,12 @@ object CreateTransport: TCreateTransport
   Position = poScreenCenter
   DesignSize = (
     454
-    171)
+    178)
   PixelsPerInch = 96
   TextHeight = 13
   object NumberPlateLabel: TLabel
     Left = 8
-    Top = 14
+    Top = 22
     Width = 110
     Height = 13
     Alignment = taRightJustify
@@ -31,37 +31,37 @@ object CreateTransport: TCreateTransport
     Caption = #1053#1086#1084#1077#1088' '#1072#1074#1090#1086#1084#1086#1073#1080#1083#1103
   end
   object startDateLabel: TLabel
-    Left = 12
-    Top = 68
+    Left = 228
+    Top = 24
     Width = 110
     Height = 13
     Caption = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
   end
   object VehicleTypeLabel: TLabel
-    Left = 232
-    Top = 14
+    Left = 228
+    Top = 78
     Width = 80
     Height = 13
     Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
   end
-  object endDateLabel: TLabel
-    Left = 232
-    Top = 68
-    Width = 104
+  object Label1: TLabel
+    Left = 8
+    Top = 78
+    Width = 32
     Height = 13
-    Caption = #1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
+    Caption = #1052#1072#1088#1082#1072
   end
   object NumberPlateCreateEdit: TEdit
     Left = 8
-    Top = 33
+    Top = 41
     Width = 186
     Height = 21
     TabOrder = 0
     TextHint = 'A12BC2'
   end
   object StartExploitationCreateDateTimePicker: TDateTimePicker
-    Left = 8
-    Top = 87
+    Left = 228
+    Top = 43
     Width = 186
     Height = 21
     Date = 45716.000000000000000000
@@ -70,7 +70,7 @@ object CreateTransport: TCreateTransport
   end
   object CancelButton: TButton
     Left = 158
-    Top = 128
+    Top = 141
     Width = 117
     Height = 25
     Anchors = [akLeft, akTop, akRight, akBottom]
@@ -81,7 +81,7 @@ object CreateTransport: TCreateTransport
   end
   object CreateButton: TButton
     Left = 297
-    Top = 128
+    Top = 141
     Width = 117
     Height = 25
     Anchors = [akLeft, akTop, akRight, akBottom]
@@ -91,24 +91,24 @@ object CreateTransport: TCreateTransport
     TabOrder = 3
     OnClick = CreateButtonClick
   end
-  object EndExploitationCreateDateTimePicker: TDateTimePicker
-    Left = 228
-    Top = 87
-    Width = 186
-    Height = 21
-    Date = 45716.000000000000000000
-    Time = 0.955198333336738900
-    Enabled = False
-    TabOrder = 4
-  end
   object VehicleTypeDBLookupComboBox: TDBLookupComboBox
     Left = 228
-    Top = 33
+    Top = 97
     Width = 186
     Height = 21
     KeyField = 'ID'
-    ListField = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
+    ListField = 'TYPE_NAME'
     ListSource = DBConnect.VehicleTypeDataSource
+    TabOrder = 4
+  end
+  object TransportBrandLookupComboBox: TDBLookupComboBox
+    Left = 8
+    Top = 97
+    Width = 186
+    Height = 21
+    KeyField = 'ID'
+    ListField = 'BRAND_NAME'
+    ListSource = DBConnect.TransportBrandDataSource
     TabOrder = 5
   end
 end

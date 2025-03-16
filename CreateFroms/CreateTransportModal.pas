@@ -14,12 +14,12 @@ type
     StartExploitationCreateDateTimePicker: TDateTimePicker;
     CancelButton: TButton;
     CreateButton: TButton;
-    EndExploitationCreateDateTimePicker: TDateTimePicker;
     VehicleTypeDBLookupComboBox: TDBLookupComboBox;
     NumberPlateLabel: TLabel;
     startDateLabel: TLabel;
     VehicleTypeLabel: TLabel;
-    endDateLabel: TLabel;
+    Label1: TLabel;
+    TransportBrandLookupComboBox: TDBLookupComboBox;
     procedure CreateButtonClick(Sender: TObject);
   private
     ManagerCrud: TTransportManager;
@@ -37,25 +37,30 @@ begin
   ManagerCrud := TManagerCrud;
 
   StartExploitationCreateDateTimePicker.Date := date;
-  EndExploitationCreateDateTimePicker.Date := date;
+ // EndExploitationCreateDateTimePicker.Date := date;
 end;
 
 procedure TCreateTransport.CreateButtonClick(Sender: TObject);
 begin
  // Изменить: (проверять по кол-ву символов?)
-if (NumberPlateCreateEdit.Text <> '') and
-   (not VarIsClear(VehicleTypeDBLookupComboBox.KeyValue)) then
+if (Length(NumberPlateCreateEdit.Text) = 6) and
+   (not VarIsClear(VehicleTypeDBLookupComboBox.KeyValue))
+   and (not VarIsClear(TransportBrandLookupComboBox.KeyValue)) then
   begin
     ManagerCRUD.Add(NumberPlateCreateEdit.Text,
       StartExploitationCreateDateTimePicker.Date,
-      VehicleTypeDBLookupComboBox.KeyValue);
+      VehicleTypeDBLookupComboBox.KeyValue,
+      TransportBrandLookupComboBox.KeyValue);
 
     NumberPlateCreateEdit.Clear;
     VehicleTypeDBLookupComboBox.KeyValue := null;
+    TransportBrandLookupComboBox.KeyValue := null;
     StartExploitationCreateDateTimePicker.Date := Date;
-    EndExploitationCreateDateTimePicker.Date := date;
-  end;
-
+    //EndExploitationCreateDateTimePicker.Date := date;
+    ModalResult := mrOk;
+  end
+ else
+     ModalResult := mrNone;
 end;
 
 end.

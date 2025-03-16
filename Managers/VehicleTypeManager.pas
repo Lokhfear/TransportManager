@@ -13,7 +13,7 @@ type
     procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
     procedure Update(AID: integer; NewTypeName: String);
     procedure Add(typeName: String; requiredLicenseId : Integer);
-    procedure SearchByTypeName(SearchTypeName : string);
+    procedure SearchByParam(SearchTypeName , SearchLicenseCategory: string);
   private
   end;
 
@@ -81,17 +81,31 @@ except
 end;
 end;
 
-procedure TVehicleTypeManager.SearchByTypeName(SearchTypeName: string);
+procedure TVehicleTypeManager.SearchByParam(SearchTypeName, SearchLicenseCategory: string);
+var
+  FilterStr: string;
 begin
   FQuery.Filtered := False;
+  FQuery.FilterOptions := [foCaseInsensitive];
+  FilterStr := '';
 
-  if SearchTypeName = '' then
-    Exit
-  else
-   FQuery.Filter := Format('type_name LIKE ''%%%s%%''', [SearchTypeName]);
+  if SearchTypeName <> '' then
+    FilterStr := Format('type_name LIKE ''%%%s%%''', [SearchTypeName]);
 
-  FQuery.Filtered := True;
+  if SearchLicenseCategory <> '' then
+  begin
+    if FilterStr <> '' then
+      FilterStr := FilterStr + ' AND ';
+    FilterStr := FilterStr + Format('license_category = ''%s''', [SearchLicenseCategory]);
+  end;
+
+  if FilterStr <> '' then
+  begin
+    FQuery.Filter := FilterStr;
+    FQuery.Filtered := True;
+  end;
 end;
+
 
 
 

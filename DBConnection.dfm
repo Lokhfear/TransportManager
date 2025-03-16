@@ -61,14 +61,18 @@ object DBConnect: TDBConnect
     Active = True
     Connection = FDConnection1
     SQL.Strings = (
-      'SELECT'
-      '    t.number_plate,'
-      '    type_name,'
-      'start_exploitation,'
-      'end_exploitation'
-      'FROM'
-      '         transport t'
-      '    JOIN vehicle_type vt ON t.vehicle_type_id = vt.id')
+      'SELECT '
+      '    t.number_plate, '
+      '    vt.type_name,'
+      '    lc.category_name as license_category,'
+      '    tb.brand_name,'
+      '    t.start_exploitation, '
+      '    t.end_exploitation'
+      'FROM transport t'
+      'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id'
+      'JOIN license_category lc ON vt.required_license_id = lc.id'
+      'JOIN transport_brand tb On t.transport_brand_id = tb.id'
+      'order by type_name')
     Left = 56
     Top = 136
   end
@@ -231,5 +235,18 @@ object DBConnect: TDBConnect
     DataSet = vehicleType
     Left = 560
     Top = 136
+  end
+  object TransportBrandQuery: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'select * from transport_brand')
+    Left = 280
+    Top = 384
+  end
+  object TransportBrandDataSource: TDataSource
+    DataSet = TransportBrandQuery
+    Left = 344
+    Top = 384
   end
 end

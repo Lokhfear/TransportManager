@@ -97,6 +97,8 @@ object PendingTripRequestFr: TPendingTripRequestFr
       Align = alLeft
       Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100' '#1079#1072#1103#1074#1082#1091
       TabOrder = 0
+      ExplicitLeft = -3
+      ExplicitTop = -3
       object Label1: TLabel
         Left = 38
         Top = 71
@@ -152,7 +154,7 @@ object PendingTripRequestFr: TPendingTripRequestFr
         Left = 50
         Top = 44
         Width = 145
-        Height = 20
+        Height = 21
         TabOrder = 3
       end
     end

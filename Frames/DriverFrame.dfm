@@ -133,8 +133,6 @@ object DriverFr: TDriverFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 1
-      ExplicitLeft = -5
-      ExplicitTop = -4
       object FullNameLabel: TLabel
         Left = 18
         Top = 19
@@ -168,9 +166,6 @@ object DriverFr: TDriverFr
       Align = alClient
       ParentBackground = False
       TabOrder = 2
-      ExplicitLeft = 395
-      ExplicitTop = -4
-      ExplicitWidth = 247
     end
   end
   object EditGroupbox: TGroupBox
@@ -184,8 +179,6 @@ object DriverFr: TDriverFr
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
-    ExplicitLeft = 1
-    ExplicitTop = 184
     object SelectedLicenseCategoriesEdit: TEdit
       AlignWithMargins = True
       Left = 560
@@ -199,8 +192,7 @@ object DriverFr: TDriverFr
       Align = alLeft
       Enabled = False
       TabOrder = 0
-      ExplicitLeft = 552
-      ExplicitTop = 14
+      ExplicitHeight = 21
     end
     object SelectedFullNameEdit: TEdit
       AlignWithMargins = True
@@ -233,6 +225,7 @@ object DriverFr: TDriverFr
       MaxLength = 10
       TabOrder = 2
       Text = '  .  .    '
+      ExplicitHeight = 21
     end
     object SelectedEmploymentEndEdit: TMaskEdit
       AlignWithMargins = True

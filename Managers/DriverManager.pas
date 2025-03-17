@@ -70,6 +70,7 @@ begin
       'JOIN driver_vehicle_type dvt ON d.id = dvt.driver_id ' +
       'AND dvt.vehicle_type_id = :requerredVehicleTypeid ' +
       'WHERE availabilitychecker.isdriverfree(d.id, :startdatetime, :enddatetime) ' +
+      'AND d.employment_end IS NULL OR d.employment_end >= :workDate  ' +
       'ORDER BY worked_hours ';
 
 

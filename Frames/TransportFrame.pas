@@ -3,7 +3,7 @@ unit TransportFrame;
 interface
 
 uses
-  DBConnection, CreateTransportModal,
+  DBConnection, CreateTransportModal, Helper,
   TransportManage, FireDAC.Comp.Client,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
@@ -17,21 +17,12 @@ type
     TopPanel: TPanel;
     EditGroupBox: TGroupBox;
     SelectedVehicleTypeEdit: TEdit;
-    SelectedEndExploitationDateTimePicker: TDateTimePicker;
     SelectedStartExploitationDateTimePicker: TDateTimePicker;
     SelectedNumberPlateEdit: TEdit;
     SearchGroupBox: TGroupBox;
     VehicleTypeCreateLabel: TLabel;
     NumberPlateCreateLabel: TLabel;
     NumberPlateSearchEdit: TEdit;
-    Edit5: TEdit;
-    Edit6: TEdit;
-    Edit7: TEdit;
-    Edit8: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
     SelectedBrandNameEdit: TEdit;
     SelectedLicenseCategoryEdit: TEdit;
     VehicleTypeSearchComboBox: TDBLookupComboBox;
@@ -42,9 +33,17 @@ type
     LoadButton: TButton;
     CreateButton: TButton;
     ChangeButton: TButton;
-    TransportHistoryButton: TButton;
     Brandlabel: TLabel;
     ClearButton: TButton;
+    SelectedEndExploitationEdit: TMaskEdit;
+    SearchStartExploitationFrom: TMaskEdit;
+    Label1: TLabel;
+    Label3: TLabel;
+    SearchStartExploitationTo: TMaskEdit;
+    SearchEndExploitationFrom: TMaskEdit;
+    Label2: TLabel;
+    Label4: TLabel;
+    SearchEndExploitationTo: TMaskEdit;
 
     constructor Create(Owner: TComponent; Query: TFDQuery);
     procedure TransportDBGridCellClick(Column: TColumn);
@@ -53,10 +52,7 @@ type
     procedure LoadButtonClick(Sender: TObject);
     procedure ReloadData();
     procedure ClearButtonClick(Sender: TObject);
-    procedure NumberPlateSearchEditChange(Sender: TObject);
-    procedure VehicleTypeSearchComboBoxClick(Sender: TObject);
-    procedure LicenseCategorySearchComboBoxClick(Sender: TObject);
-    procedure TransportBrandSearchComboBoxClick(Sender: TObject);
+    procedure SearchByParam(Sender: TObject);
   private
     { Private declarations }
     ManagerCRUD: TTransportManager;
@@ -87,7 +83,7 @@ begin
     SelectedNumberPlateEdit.Clear;
     SelectedBrandNameEdit.Clear;
     SelectedLicenseCategoryEdit.Clear;
-    SelectedEndExploitationDateTimePicker.date := date;
+    SelectedEndExploitationEdit.clear;
     SelectedStartExploitationDateTimePicker.date := date;
 end;
 
@@ -99,18 +95,46 @@ begin
   ManagerCRUD.LoadAll;
 end;
 
-procedure TTransportFr.ChangeButtonClick(Sender: TObject);
+
+
+procedure TTransportFr.SearchByParam(Sender: TObject);
+var
+StartExploitationDateFrom, StartExploitationDateTo,
+EndExploitationDateFrom, EndExploitationDateTo : TDate;
 begin
 
-  //Невозможно поставить null в end_exploitation из-за dataPicker
-  if SelectedNumberPlateEdit.Text = '' then
+ValidateDate(SearchStartExploitationFrom, StartExploitationDateFrom);
+ValidateDate(SearchStartExploitationTo, StartExploitationDateTo);
+ValidateDate(SearchEndExploitationFrom, EndExploitationDateFrom);
+ValidateDate(SearchEndExploitationTo, EndExploitationDateTo);
+
+ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
+LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text,
+StartExploitationDateFrom, StartExploitationDateTo,
+EndExploitationDateFrom, EndExploitationDateTo);
+
+end;
+
+procedure TTransportFr.ChangeButtonClick(Sender: TObject);
+var
+   EndExploitationDate : TDate;
+begin
+
+  if (SelectedNumberPlateEdit.Text = '')  or not
+     (ValidateDate(SelectedEndExploitationEdit, EndExploitationDate)) then
   begin
     exit;
-    ShowMessage('Выберите транспорт');
   end;
-  
+
+
+  if EndExploitationDate < SelectedStartExploitationDateTimePicker.Date then
+  begin
+     ShowMessage('Дата окончания эксплуатации не может быть раньше даты начала эксплуатации');
+     exit;
+  end;
+
   ManagerCRUD.Update(SelectedNumberPlateEdit.Text,
-  SelectedEndExploitationDateTimePicker.Date)
+  EndExploitationDate)
   
 end;
 
@@ -143,30 +167,11 @@ finally
   
 end;
 
-
-
-procedure TTransportFr.LicenseCategorySearchComboBoxClick(Sender: TObject);
-begin
-ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
-LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
-end;
-
 procedure TTransportFr.LoadButtonClick(Sender: TObject);
 begin
   ManagerCRUD.LoadAll;
 end;
 
-procedure TTransportFr.NumberPlateSearchEditChange(Sender: TObject);
-begin
-ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
-LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
-end;
-
-procedure TTransportFr.TransportBrandSearchComboBoxClick(Sender: TObject);
-begin
-ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
-LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
-end;
 
 procedure TTransportFr.TransportDBGridCellClick(Column: TColumn);
 begin
@@ -178,19 +183,13 @@ begin
     ('brand_name').AsString;
   SelectedLicenseCategoryEdit.Text := TransportDBGrid.DataSource.DataSet.FieldByName
     ('license_category').AsString;
-  SelectedEndExploitationDateTimePicker.Date :=
-    Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('end_exploitation')
-    .AsDateTime);
+  SelectedEndExploitationEdit.Text :=
+   TransportDBGrid.DataSource.DataSet.FieldByName('end_exploitation')
+    .AsString;
   SelectedStartExploitationDateTimePicker.Date :=
     Trunc(TransportDBGrid.DataSource.DataSet.FieldByName('start_exploitation')
     .AsDateTime);
 
-end;
-
-procedure TTransportFr.VehicleTypeSearchComboBoxClick(Sender: TObject);
-begin
-ManagerCRUD.SearchByParam(NumberPlateSearchEdit.Text, VehicleTypeSearchComboBox.Text,
-LicenseCategorySearchComboBox.Text, TransportBrandSearchComboBox.Text);
 end;
 
 end.

@@ -19,7 +19,8 @@ BEGIN
     FROM trip_request tr
     JOIN trip t ON t.trip_request_id = tr.id
     WHERE t.driver_id = p_driver_id
-      AND TRUNC(tr.start_datetime) = p_date;
+      AND TRUNC(tr.start_datetime) = p_date
+      AND tr.status_id <> 5;                --не отменен
 
     total_hours := total_hours + (total_minutes / 60);
 

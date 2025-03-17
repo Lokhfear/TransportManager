@@ -75,7 +75,7 @@ object TransportFr: TTransportFr
           Title.Font.Height = -11
           Title.Font.Name = 'Tahoma'
           Title.Font.Style = [fsBold]
-          Width = 280
+          Width = 250
           Visible = True
         end
         item
@@ -123,8 +123,8 @@ object TransportFr: TTransportFr
       TabOrder = 0
       ExplicitTop = -4
       object VehicleTypeCreateLabel: TLabel
-        Left = 120
-        Top = 22
+        Left = 132
+        Top = 24
         Width = 80
         Height = 13
         Caption = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
@@ -136,125 +136,161 @@ object TransportFr: TTransportFr
         Height = 13
         Caption = #1053#1086#1084#1077#1088
       end
-      object Label1: TLabel
-        Left = 12
-        Top = 71
-        Width = 110
-        Height = 13
-        Caption = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
-      end
-      object Label2: TLabel
-        Left = 272
-        Top = 71
-        Width = 104
-        Height = 13
-        Caption = #1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
-      end
-      object Label3: TLabel
-        Left = 102
-        Top = 93
-        Width = 12
-        Height = 13
-        Caption = #1087#1086
-      end
-      object Label4: TLabel
-        Left = 364
-        Top = 93
-        Width = 12
-        Height = 13
-        Caption = #1087#1086
-      end
       object Label5: TLabel
-        Left = 272
+        Left = 319
         Top = 22
         Width = 54
         Height = 13
         Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103
       end
       object Brandlabel: TLabel
-        Left = 358
+        Left = 414
         Top = 22
         Width = 32
         Height = 13
         Caption = #1052#1072#1088#1082#1072
       end
+      object Label1: TLabel
+        Left = 11
+        Top = 70
+        Width = 110
+        Height = 13
+        Caption = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
+      end
+      object Label3: TLabel
+        Left = 84
+        Top = 89
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
+      object Label2: TLabel
+        Left = 229
+        Top = 70
+        Width = 104
+        Height = 13
+        Caption = #1050#1086#1085#1077#1094' '#1101#1082#1089#1087#1083#1091#1072#1090#1072#1094#1080#1080
+      end
+      object Label4: TLabel
+        Left = 296
+        Top = 89
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
       object NumberPlateSearchEdit: TEdit
         Left = 12
-        Top = 41
+        Top = 45
         Width = 84
         Height = 21
         TabOrder = 0
-        OnChange = NumberPlateSearchEditChange
-      end
-      object Edit5: TEdit
-        Left = 12
-        Top = 90
-        Width = 84
-        Height = 21
-        TabOrder = 1
-      end
-      object Edit6: TEdit
-        Left = 120
-        Top = 90
-        Width = 84
-        Height = 21
-        TabOrder = 2
-      end
-      object Edit7: TEdit
-        Left = 274
-        Top = 90
-        Width = 84
-        Height = 21
-        TabOrder = 3
-      end
-      object Edit8: TEdit
-        Left = 382
-        Top = 93
-        Width = 84
-        Height = 21
-        TabOrder = 4
+        OnClick = SearchByParam
       end
       object VehicleTypeSearchComboBox: TDBLookupComboBox
-        Left = 120
-        Top = 41
-        Width = 120
+        Left = 127
+        Top = 45
+        Width = 165
         Height = 21
         KeyField = 'ID'
         ListField = 'TYPE_NAME'
         ListSource = DBConnect.VehicleTypeDataSource
-        TabOrder = 5
-        OnClick = VehicleTypeSearchComboBoxClick
+        TabOrder = 1
+        OnClick = SearchByParam
       end
       object LicenseCategorySearchComboBox: TDBLookupComboBox
-        Left = 274
-        Top = 41
-        Width = 56
+        Left = 317
+        Top = 43
+        Width = 67
         Height = 21
         KeyField = 'ID'
         ListField = 'CATEGORY_NAME'
         ListSource = DBConnect.licenseCategoryDataSource
-        TabOrder = 6
-        OnClick = LicenseCategorySearchComboBoxClick
+        TabOrder = 2
+        OnClick = SearchByParam
       end
       object TransportBrandSearchComboBox: TDBLookupComboBox
-        Left = 358
-        Top = 41
+        Left = 414
+        Top = 43
         Width = 152
         Height = 21
         KeyField = 'ID'
         ListField = 'BRAND_NAME'
         ListSource = DBConnect.TransportBrandDataSource
-        TabOrder = 7
-        OnClick = TransportBrandSearchComboBoxClick
+        TabOrder = 3
+        OnClick = SearchByParam
       end
       object ClearButton: TButton
-        Left = 528
-        Top = 91
-        Width = 120
-        Height = 25
+        Left = 414
+        Top = 86
+        Width = 152
+        Height = 21
         Caption = #1054#1090#1095#1080#1089#1090#1080#1090#1100
-        TabOrder = 8
+        TabOrder = 4
         OnClick = ClearButtonClick
+      end
+      object SearchStartExploitationFrom: TMaskEdit
+        AlignWithMargins = True
+        Left = 8
+        Top = 86
+        Width = 60
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 5
+        Text = '  .  .    '
+        OnExit = SearchByParam
+      end
+      object SearchStartExploitationTo: TMaskEdit
+        AlignWithMargins = True
+        Left = 107
+        Top = 86
+        Width = 60
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 6
+        Text = '  .  .    '
+        OnExit = SearchByParam
+      end
+      object SearchEndExploitationFrom: TMaskEdit
+        AlignWithMargins = True
+        Left = 229
+        Top = 86
+        Width = 63
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 7
+        Text = '  .  .    '
+        OnExit = SearchByParam
+      end
+      object SearchEndExploitationTo: TMaskEdit
+        AlignWithMargins = True
+        Left = 319
+        Top = 86
+        Width = 65
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 8
+        Text = '  .  .    '
+        OnExit = SearchByParam
       end
     end
     object ManipulationGroupBox: TGroupBox
@@ -268,8 +304,6 @@ object TransportFr: TTransportFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 1
-      ExplicitLeft = 670
-      ExplicitTop = -4
       DesignSize = (
         195
         119)
@@ -301,15 +335,6 @@ object TransportFr: TTransportFr
         TabOrder = 2
         OnClick = ChangeButtonClick
       end
-      object TransportHistoryButton: TButton
-        Left = 6
-        Top = 59
-        Width = 16
-        Height = 19
-        Caption = #1048#1089#1090#1086#1088#1080#1103' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
-        Enabled = False
-        TabOrder = 3
-      end
     end
   end
   object EditGroupBox: TGroupBox
@@ -333,6 +358,7 @@ object TransportFr: TTransportFr
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 123
     object SelectedVehicleTypeEdit: TEdit
       AlignWithMargins = True
       Left = 119
@@ -348,21 +374,6 @@ object TransportFr: TTransportFr
       TabOrder = 0
       TextHint = #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072
     end
-    object SelectedEndExploitationDateTimePicker: TDateTimePicker
-      AlignWithMargins = True
-      Left = 744
-      Top = 15
-      Width = 111
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 0
-      Margins.Right = 0
-      Margins.Bottom = 0
-      Align = alLeft
-      Date = 45719.000000000000000000
-      Time = 0.840898888891388200
-      TabOrder = 1
-    end
     object SelectedStartExploitationDateTimePicker: TDateTimePicker
       AlignWithMargins = True
       Left = 629
@@ -377,7 +388,7 @@ object TransportFr: TTransportFr
       Date = 45719.000000000000000000
       Time = 0.840898888891388200
       Enabled = False
-      TabOrder = 2
+      TabOrder = 1
     end
     object SelectedNumberPlateEdit: TEdit
       AlignWithMargins = True
@@ -391,7 +402,7 @@ object TransportFr: TTransportFr
       Margins.Bottom = 0
       Align = alLeft
       Enabled = False
-      TabOrder = 3
+      TabOrder = 2
       TextHint = #1053#1086#1084#1077#1088
     end
     object SelectedBrandNameEdit: TEdit
@@ -406,7 +417,7 @@ object TransportFr: TTransportFr
       Margins.Bottom = 0
       Align = alLeft
       Enabled = False
-      TabOrder = 4
+      TabOrder = 3
     end
     object SelectedLicenseCategoryEdit: TEdit
       AlignWithMargins = True
@@ -420,7 +431,25 @@ object TransportFr: TTransportFr
       Margins.Bottom = 0
       Align = alLeft
       Enabled = False
+      TabOrder = 4
+    end
+    object SelectedEndExploitationEdit: TMaskEdit
+      AlignWithMargins = True
+      Left = 748
+      Top = 15
+      Width = 111
+      Height = 21
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      EditMask = '!99/99/9999'
+      MaxLength = 10
       TabOrder = 5
+      Text = '  .  .    '
+      ExplicitLeft = 785
+      ExplicitTop = 17
     end
   end
 end

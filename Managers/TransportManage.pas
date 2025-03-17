@@ -14,11 +14,13 @@ type
     procedure Update(numberPlate: String; EndExploitation: TDate);
     procedure Add(numberPlate: String;
       StartExploitation: TDateTime; VehicleTypeID, TransportBrandID: Integer);
-  procedure SearchByParam(NumberPlate, VehicleTypeName, LicenseCategory, TransportBrand: string);
-   //procedure LoadAvailableTransport();
+    procedure SearchByParam(
+              NumberPlate, VehicleTypeName, LicenseCategory, TransportBrand: string;
+              StartExploitationDateFrom, StartExploitationDateTo,
+              EndExploitationDateFrom, EndExploitationDateTo: TDate);
+    function AddDateFilter(const FieldName: string; DateFrom, DateTo: TDate): string;
     procedure LoadAvailableTransportByType(requiredVehicleType: Integer; startDateTime, endDateTime: TDateTime);
-   // procedure LoadAvailableTransportByType(requiredVehicleType: Integer; NumberPlate: string) overload;
-   // procedure FilterByVehicleType(requiredVehicleType: Integer);
+
   end;
 
 implementation
@@ -37,8 +39,8 @@ begin
       'FROM transport t ' +
       'JOIN vehicle_type vt ON t.vehicle_type_id = vt.id ' +
       'WHERE availabilitychecker.istransportfree(t.number_plate, :startDateTime, :endDateTime) = 1 ' + // Проверка на доступность
-      'AND (t.end_exploitation IS NULL OR t.end_exploitation > SYSDATE) ' +
-      'AND vt.id = :requiredVehicleType ' + // Фильтрация по типу транспорта
+      'AND (t.end_exploitation IS NULL OR t.end_exploitation >  TRUNC(:startDateTime)) ' +
+      'AND vt.id = :requiredVehicleType ' +
       'ORDER BY t.number_plate';
 
     FQuery.ParamByName('startDateTime').AsDateTime := startDateTime;
@@ -162,7 +164,15 @@ try
     'SET end_exploitation = :endExploitation ' +
     'WHERE number_plate = :numberPlate';
 
+if EndExploitation = 0 then
+begin
+  FQuery.ParamByName('endExploitation').DataType := ftDate;
+  FQuery.ParamByName('endExploitation').Clear;
+end
+else
   FQuery.ParamByName('endExploitation').AsDate := EndExploitation;
+
+
   FQuery.ParamByName('numberPlate').AsString := numberPlate;
 
   FQuery.ExecSQL;
@@ -175,8 +185,14 @@ end;
 end;
 
 
-procedure TTransportManager.SearchByParam(NumberPlate, VehicleTypeName, LicenseCategory, TransportBrand: string);
-var FilterString : string;
+procedure TTransportManager.SearchByParam(
+  NumberPlate, VehicleTypeName, LicenseCategory, TransportBrand: string;
+  StartExploitationDateFrom, StartExploitationDateTo,
+  EndExploitationDateFrom, EndExploitationDateTo: TDate
+);
+var
+   FilterString : string;
+   DateFilter: string;
 begin
   try
     FQuery.Filtered := False;
@@ -193,6 +209,14 @@ begin
     if TransportBrand <> '' then
       FilterString := FilterString + ' AND ' + Format('brand_name = ''%s''', [TransportBrand]);
 
+      DateFilter := AddDateFilter('start_exploitation', StartExploitationDateFrom, StartExploitationDateTo);
+    if DateFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateFilter;
+
+    DateFilter := AddDateFilter('end_exploitation', EndExploitationDateFrom, EndExploitationDateTo);
+    if DateFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateFilter;
+
     FQuery.Filter := FilterString;
     FQuery.Filtered := True;
   except
@@ -201,7 +225,18 @@ begin
   end;
 end;
 
+function TTransportManager.AddDateFilter(const FieldName: string; DateFrom, DateTo: TDate): string;
+begin
+  Result := '';
 
+  Result := Format('%s IS NOT NULL', [FieldName]);
 
+  if (DateFrom <> 0) and (DateTo <> 0) then
+    Result := Result + ' AND ' + Format('%s BETWEEN ''%s'' AND ''%s''', [FieldName, DateToStr(DateFrom), DateToStr(DateTo)])
+  else if (DateFrom <> 0) then
+    Result := Result + ' AND ' + Format('%s >= ''%s''', [FieldName, DateToStr(DateFrom)])
+  else if (DateTo <> 0) then
+    Result := Result + ' AND ' + Format('%s <= ''%s''', [FieldName, DateToStr(DateTo)]);
+end;
 end.
 

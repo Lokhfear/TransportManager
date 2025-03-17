@@ -47,7 +47,7 @@ begin
   if MaskEdit.Text = '  .  .    ' then
   begin
     OutDate := 0;
-    Exit(False);
+    Exit(True);
   end;
 
   try

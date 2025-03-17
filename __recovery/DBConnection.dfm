@@ -257,8 +257,8 @@ object DBConnect: TDBConnect
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = #1055#1086' '#1091#1084#1086#1083#1095#1072#1085#1080#1102
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 45733.875815393520000000
-    ReportOptions.LastChange = 45733.875815393520000000
+    ReportOptions.CreateDate = 45733.875815393500000000
+    ReportOptions.LastChange = 45733.875815393500000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -268,21 +268,79 @@ object DBConnect: TDBConnect
     Top = 400
     Datasets = <
       item
-        DataSet = frxReport1.FDQuery1
-        DataSetName = 'FDQuery1'
+        DataSet = frxReport1.DriverWorkTimaeQuery
+        DataSetName = 'DriverWorkTimaeQuery'
       end>
     Variables = <>
     Style = <>
     object Data: TfrxDataPage
       Height = 1000.000000000000000000
       Width = 1000.000000000000000000
-      object FDQuery1: TfrxFDQuery
-        UserName = 'FDQuery1'
+      object DriverWorkTimaeQuery: TfrxFDQuery
+        UserName = 'DriverWorkTimaeQuery'
         CloseDataSource = True
         BCDToCurrency = False
         DataSetOptions = []
         IgnoreDupParams = False
         Params = <>
+        SQL.Strings = (
+          'WITH daily_work AS ('
+          '    SELECT '
+          '        d.id AS driver_id,'
+          '        d.full_name,'
+          '        tr.required_vehicle_type_id AS vehicle_type,'
+          '        TRUNC(tr.start_datetime) AS work_day, '
+          '        COUNT(t.id) AS count_trip, '
+          
+            '        SUM(EXTRACT(HOUR FROM (tr.end_datetime - tr.start_dateti' +
+            'me) DAY TO SECOND) + '
+          
+            '            EXTRACT(MINUTE FROM (tr.end_datetime - tr.start_date' +
+            'time) DAY TO SECOND) / 60) AS sum_hours'
+          '    FROM driver d'
+          '    JOIN trip t ON d.id = t.driver_id'
+          '    JOIN trip_request tr ON t.trip_request_id = tr.id'
+          
+            '    WHERE tr.status_id = 2                     --'#1087#1086#1077#1079#1076#1082#1080' '#1074' '#1087#1088#1086#1094#1077 +
+            #1089#1089#1077'. '#1053#1072#1076#1086' '#1090#1086#1083#1100#1082#1086' '#1079#1072#1074#1077#1088#1097#1077#1085#1085#1099#1077'. ('#1103' '#1085#1080#1075#1076#1077' '#1085#1077' '#1089#1090#1072#1074#1083#1102' '#1089#1090#1072#1090#1091#1089' '#1079#1072#1074#1077#1088#1096#1077#1085 +
+            #1085#1099#1081')'
+          
+            '    GROUP BY d.id, d.full_name, tr.required_vehicle_type_id, TRU' +
+            'NC(tr.start_datetime)'
+          ')'
+          ''
+          'SELECT '
+          '    dw.full_name,'
+          '    SUM(dw.count_trip) AS total_trips,'
+          '    ROUND(SUM(dw.sum_hours), 2) AS total_hours,'
+          '    ROUND(AVG(dw.sum_hours), 2) AS avg_hours_per_day,'
+          ''
+          '    --'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 1 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_1,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 2 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_2,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 3 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_3,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 4 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_4,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 5 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_5,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 6 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_6,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 7 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_7'
+          ''
+          'FROM daily_work dw'
+          'GROUP BY dw.full_name'
+          'ORDER BY avg_hours_per_day                                ')
         MacroCreate = True
         MacroExpand = True
         ReadOnly = False
@@ -302,7 +360,8 @@ object DBConnect: TDBConnect
           'Database=FREE'
           'User_Name=SYSTEM'
           'Password=220376'
-          'DriverID=Ora')
+          'DriverID=Ora'
+          'CharacterSet=UTF8')
         Connected = True
         pLeft = 720
         pTop = 48
@@ -318,6 +377,494 @@ object DBConnect: TDBConnect
       BottomMargin = 10.000000000000000000
       Frame.Typ = []
       MirrorMode = []
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 207.874150000000000000
+        Width = 718.110700000000000000
+        DataSet = frxReport1.DriverWorkTimaeQuery
+        DataSetName = 'DriverWorkTimaeQuery'
+        RowCount = 0
+        object Memo1: TfrxMemoView
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          DataField = 'FULL_NAME'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."FULL_NAME"]')
+          ParentFont = False
+        end
+        object Memo2: TfrxMemoView
+          AllowVectorExport = True
+          Left = 117.165430000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          DataField = 'TOTAL_TRIPS'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."TOTAL_TRIPS"]')
+          ParentFont = False
+        end
+        object Memo3: TfrxMemoView
+          AllowVectorExport = True
+          Left = 226.771800000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          DataField = 'TOTAL_HOURS'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."TOTAL_HOURS"]')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          AllowVectorExport = True
+          Left = 336.378170000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          DataField = 'AVG_HOURS_PER_DAY'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."AVG_HOURS_PER_DAY"]')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          AllowVectorExport = True
+          Left = 445.984540000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_1'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_1"]')
+          ParentFont = False
+        end
+        object Memo6: TfrxMemoView
+          AllowVectorExport = True
+          Left = 483.779840000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_2'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_2"]')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          AllowVectorExport = True
+          Left = 521.575140000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_3'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_3"]')
+          ParentFont = False
+        end
+        object Memo8: TfrxMemoView
+          AllowVectorExport = True
+          Left = 559.370440000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_4'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_4"]')
+          ParentFont = False
+        end
+        object Memo9: TfrxMemoView
+          AllowVectorExport = True
+          Left = 597.165740000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_5'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_5"]')
+          ParentFont = False
+        end
+        object Memo10: TfrxMemoView
+          AllowVectorExport = True
+          Left = 634.961040000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_6'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_6"]')
+          ParentFont = False
+        end
+        object Memo11: TfrxMemoView
+          AllowVectorExport = True
+          Left = 672.756340000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_7'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_7"]')
+          ParentFont = False
+        end
+      end
+      object ReportTitle1: TfrxReportTitle
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 86.929190000000000000
+        Top = 18.897650000000000000
+        Width = 718.110700000000000000
+        object Memo23: TfrxMemoView
+          AllowVectorExport = True
+          Top = 11.338590000000000000
+          Width = 718.110700000000000000
+          Height = 22.677180000000000000
+          AutoWidth = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            #1054#1058#1063#1045#1058)
+          ParentFont = False
+        end
+        object Memo24: TfrxMemoView
+          Align = baCenter
+          AllowVectorExport = True
+          Top = 34.015770000000000000
+          Width = 718.110700000000000000
+          Height = 18.897650000000000000
+          AutoWidth = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            #1054' '#1050#1054#1051#1048#1063#1045#1057#1058#1042#1045' '#1056#1040#1041#1054#1063#1048#1061' '#1063#1040#1057#1054#1042' '#1042#1054#1044#1048#1058#1045#1051#1045#1049)
+          ParentFont = False
+        end
+        object Memo25: TfrxMemoView
+          AllowVectorExport = True
+          Left = 468.661720000000000000
+          Top = 60.472480000000000000
+          Width = 249.448980000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            #1044#1072#1090#1072' '#1089#1086#1079#1076#1072#1085#1080#1103' '#1086#1090#1095#1077#1090#1072': [Date]')
+          ParentFont = False
+        end
+        object Memo26: TfrxMemoView
+          AllowVectorExport = True
+          Top = 60.472480000000000000
+          Width = 472.441250000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            #1040#1085#1072#1083#1080#1079#1080#1088#1091#1077#1084#1099#1081' '#1087#1077#1088#1080#1086#1076': '#1089' 1 '#1084#1072#1088#1090#1072' 2025 '#1075#1086#1076#1072' '#1087#1086' 15 '#1084#1072#1088#1090#1072' 2025 '#1075#1086#1076#1072)
+          ParentFont = False
+        end
+      end
+      object Header1: TfrxHeader
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 18.897650000000000000
+        Top = 166.299320000000000000
+        Width = 718.110700000000000000
+        object Memo12: TfrxMemoView
+          AllowVectorExport = True
+          Left = 7.559060000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1060#1048#1054)
+          ParentFont = False
+        end
+        object Memo13: TfrxMemoView
+          AllowVectorExport = True
+          Left = 117.165430000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1050#1086#1083'-'#1074#1086' '#1087#1086#1077#1079#1076#1086#1082)
+          ParentFont = False
+        end
+        object Memo14: TfrxMemoView
+          AllowVectorExport = True
+          Left = 226.771800000000000000
+          Top = 0.000000000000000003
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1042#1089#1077#1075#1086' '#1095#1072#1089#1086#1074)
+          ParentFont = False
+        end
+        object Memo15: TfrxMemoView
+          AllowVectorExport = True
+          Left = 336.378170000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1095#1072#1089#1086#1074'/'#1089#1091#1090)
+          ParentFont = False
+        end
+        object Memo16: TfrxMemoView
+          AllowVectorExport = True
+          Left = 445.984540000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'1')
+          ParentFont = False
+        end
+        object Memo17: TfrxMemoView
+          AllowVectorExport = True
+          Left = 483.779840000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'2')
+          ParentFont = False
+        end
+        object Memo18: TfrxMemoView
+          AllowVectorExport = True
+          Left = 521.575140000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'3')
+          ParentFont = False
+        end
+        object Memo19: TfrxMemoView
+          AllowVectorExport = True
+          Left = 559.370440000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'4')
+          ParentFont = False
+        end
+        object Memo20: TfrxMemoView
+          AllowVectorExport = True
+          Left = 597.165740000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'5')
+          ParentFont = False
+        end
+        object Memo21: TfrxMemoView
+          AllowVectorExport = True
+          Left = 634.961040000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'6')
+          ParentFont = False
+        end
+        object Memo22: TfrxMemoView
+          AllowVectorExport = True
+          Left = 672.756340000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'7')
+          ParentFont = False
+        end
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 22.677180000000000000
+        Top = 287.244280000000000000
+        Width = 718.110700000000000000
+        object Page: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 631.181510000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[Page#]/[TotalPages#]')
+        end
+      end
     end
   end
 end

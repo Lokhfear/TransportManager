@@ -16,7 +16,6 @@ WITH daily_work AS (
 
 SELECT 
     dw.full_name, 
-    COUNT(dw.work_day) AS days_worked,
     SUM(dw.count_trip) AS total_trips,
     ROUND(SUM(dw.sum_hours), 2) AS total_hours,
     ROUND(AVG(dw.sum_hours), 2) AS avg_hours_per_day,

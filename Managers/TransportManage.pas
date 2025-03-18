@@ -18,7 +18,6 @@ type
               NumberPlate, VehicleTypeName, LicenseCategory, TransportBrand: string;
               StartExploitationDateFrom, StartExploitationDateTo,
               EndExploitationDateFrom, EndExploitationDateTo: TDate);
-    function AddDateFilter(const FieldName: string; DateFrom, DateTo: TDate): string;
     procedure LoadAvailableTransportByType(requiredVehicleType: Integer; startDateTime, endDateTime: TDateTime);
 
   end;
@@ -213,7 +212,13 @@ begin
     if DateFilter <> '' then
       FilterString := FilterString + ' AND ' + DateFilter;
 
-    DateFilter := AddDateFilter('end_exploitation', EndExploitationDateFrom, EndExploitationDateTo);
+
+if (EndExploitationDateFrom <> 0) or (EndExploitationDateTo <> 0) then
+    begin
+     // DateFilter := '"end_exploitation" IS NOT NULL';
+      DateFilter := DateFilter + AddDateFilter('end_exploitation', EndExploitationDateFrom, EndExploitationDateTo);
+    end;
+
     if DateFilter <> '' then
       FilterString := FilterString + ' AND ' + DateFilter;
 
@@ -225,18 +230,5 @@ begin
   end;
 end;
 
-function TTransportManager.AddDateFilter(const FieldName: string; DateFrom, DateTo: TDate): string;
-begin
-  Result := '';
-
-  Result := Format('%s IS NOT NULL', [FieldName]);
-
-  if (DateFrom <> 0) and (DateTo <> 0) then
-    Result := Result + ' AND ' + Format('%s BETWEEN ''%s'' AND ''%s''', [FieldName, DateToStr(DateFrom), DateToStr(DateTo)])
-  else if (DateFrom <> 0) then
-    Result := Result + ' AND ' + Format('%s >= ''%s''', [FieldName, DateToStr(DateFrom)])
-  else if (DateTo <> 0) then
-    Result := Result + ' AND ' + Format('%s <= ''%s''', [FieldName, DateToStr(DateTo)]);
-end;
-end.
+end.
 

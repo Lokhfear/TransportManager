@@ -14,7 +14,11 @@ type
     procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
     procedure Update(AID: integer; NewFullName: String; EmploymentEnd: TDate);
     function Add(FullName: String; EmploymentStart: TDateTime): Integer;
-    procedure SearchByParam(SearchFullName: string);
+   procedure SearchByParam(
+             SearchFullName: string;
+             StartWorkDateFrom, StartWorkDateTo,
+             EndWorkDateFrom, EndWorkDateTo: TDate
+             );
     procedure LoadDriversWithWorkedHours(startDate: TDate);
     procedure LoadAvailableDriversByType( requeredVehicleTypeid: Integer; startDateTime, endDateTime: TDateTime);
     procedure AddDriverLicenses(
@@ -295,16 +299,44 @@ end;
 
 
 
-procedure TDriverManager.SearchByParam(SearchFullName: string);
+procedure TDriverManager.SearchByParam(
+  SearchFullName: string;
+  StartWorkDateFrom, StartWorkDateTo,
+  EndWorkDateFrom, EndWorkDateTo: TDate
+);
+var
+  FilterString: string;
+  DateFilter: string;
 begin
-  FQuery.Filtered := False;
-  FQuery.FilterOptions := [foCaseInsensitive];
+  try
+    FQuery.Filtered := False;
+    FQuery.Filter := '';
+    FQuery.FilterOptions := [foCaseInsensitive];
 
-  if SearchFullName <> '' then
-    begin
-       FQuery.Filter := Format('full_name LIKE ''%%%s%%''', [SearchFullName]);
-       FQuery.Filtered := True;
-    end;
+
+    FilterString := Format('full_name LIKE ''%%%s%%''', [SearchFullName]);
+
+
+    DateFilter := '';
+    if (StartWorkDateFrom <> 0) or (StartWorkDateTo <> 0) then
+      DateFilter := DateFilter + AddDateFilter('employment_start', StartWorkDateFrom, StartWorkDateTo);
+
+    if DateFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateFilter;
+
+    if (EndWorkDateFrom <> 0) or (EndWorkDateTo <> 0) then
+      DateFilter := DateFilter + AddDateFilter('employment_end', EndWorkDateFrom, EndWorkDateTo);
+
+    if DateFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateFilter;
+
+      FQuery.Filter := FilterString;
+      FQuery.Filtered := True;
+
+  except
+    on E: Exception do
+      ShowMessage('Ошибка при фильтрации данных: ' + E.Message);
+  end;
 end;
 
 

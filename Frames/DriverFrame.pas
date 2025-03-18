@@ -3,7 +3,8 @@ unit DriverFrame;
 interface
 
 uses
-  DBConnection, Helper, DriverLicensesFrame, DriverManager, CreateDriverModal, DriverVehicleTypeCheckManager, Data.DB, FireDAC.Comp.Client,
+  DBConnection, Helper, DriverLicensesFrame, DriverManager, CreateDriverModal,
+  LicenseCategoriesCheckboxManager, Data.DB, FireDAC.Comp.Client,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids,
@@ -30,16 +31,24 @@ type
     ClearButton: TButton;
     SelectedEmploymentStartEdit: TMaskEdit;
     SelectedEmploymentEndEdit: TMaskEdit;
+    SearchStartWorkDateFrom: TMaskEdit;
+    Label1: TLabel;
+    Label3: TLabel;
+    SearchStartWorkDateTo: TMaskEdit;
+    SearchEndWorkDateFrom: TMaskEdit;
+    Label2: TLabel;
+    Label4: TLabel;
+    SearchEndWorkDateTo: TMaskEdit;
+    Label5: TLabel;
+    LicenseCategoriesCheckBox: TCheckListBox;
     procedure DeleteButtonClick(Sender: TObject);
     procedure driverGridCellClick(Column: TColumn);
     procedure CreateButtonClick(Sender: TObject);
     procedure ChangeButtonClick(Sender: TObject);
-    procedure FullNameCreateEditEnter(Sender: TObject);
     procedure LoadButtonClick(Sender: TObject);
-
+    procedure SearchByParam(Sender: TObject);
     procedure ReloadData();
     procedure ClearSelectedData;
-    procedure FullNameSearchEditChange(Sender: TObject);
     procedure ClearButtonClick(Sender: TObject);
   private
     DriverLicensesQuery: TFDQuery;
@@ -48,13 +57,12 @@ type
     DriverLicensesFrame: TDriverLicensesFr;
     SelectedAssignedVehicleTypes: TList<Integer>;
 
-    CheckListBoxManager: VehicleTypesCheckBoxListManager;
     ManagerCRUD: TDriverManager;
-
+    CheckBoxManager: LicenseCategoriesCheckbox;
 
 
   public
-    constructor Create(Owner: TComponent; Query, DriverLicenses : TFDQuery);
+    constructor Create(Owner: TComponent;  DriverQuery, TDriverLicensesQuery, licenseCategoryQuery: TFDQuery);
     destructor Destroy;
     { Public declarations }
   end;
@@ -66,34 +74,72 @@ implementation
 
 procedure TDriverFr.ClearButtonClick(Sender: TObject);
 begin
-FullNameSearchEdit.Clear;
+  FullNameSearchEdit.Clear;
 
-ManagerCRUD.DisableFilter;
+  SearchStartWorkDateFrom.Clear;
+  SearchStartWorkDateTo.Clear;
+  SearchEndWorkDateFrom.Clear;
+  SearchEndWorkDateTo.Clear;
+
+  ManagerCRUD.DisableFilter;
 end;
 
 procedure TDriverFr.ClearSelectedData;
 begin
-SelectedFullNameEdit.Clear;
-SelectedEmploymentStartEdit.Clear;
-SelectedLicenseCategoriesEdit.Clear;
-selectedId := -1;
+  SelectedFullNameEdit.Clear;
+  SelectedEmploymentStartEdit.Clear;
+  SelectedLicenseCategoriesEdit.Clear;
+  selectedId := -1;
 end;
 
-constructor TDriverFr.Create(Owner: TComponent;  Query, DriverLicenses : TFDQuery);
+
+
+procedure TDriverFr.SearchByParam(Sender: TObject);
+var
+StartWorkDateFrom, StartWorkDateTo,
+EndWorkDateFrom, EndWorkDateTo : TDate;
+begin
+
+  ValidateDate(SearchStartWorkDateFrom, StartWorkDateFrom);
+  ValidateDate(SearchStartWorkDateTo, StartWorkDateTo);
+  ValidateDate(SearchEndWorkDateFrom, EndWorkDateFrom);
+  ValidateDate(SearchEndWorkDateTo, EndWorkDateTo);
+
+  ManagerCRUD.SearchByParam(FullNameSearchEdit.Text,
+  StartWorkDateFrom, StartWorkDateTo,
+  EndWorkDateFrom, EndWorkDateTo);
+
+end;
+
+
+
+
+
+
+constructor TDriverFr.Create(Owner: TComponent;  DriverQuery, TDriverLicensesQuery, licenseCategoryQuery: TFDQuery);
 begin
   inherited Create(Owner);
-  DriverLicensesQuery:=  DriverLicenses;
+  DriverLicensesQuery :=  TDriverLicensesQuery;
 
-  ManagerCRUD := TDriverManager.Create(Query);
+  //CheckBoxManager := LicenseCategoriesCheckbox.Create(LicenseCategoriesCheckBox, licenseCategoryQuery);
+  //CheckBoxManager.LoadVehicleTypes;
+
+
+  ManagerCRUD := TDriverManager.Create(DriverQuery);
   ManagerCRUD.LoadAll;
 
-  DriverLicensesFrame := TDriverLicensesFr.Create(Self, ManagerCRUD, DriverLicenses);
+  DriverLicensesFrame := TDriverLicensesFr.Create(Self, ManagerCRUD, TDriverLicensesQuery);
   DriverLicensesFrame.Parent := DriverLicensesPanel;
   DriverLicensesFrame.DriverLicenseStringGrid.ColWidths[0] := 0;
   DriverLicensesFrame.align := alClient;
   DriverLicensesFrame.ResizeColums(DriverLicensesPanel.Width);
 
 end;
+
+
+
+
+
 
 procedure TDriverFr.CreateButtonClick(Sender: TObject);
 var
@@ -140,16 +186,6 @@ begin
 
 end;
 
-procedure TDriverFr.FullNameCreateEditEnter(Sender: TObject);
-begin
-  CheckListBoxManager.ClearGroupCheckBox;
-end;
-
-
-procedure TDriverFr.FullNameSearchEditChange(Sender: TObject);
-begin
-     ManagerCRUD.SearchByParam(FullNameSearchEdit.Text);
-end;
 
 procedure TDriverFr.LoadButtonClick(Sender: TObject);
 begin

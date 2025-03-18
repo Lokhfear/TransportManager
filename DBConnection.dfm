@@ -228,8 +228,8 @@ object DBConnect: TDBConnect
   end
   object licenseCategoryDataSource: TDataSource
     DataSet = licenseCategoryQuery
-    Left = 136
-    Top = 384
+    Left = 144
+    Top = 376
   end
   object DriverLicensesDataSource: TDataSource
     DataSet = vehicleType

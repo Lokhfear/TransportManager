@@ -53,7 +53,7 @@ begin
    DBConnect.AvaibleDriverQuery);
   TransportFrame := TTransportFr.Create(Self, DBConnect.TransportQuery);
   DriverFrame := TDriverFr.Create(Self, DBConnect.DriverQuery,
-    DBConnect.DriverLicensesQuery);    //? DriverLicensesQuery
+    DBConnect.DriverLicensesQuery, DBConnect.licenseCategoryQuery);
   PendingTriptRequestFrame := TPendingTripRequestFr.Create(Self, DBConnect.pendingRequest,
     DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery, DBConnect.tripQuery);
   TripRequestFrame := TTripRequestFr.Create(Self);

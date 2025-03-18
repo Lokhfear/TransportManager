@@ -133,6 +133,8 @@ object DriverFr: TDriverFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 1
+      ExplicitLeft = -5
+      ExplicitTop = -4
       object FullNameLabel: TLabel
         Left = 18
         Top = 19
@@ -140,22 +142,129 @@ object DriverFr: TDriverFr
         Height = 13
         Caption = #1060#1048#1054':'
       end
-      object FullNameSearchEdit: TEdit
+      object Label1: TLabel
+        Left = 17
+        Top = 86
+        Width = 78
+        Height = 13
+        Caption = #1053#1072#1095#1072#1083#1086' '#1088#1072#1073#1086#1090#1099
+      end
+      object Label3: TLabel
+        Left = 96
+        Top = 105
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
+      object Label2: TLabel
         Left = 18
+        Top = 131
+        Width = 72
+        Height = 13
+        Caption = #1050#1086#1085#1077#1094' '#1088#1072#1073#1086#1090#1099
+      end
+      object Label4: TLabel
+        Left = 96
+        Top = 150
+        Width = 12
+        Height = 13
+        Caption = #1087#1086
+      end
+      object Label5: TLabel
+        Left = 202
+        Top = 19
+        Width = 58
+        Height = 13
+        Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1080':'
+      end
+      object FullNameSearchEdit: TEdit
+        Left = 17
         Top = 38
-        Width = 167
+        Width = 155
         Height = 21
         TabOrder = 0
-        OnChange = FullNameSearchEditChange
+        OnChange = SearchByParam
       end
       object ClearButton: TButton
-        Left = 211
-        Top = 38
-        Width = 93
+        Left = 240
+        Top = 147
+        Width = 120
         Height = 21
         Caption = #1054#1090#1095#1080#1089#1090#1080#1090#1100
         TabOrder = 1
         OnClick = ClearButtonClick
+      end
+      object SearchStartWorkDateFrom: TMaskEdit
+        AlignWithMargins = True
+        Left = 25
+        Top = 102
+        Width = 65
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 2
+        Text = '  .  .    '
+        OnExit = SearchByParam
+      end
+      object SearchStartWorkDateTo: TMaskEdit
+        AlignWithMargins = True
+        Left = 112
+        Top = 102
+        Width = 65
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 3
+        Text = '  .  .    '
+        OnExit = SearchByParam
+      end
+      object SearchEndWorkDateFrom: TMaskEdit
+        AlignWithMargins = True
+        Left = 24
+        Top = 147
+        Width = 65
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 4
+        Text = '  .  .    '
+        OnExit = SearchByParam
+      end
+      object SearchEndWorkDateTo: TMaskEdit
+        AlignWithMargins = True
+        Left = 112
+        Top = 147
+        Width = 65
+        Height = 21
+        Margins.Left = 8
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        EditMask = '!99/99/9999'
+        MaxLength = 10
+        TabOrder = 5
+        Text = '  .  .    '
+        OnExit = SearchByParam
+      end
+      object LicenseCategoriesCheckBox: TCheckListBox
+        Left = 202
+        Top = 38
+        Width = 158
+        Height = 85
+        ItemHeight = 13
+        TabOrder = 6
       end
     end
     object DriverLicensesPanel: TPanel
@@ -166,6 +275,8 @@ object DriverFr: TDriverFr
       Align = alClient
       ParentBackground = False
       TabOrder = 2
+      ExplicitLeft = 379
+      ExplicitTop = -4
     end
   end
   object EditGroupbox: TGroupBox
@@ -242,7 +353,7 @@ object DriverFr: TDriverFr
       MaxLength = 10
       TabOrder = 3
       Text = '  .  .    '
-      ExplicitTop = 17
+      ExplicitHeight = 21
     end
   end
 end

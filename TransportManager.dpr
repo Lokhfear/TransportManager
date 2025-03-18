@@ -18,10 +18,10 @@ uses
   CreateVehicleTypeModal in 'CreateFroms\CreateVehicleTypeModal.pas' {CreateVhicleType},
   CreateTransportModal in 'CreateFroms\CreateTransportModal.pas' {CreateTransport},
   CreateDriverModal in 'CreateFroms\CreateDriverModal.pas' {CreateDriver},
-  DriverVehicleTypeCheckManager in 'Managers\DriverVehicleTypeCheckManager.pas',
   TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr},
   DriverLicensesFrame in 'Frames\DriverLicensesFrame.pas' {DriverLicensesFr: TFrame},
-  Helper in 'Helper.pas';
+  Helper in 'Helper.pas',
+  LicenseCategoriesCheckBoxManager in 'Managers\LicenseCategoriesCheckboxManager.pas';
 
 {$R *.res}
 

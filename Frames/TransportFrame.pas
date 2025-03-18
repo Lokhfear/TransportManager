@@ -74,6 +74,11 @@ begin
  LicenseCategorySearchComboBox.KeyValue := -1;
  TransportBrandSearchComboBox.KeyValue := -1;
 
+ SearchStartExploitationFrom.Clear;
+ SearchStartExploitationTo.Clear;
+ SearchEndExploitationFrom.Clear;
+ SearchEndExploitationTo.Clear;
+
  ManagerCRUD.DisableFilter;
 end;
 

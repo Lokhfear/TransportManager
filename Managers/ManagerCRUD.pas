@@ -15,6 +15,7 @@ type
     FQuery: TFDQuery;
 
     constructor Create(AQuery: TFDQuery);
+    function AddDateFilter(const FieldName: string; DateFrom, DateTo: TDate): string;
 
     { procedure Delete(AID: Integer; ShowMessage: Boolean; FTableName: string);
       virtual; overload;
@@ -36,6 +37,17 @@ end;
 procedure TManagerCRUD.DisableFilter;
 begin
   FQuery.Filtered := False;
+end;
+
+function TManagerCRUD.AddDateFilter(const FieldName: string; DateFrom, DateTo: TDate): string;
+begin
+  Result := '';
+  if (DateFrom <> 0) and (DateTo <> 0) then
+    Result := Format('%s BETWEEN ''%s'' AND ''%s''', [FieldName, DateToStr(DateFrom), DateToStr(DateTo)])
+  else if (DateFrom <> 0) then
+    Result := Format('%s >= ''%s''', [FieldName, DateToStr(DateFrom)])
+  else if (DateTo <> 0) then
+    Result := Format('%s <= ''%s''', [FieldName, DateToStr(DateTo)]);
 end;
 
 { procedure TManagerCRUD.Delete(AID: String; ShowMessage: Boolean;

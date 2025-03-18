@@ -78,14 +78,11 @@ END generate_transport_brands;
     VALUES 
     ('Легковой автомобиль', 4),
     ('Микроавтобус', 6),
-    ('Школьный автобус', 6),
     ('Грузовой автомобиль', 5),
     ('Малый грузовик', 5),
-    ('Средний грузовик', 5),
     ('Тяжелый грузовик', 5),
     ('Трактор', 5),
     ('Экскаватор', 5),
-    ('Грузовик с манипулятором', 5),
     ('Автобус до 30 мест', 6),
     ('Автобус более 30 мест', 6),
     ('Легковой автомобиль с прицепом', 7),
@@ -213,7 +210,7 @@ END generate_driver_licenses;
 
             INSERT INTO trip_request (route_name, distance, creation_date, start_datetime, end_datetime, status_id, required_vehicle_type_id)
             VALUES (route_name, distance, generated_date, start_datetime, end_datetime, TRUNC(DBMS_RANDOM.VALUE(1, 5)), TRUNC(DBMS_RANDOM.VALUE(1, 8)));
-        END LOOP;
+        END LOOP;   
     END generate_trip_requests;
 
    

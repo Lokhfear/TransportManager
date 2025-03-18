@@ -13,8 +13,8 @@ FROM
     JOIN transport_brand tran_b ON trn.transport_brand_id = tran_b.id
     JOIN vehicle_type    vt ON trn.vehicle_type_id = vt.id
 WHERE
-    tr.status_id = 2 --Поменять статус?
-    -- добавить параметры для периода времени
+    tr.status_id = 2 and --Поменять статус?
+    TRUNC(tr.start_datetime) > :startDate and TRUNC(tr.start_datetime) < :endDate --по дате начала поездки
 GROUP BY
     brand_name,
     type_name,

@@ -8,7 +8,7 @@ END AvailabilityChecker;
 
 CREATE OR REPLACE PACKAGE BODY AvailabilityChecker AS
 
-  --сколько часов водитель уже отработал за день
+  --сколько часов водитель  отработал(ет) за день
  FUNCTION GetDriverWorkedHours(p_driver_id NUMBER, p_date DATE) RETURN NUMBER IS
     total_hours NUMBER := 0;
     total_minutes NUMBER := 0;

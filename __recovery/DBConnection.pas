@@ -35,6 +35,7 @@ type
     TransportBrandQuery: TFDQuery;
     TransportBrandDataSource: TDataSource;
     frxReport1: TfrxReport;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -55,6 +56,11 @@ begin
   inherited Create(AOwner);
 end;
 
+
+procedure TDBConnect.FormCreate(Sender: TObject);
+begin
+
+end;
 
 end.
 

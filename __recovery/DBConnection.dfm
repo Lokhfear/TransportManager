@@ -11,6 +11,7 @@ object DBConnect: TDBConnect
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object FDConnection1: TFDConnection
@@ -257,95 +258,67 @@ object DBConnect: TDBConnect
     PreviewOptions.Zoom = 1.000000000000000000
     PrintOptions.Printer = #1055#1086' '#1091#1084#1086#1083#1095#1072#1085#1080#1102
     PrintOptions.PrintOnSheet = 0
-    ReportOptions.CreateDate = 45735.057585636600000000
-    ReportOptions.LastChange = 45735.057585636600000000
+    ReportOptions.CreateDate = 45733.875815393500000000
+    ReportOptions.LastChange = 45735.870086053200000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'procedure onEditExit(Sender: TfrxComponent);'
       'begin'
-      '                                            '
+      ''
       'end;'
       ''
       ''
       ''
       'procedure ConfrimButtonOnClick(Sender: TfrxComponent);'
-      
-        'var startDate, endDate : TDate;                                 ' +
-        '                                     '
+      'var startDate, endDate : TDate;'
       'begin'
-      
-        '  if  ValidDate(StartDateEdit.text) and ValidDate(EndDateEdit.te' +
-        'xt)  then'
-      '    begin'
-      
-        '     startDate := StrToDate(StartDateEdit.Text);                ' +
-        '                      '
-      '     endDate := StrToDate(EndDateEdit.Text);'
       ''
-      '     if startDate > endDate then'
+      '     if StartDateEdit.Date > EndDateEdit.Date then'
       '     begin'
       
         '       showMessage('#39#1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072' '#1086#1090#1095#1077#1090#1072' '#1085#1077' '#1084#1086#1078#1077#1090' '#1073#1099#1090#1100' '#1087#1086#1079#1078#1077' '#1076#1072#1090#1099' ' +
         #1082#1086#1085#1094#1072#39');'
-      '       exit;             '
-      '     end;                  '
-      '                      '
-      '       '
-      '     Report.Variables['#39'StartDate'#39'] := startDate;'
-      '     Report.Variables['#39'EndDate'#39'] := endDate;'
+      '       exit;'
+      '     end;'
       ''
-      
-        '     ConfrimButton.ModalResult := mrok;                         ' +
-        '                              '
-      '    end            '
-      '  else            '
-      '   showMessage('#39#1042#1074#1077#1076#1080#1090#1077' '#1082#1086#1088#1088#1077#1082#1090#1085#1091#1102' '#1076#1072#1090#1091#39');                '
+      ''
+      '     Report.Variables['#39'StartDate'#39'] :=  StartDateEdit.Date;'
+      '     Report.Variables['#39'EndDate'#39'] :=  EndDateEdit.Date;'
+      ''
+      '     ConfrimButton.ModalResult := mrok;'
+      ''
       'end;'
       ''
-      'begin  '
+      'begin'
       ''
       ''
-      'end.  '
-      '          ')
-    Left = 680
-    Top = 384
+      'end.')
+    Left = 656
+    Top = 392
     Datasets = <
       item
-        DataSet = frxReport1.TransportResultQuery
-        DataSetName = 'FDQuery1'
+        DataSet = frxReport1.DriverWorkTimaeQuery
+        DataSetName = 'DriverWorkTimaeQuery'
       end>
     Variables = <
       item
-        Name = ' DateParam'
+        Name = ' param'
         Value = Null
       end
       item
         Name = 'StartDate'
-        Value = ''
+        Value = 45735.000000000000000000
       end
       item
         Name = 'EndDate'
-        Value = ''
+        Value = 45735.000000000000000000
       end>
     Style = <>
     object Data: TfrxDataPage
       Height = 1000.000000000000000000
       Width = 1000.000000000000000000
-      object FDDatabase1: TfrxFDDatabase
-        DriverName = 'Ora'
-        DatabaseName = 'FREE'
-        Params.Strings = (
-          'User_Name=SYSTEM'
-          'Database=FREE'
-          'Password=220376'
-          'DriverID=Ora')
-        LoginPrompt = False
-        Connected = True
-        pLeft = 572
-        pTop = 84
-      end
-      object TransportResultQuery: TfrxFDQuery
-        UserName = 'FDQuery1'
+      object DriverWorkTimaeQuery: TfrxFDQuery
+        UserName = 'DriverWorkTimaeQuery'
         CloseDataSource = True
         BCDToCurrency = False
         DataSetOptions = []
@@ -362,48 +335,75 @@ object DBConnect: TDBConnect
             Expression = '<EndDate>'
           end>
         SQL.Strings = (
-          'SELECT'
-          '    brand_name,'
-          '    type_name        AS vehicle_type,'
-          '    trn.number_plate,'
-          '    COUNT(t.id) as total_trip,'
-          '    SUM(tr.distance) AS total_distancem,'
+          'WITH daily_work AS ('
+          '    SELECT '
+          '        d.id AS driver_id,'
+          '        d.full_name,'
+          '        tr.required_vehicle_type_id AS vehicle_type,'
+          '        TRUNC(tr.start_datetime) AS work_day, '
+          '        COUNT(t.id) AS count_trip, '
           
-            '    --'#1089#1095#1080#1090#1072#1077#1090' '#1090#1086#1083#1100#1082#1086' '#1087#1086' '#1076#1085#1103#1084' '#1074' '#1082#1086#1090#1086#1088#1099#1093' '#1073#1099#1083#1080' '#1087#1086#1077#1079#1076#1082#1080'. '#1053#1072#1076#1086' '#1076#1086#1073#1080#1074#1080 +
-            #1090#1100' '#1087#1088#1086#1084#1077#1078#1091#1090#1086#1082' '#1074#1088#1077#1084#1077#1085#1080
+            '        SUM(EXTRACT(HOUR FROM (tr.end_datetime - tr.start_dateti' +
+            'me) DAY TO SECOND) + '
           
-            '    round(SUM(distance) / COUNT(DISTINCT trunc(start_datetime)),' +
-            '2) AS avg_daily_distance'
-          'FROM'
-          '         trip_request tr'
-          '    JOIN trip            t ON tr.id = t.trip_request_id'
+            '            EXTRACT(MINUTE FROM (tr.end_datetime - tr.start_date' +
+            'time) DAY TO SECOND) / 60) AS sum_hours'
+          '    FROM driver d'
+          '    JOIN trip t ON d.id = t.driver_id'
+          '    JOIN trip_request tr ON t.trip_request_id = tr.id'
           
-            '    JOIN transport       trn ON t.transport_id = trn.number_plat' +
-            'e'
+            '    WHERE tr.status_id = 2                     --'#1087#1086#1077#1079#1076#1082#1080' '#1074' '#1087#1088#1086#1094#1077 +
+            #1089#1089#1077'. '#1053#1072#1076#1086' '#1090#1086#1083#1100#1082#1086' '#1079#1072#1074#1077#1088#1097#1077#1085#1085#1099#1077'. ('#1103' '#1085#1080#1075#1076#1077' '#1085#1077' '#1089#1090#1072#1074#1083#1102' '#1089#1090#1072#1090#1091#1089' '#1079#1072#1074#1077#1088#1096#1077#1085 +
+            #1085#1099#1081')'
           
-            '    JOIN transport_brand tran_b ON trn.transport_brand_id = tran' +
-            '_b.id'
-          '    JOIN vehicle_type    vt ON trn.vehicle_type_id = vt.id'
-          'WHERE'
-          '    tr.status_id = 2 and --'#1055#1086#1084#1077#1085#1103#1090#1100' '#1089#1090#1072#1090#1091#1089'?'
+            '    AND TRUNC(tr.start_datetime) BETWEEN :startDate and :endDate' +
+            '  --'#1087#1086' '#1087#1077#1088#1080#1086#1076#1091
           
-            '    TRUNC(tr.start_datetime) > :startDate and TRUNC(tr.start_dat' +
-            'etime) < :endDate --'#1087#1086' '#1076#1072#1090#1077' '#1085#1072#1095#1072#1083#1072' '#1087#1086#1077#1079#1076#1082#1080
-          'GROUP BY'
-          '    brand_name,'
-          '    type_name,'
-          '    trn.number_plate'
-          'ORDER BY'
-          '    type_name, brand_name    ')
+            '    GROUP BY d.id, d.full_name, tr.required_vehicle_type_id, TRU' +
+            'NC(tr.start_datetime)'
+          ')'
+          ''
+          'SELECT '
+          '    dw.full_name, '
+          '    SUM(dw.count_trip) AS total_trips,'
+          '    ROUND(SUM(dw.sum_hours), 2) AS total_hours,'
+          '    ROUND(AVG(dw.sum_hours), 2) AS avg_hours_per_day,'
+          ''
+          '    --??'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 1 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_1,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 2 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_2,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 3 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_3,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 4 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_4,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 5 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_5,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 6 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_6,'
+          
+            '    ROUND(SUM(CASE WHEN dw.vehicle_type = 7 THEN dw.sum_hours EL' +
+            'SE 0 END), 2) AS vehicle_type_7'
+          ''
+          'FROM daily_work dw'
+          'GROUP BY dw.full_name'
+          '                                ')
         MacroCreate = True
         MacroExpand = True
         ReadOnly = False
         Database = frxReport1.FDDatabase1
         Macros = <>
         Left = 72.000000000000000000
-        Top = 72.000000000000000000
+        Top = 36.000000000000000000
         pLeft = 72
-        pTop = 72
+        pTop = 36
         Parameters = <
           item
             Name = 'startDate'
@@ -417,6 +417,19 @@ object DBConnect: TDBConnect
           end>
         Macross = <>
       end
+      object FDDatabase1: TfrxFDDatabase
+        DriverName = 'Ora'
+        DatabaseName = 'FREE'
+        Params.Strings = (
+          'Database=FREE'
+          'User_Name=SYSTEM'
+          'Password=220376'
+          'DriverID=Ora'
+          'CharacterSet=UTF8')
+        Connected = True
+        pLeft = 720
+        pTop = 48
+      end
     end
     object Page1: TfrxReportPage
       PaperWidth = 210.000000000000000000
@@ -428,7 +441,7 @@ object DBConnect: TDBConnect
       BottomMargin = 10.000000000000000000
       Frame.Typ = []
       MirrorMode = []
-      object Header1: TfrxHeader
+      object MasterData1: TfrxMasterData
         FillType = ftBrush
         FillGap.Top = 0
         FillGap.Left = 0
@@ -436,13 +449,19 @@ object DBConnect: TDBConnect
         FillGap.Right = 0
         Frame.Typ = []
         Height = 18.897650000000000000
-        Top = 120.000000000000000000
+        Top = 207.874150000000000000
         Width = 718.110700000000000000
-        object Memo7: TfrxMemoView
+        DataSet = frxReport1.DriverWorkTimaeQuery
+        DataSetName = 'DriverWorkTimaeQuery'
+        RowCount = 0
+        object Memo1: TfrxMemoView
           AllowVectorExport = True
-          Left = -3.779530000000000000
-          Width = 105.826771650000000000
+          Left = 7.559060000000000000
+          Width = 109.606370000000000000
           Height = 18.897650000000000000
+          DataField = 'FULL_NAME'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -450,14 +469,125 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            #1052#1072#1088#1082#1072)
+            '[DriverWorkTimaeQuery."FULL_NAME"]')
+          ParentFont = False
+        end
+        object Memo2: TfrxMemoView
+          AllowVectorExport = True
+          Left = 117.165430000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          DataField = 'TOTAL_TRIPS'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."TOTAL_TRIPS"]')
+          ParentFont = False
+        end
+        object Memo3: TfrxMemoView
+          AllowVectorExport = True
+          Left = 226.771800000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          DataField = 'TOTAL_HOURS'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."TOTAL_HOURS"]')
+          ParentFont = False
+        end
+        object Memo4: TfrxMemoView
+          AllowVectorExport = True
+          Left = 336.378170000000000000
+          Width = 109.606370000000000000
+          Height = 18.897650000000000000
+          DataField = 'AVG_HOURS_PER_DAY'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."AVG_HOURS_PER_DAY"]')
+          ParentFont = False
+        end
+        object Memo5: TfrxMemoView
+          AllowVectorExport = True
+          Left = 445.984540000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_1'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_1"]')
+          ParentFont = False
+        end
+        object Memo6: TfrxMemoView
+          AllowVectorExport = True
+          Left = 483.779840000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_2'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_2"]')
+          ParentFont = False
+        end
+        object Memo7: TfrxMemoView
+          AllowVectorExport = True
+          Left = 521.575140000000000000
+          Width = 37.795275590000000000
+          Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_3'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_3"]')
           ParentFont = False
         end
         object Memo8: TfrxMemoView
           AllowVectorExport = True
-          Left = 102.047310000000000000
-          Width = 192.755961650000000000
+          Left = 559.370440000000000000
+          Width = 37.795275590000000000
           Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_4'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -465,14 +595,17 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            #1058#1080#1087' '#1090#1088#1072#1085#1089#1087#1086#1088#1090#1072)
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_4"]')
           ParentFont = False
         end
         object Memo9: TfrxMemoView
           AllowVectorExport = True
-          Left = 294.803340000000000000
-          Width = 105.826771650000000000
+          Left = 597.165740000000000000
+          Width = 37.795275590000000000
           Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_5'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -480,14 +613,17 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            #1053#1086#1084#1077#1088)
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_5"]')
           ParentFont = False
         end
         object Memo10: TfrxMemoView
           AllowVectorExport = True
-          Left = 400.630180000000000000
-          Width = 105.826771650000000000
+          Left = 634.961040000000000000
+          Width = 37.795275590000000000
           Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_6'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -495,14 +631,17 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            #1042#1089#1077#1075#1086' '#1087#1086#1077#1079#1076#1086#1082)
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_6"]')
           ParentFont = False
         end
         object Memo11: TfrxMemoView
           AllowVectorExport = True
-          Left = 506.457020000000000000
-          Width = 105.826771650000000000
+          Left = 672.756340000000000000
+          Width = 37.795275590000000000
           Height = 18.897650000000000000
+          DataField = 'VEHICLE_TYPE_7'
+          DataSet = frxReport1.DriverWorkTimaeQuery
+          DataSetName = 'DriverWorkTimaeQuery'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -510,22 +649,7 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            #1042#1089#1077#1075#1086' '#1088#1072#1089#1089#1090#1086#1103#1085#1080#1103)
-          ParentFont = False
-        end
-        object Memo12: TfrxMemoView
-          AllowVectorExport = True
-          Left = 612.283860000000000000
-          Width = 105.826771650000000000
-          Height = 18.897650000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
-          Memo.UTF8W = (
-            #1089#1088'. '#1082#1084'/'#1076#1077#1085#1100)
+            '[DriverWorkTimaeQuery."VEHICLE_TYPE_7"]')
           ParentFont = False
         end
       end
@@ -536,11 +660,86 @@ object DBConnect: TDBConnect
         FillGap.Bottom = 0
         FillGap.Right = 0
         Frame.Typ = []
-        Height = 83.149660000000000000
-        Top = 16.000000000000000000
+        Height = 86.929190000000000000
+        Top = 18.897650000000000000
         Width = 718.110700000000000000
+        object Memo23: TfrxMemoView
+          AllowVectorExport = True
+          Top = 11.338590000000000000
+          Width = 718.110700000000000000
+          Height = 22.677180000000000000
+          AutoWidth = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            #1054#1058#1063#1045#1058)
+          ParentFont = False
+        end
+        object Memo24: TfrxMemoView
+          Align = baCenter
+          AllowVectorExport = True
+          Top = 34.015770000000000000
+          Width = 718.110700000000000000
+          Height = 18.897650000000000000
+          AutoWidth = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            #1054' '#1050#1054#1051#1048#1063#1045#1057#1058#1042#1045' '#1056#1040#1041#1054#1063#1048#1061' '#1063#1040#1057#1054#1042' '#1042#1054#1044#1048#1058#1045#1051#1045#1049)
+          ParentFont = False
+        end
+        object Memo25: TfrxMemoView
+          AllowVectorExport = True
+          Left = 468.661720000000000000
+          Top = 60.472480000000000000
+          Width = 249.448980000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haRight
+          Memo.UTF8W = (
+            #1044#1072#1090#1072' '#1089#1086#1079#1076#1072#1085#1080#1103' '#1086#1090#1095#1077#1090#1072': 19.03.2025')
+          ParentFont = False
+        end
+        object Memo26: TfrxMemoView
+          AllowVectorExport = True
+          Top = 60.472480000000000000
+          Width = 472.441250000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          Memo.UTF8W = (
+            
+              #1040#1085#1072#1083#1080#1079#1080#1088#1091#1077#1084#1099#1081' '#1087#1077#1088#1080#1086#1076': '#1089' [FormatDateTime('#39'dd.mm.yyyy'#39', [StartDate' +
+              '])]'
+            ' '#1087#1086' [EndDate]')
+          ParentFont = False
+          Formats = <
+            item
+            end
+            item
+            end>
+        end
       end
-      object MasterData1: TfrxMasterData
+      object Header1: TfrxHeader
         FillType = ftBrush
         FillGap.Top = 0
         FillGap.Left = 0
@@ -548,19 +747,13 @@ object DBConnect: TDBConnect
         FillGap.Right = 0
         Frame.Typ = []
         Height = 18.897650000000000000
-        Top = 160.000000000000000000
+        Top = 166.299320000000000000
         Width = 718.110700000000000000
-        DataSet = frxReport1.TransportResultQuery
-        DataSetName = 'FDQuery1'
-        RowCount = 0
-        object Memo1: TfrxMemoView
+        object Memo12: TfrxMemoView
           AllowVectorExport = True
-          Left = -3.779530000000000000
-          Width = 105.826840000000000000
+          Left = 7.559060000000000000
+          Width = 109.606370000000000000
           Height = 18.897650000000000000
-          DataField = 'BRAND_NAME'
-          DataSet = frxReport1.TransportResultQuery
-          DataSetName = 'FDQuery1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -568,17 +761,14 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            '[FDQuery1."BRAND_NAME"]')
+            #1060#1048#1054)
           ParentFont = False
         end
-        object Memo2: TfrxMemoView
+        object Memo13: TfrxMemoView
           AllowVectorExport = True
-          Left = 102.047310000000000000
-          Width = 192.756030000000000000
+          Left = 117.165430000000000000
+          Width = 109.606370000000000000
           Height = 18.897650000000000000
-          DataField = 'VEHICLE_TYPE'
-          DataSet = frxReport1.TransportResultQuery
-          DataSetName = 'FDQuery1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -586,17 +776,15 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            '[FDQuery1."VEHICLE_TYPE"]')
+            #1050#1086#1083'-'#1074#1086' '#1087#1086#1077#1079#1076#1086#1082)
           ParentFont = False
         end
-        object Memo3: TfrxMemoView
+        object Memo14: TfrxMemoView
           AllowVectorExport = True
-          Left = 294.803340000000000000
-          Width = 105.826840000000000000
+          Left = 226.771800000000000000
+          Top = 0.000000000000000003
+          Width = 109.606370000000000000
           Height = 18.897650000000000000
-          DataField = 'NUMBER_PLATE'
-          DataSet = frxReport1.TransportResultQuery
-          DataSetName = 'FDQuery1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -604,17 +792,14 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            '[FDQuery1."NUMBER_PLATE"]')
+            #1042#1089#1077#1075#1086' '#1095#1072#1089#1086#1074)
           ParentFont = False
         end
-        object Memo4: TfrxMemoView
+        object Memo15: TfrxMemoView
           AllowVectorExport = True
-          Left = 400.630180000000000000
-          Width = 105.826840000000000000
+          Left = 336.378170000000000000
+          Width = 109.606370000000000000
           Height = 18.897650000000000000
-          DataField = 'TOTAL_TRIP'
-          DataSet = frxReport1.TransportResultQuery
-          DataSetName = 'FDQuery1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -622,17 +807,14 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            '[FDQuery1."TOTAL_TRIP"]')
+            #1095#1072#1089#1086#1074'/'#1089#1091#1090)
           ParentFont = False
         end
-        object Memo5: TfrxMemoView
+        object Memo16: TfrxMemoView
           AllowVectorExport = True
-          Left = 506.457020000000000000
-          Width = 105.826840000000000000
+          Left = 445.984540000000000000
+          Width = 37.795300000000000000
           Height = 18.897650000000000000
-          DataField = 'TOTAL_DISTANCEM'
-          DataSet = frxReport1.TransportResultQuery
-          DataSetName = 'FDQuery1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -640,17 +822,14 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            '[FDQuery1."TOTAL_DISTANCEM"]')
+            #1090#1080#1087'1')
           ParentFont = False
         end
-        object Memo6: TfrxMemoView
+        object Memo17: TfrxMemoView
           AllowVectorExport = True
-          Left = 612.283860000000000000
-          Width = 105.826840000000000000
+          Left = 483.779840000000000000
+          Width = 37.795300000000000000
           Height = 18.897650000000000000
-          DataField = 'AVG_DAILY_DISTANCE'
-          DataSet = frxReport1.TransportResultQuery
-          DataSetName = 'FDQuery1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -658,8 +837,104 @@ object DBConnect: TDBConnect
           Font.Style = []
           Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
           Memo.UTF8W = (
-            '[FDQuery1."AVG_DAILY_DISTANCE"]')
+            #1090#1080#1087'2')
           ParentFont = False
+        end
+        object Memo18: TfrxMemoView
+          AllowVectorExport = True
+          Left = 521.575140000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'3')
+          ParentFont = False
+        end
+        object Memo19: TfrxMemoView
+          AllowVectorExport = True
+          Left = 559.370440000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'4')
+          ParentFont = False
+        end
+        object Memo20: TfrxMemoView
+          AllowVectorExport = True
+          Left = 597.165740000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'5')
+          ParentFont = False
+        end
+        object Memo21: TfrxMemoView
+          AllowVectorExport = True
+          Left = 634.961040000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'6')
+          ParentFont = False
+        end
+        object Memo22: TfrxMemoView
+          AllowVectorExport = True
+          Left = 672.756340000000000000
+          Width = 37.795300000000000000
+          Height = 18.897650000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = [ftLeft, ftRight, ftTop, ftBottom]
+          Memo.UTF8W = (
+            #1090#1080#1087'7')
+          ParentFont = False
+        end
+      end
+      object PageFooter1: TfrxPageFooter
+        FillType = ftBrush
+        FillGap.Top = 0
+        FillGap.Left = 0
+        FillGap.Bottom = 0
+        FillGap.Right = 0
+        Frame.Typ = []
+        Height = 22.677180000000000000
+        Top = 287.244280000000000000
+        Width = 718.110700000000000000
+        object Page: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 631.181510000000000000
+          Width = 79.370130000000000000
+          Height = 18.897650000000000000
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[Page#]/[TotalPages#]')
         end
       end
     end
@@ -671,100 +946,100 @@ object DBConnect: TDBConnect
       Font.Style = []
       BorderStyle = bsDialog
       DoubleBuffered = False
-      Height = 169.000000000000000000
-      ClientHeight = 140.000000000000000000
-      Left = 603.000000000000000000
-      Top = 327.000000000000000000
-      Width = 330.000000000000000000
+      Height = 209.000000000000000000
+      ClientHeight = 180.000000000000000000
+      Left = 597.000000000000000000
+      Top = 307.000000000000000000
+      Width = 341.000000000000000000
       Scaled = False
-      ClientWidth = 324.000000000000000000
+      ClientWidth = 335.000000000000000000
+      object Button1: TfrxButtonControl
+        Left = 120.000000000000000000
+        Top = 128.000000000000000000
+        Width = 91.000000000000000000
+        Height = 25.000000000000000000
+        ShowHint = True
+        Caption = #1054#1090#1084#1077#1085#1080#1090#1100
+        ModalResult = 2
+      end
       object ConfrimButton: TfrxButtonControl
-        Left = 220.000000000000000000
-        Top = 92.000000000000000000
-        Width = 75.000000000000000000
+        Left = 216.000000000000000000
+        Top = 128.000000000000000000
+        Width = 91.000000000000000000
         Height = 25.000000000000000000
         ShowHint = True
         Caption = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100
+        ModalResult = 1
         OnClick = 'ConfrimButtonOnClick'
       end
-      object CancelButton: TfrxButtonControl
-        Left = 120.000000000000000000
-        Top = 92.000000000000000000
-        Width = 75.000000000000000000
-        Height = 25.000000000000000000
-        ShowHint = True
-        Cancel = True
-        Caption = #1054#1090#1084#1077#1085#1072
-        ModalResult = 2
-      end
-      object startDateEdit: TfrxEditControl
-        Left = 32.000000000000000000
-        Top = 52.000000000000000000
-        Width = 121.000000000000000000
-        Height = 21.000000000000000000
-        ShowHint = True
-        Color = clWindow
-        MaxLength = 0
-        PasswordChar = #0
-        Text = '11'
-        OnExit = 'onEditExit'
-      end
-      object EndDateEdit: TfrxEditControl
+      object EndDateEdit: TfrxDateEditControl
         Left = 176.000000000000000000
-        Top = 52.000000000000000000
-        Width = 121.000000000000000000
+        Top = 68.000000000000000000
+        Width = 93.000000000000000000
         Height = 21.000000000000000000
-        Hint = '30.12.2001'
         ShowHint = True
         Color = clWindow
-        MaxLength = 0
-        PasswordChar = #0
-        OnExit = 'onEditExit'
+        Date = 45735.000000000000000000
+        Time = 0.865339004631096000
+        WeekNumbers = False
+      end
+      object StartDateEdit: TfrxDateEditControl
+        Left = 44.000000000000000000
+        Top = 68.000000000000000000
+        Width = 93.000000000000000000
+        Height = 21.000000000000000000
+        ShowHint = True
+        Color = clWindow
+        Date = 45735.000000000000000000
+        Time = 0.865487812501669400
+        WeekNumbers = False
       end
       object Label1: TfrxLabelControl
-        Left = 32.000000000000000000
-        Top = 36.000000000000000000
-        Width = 87.000000000000000000
-        Height = 13.000000000000000000
-        ShowHint = True
-        Caption = #1053#1072#1095#1072#1083#1100#1085#1072#1103' '#1076#1072#1090#1072':'
-        Color = clBtnFace
-      end
-      object Label2: TfrxLabelControl
-        Left = 176.000000000000000000
-        Top = 36.000000000000000000
-        Width = 81.000000000000000000
-        Height = 13.000000000000000000
-        ShowHint = True
-        Caption = #1050#1086#1085#1077#1095#1085#1072#1103' '#1076#1072#1090#1072':'
-        Color = clBtnFace
-      end
-      object Label3: TfrxLabelControl
-        Left = 140.000000000000000000
-        Top = 8.000000000000000000
+        Left = 120.000000000000000000
+        Top = 12.000000000000000000
         Width = 83.000000000000000000
         Height = 13.000000000000000000
         ShowHint = True
         Caption = #1042#1042#1077#1076#1080#1090#1077' '#1087#1077#1088#1080#1086#1076
         Color = clBtnFace
-        OnClick = 'Label3OnClick'
+        OnClick = 'Label1OnClick'
       end
-      object Label4: TfrxLabelControl
-        Left = 160.000000000000000000
-        Top = 56.000000000000000000
+      object Label2: TfrxLabelControl
+        Left = 28.000000000000000000
+        Top = 72.000000000000000000
+        Width = 7.000000000000000000
+        Height = 13.000000000000000000
+        ShowHint = True
+        Caption = #1057
+        Color = clBtnFace
+        OnClick = 'Label1OnClick'
+      end
+      object Label3: TfrxLabelControl
+        Left = 152.000000000000000000
+        Top = 72.000000000000000000
         Width = 12.000000000000000000
         Height = 13.000000000000000000
         ShowHint = True
         Caption = #1087#1086
         Color = clBtnFace
+        OnClick = 'Label1OnClick'
       end
-      object Label5: TfrxLabelControl
-        Left = 20.000000000000000000
-        Top = 56.000000000000000000
-        Width = 5.000000000000000000
+      object Label4: TfrxLabelControl
+        Left = 48.000000000000000000
+        Top = 48.000000000000000000
+        Width = 65.000000000000000000
         Height = 13.000000000000000000
         ShowHint = True
-        Caption = #1089
+        Caption = #1044#1072#1090#1072' '#1085#1072#1095#1072#1083#1072
+        Color = clBtnFace
+      end
+      object Label5: TfrxLabelControl
+        Left = 176.000000000000000000
+        Top = 48.000000000000000000
+        Width = 59.000000000000000000
+        Height = 13.000000000000000000
+        ShowHint = True
+        Caption = #1044#1072#1090#1072' '#1082#1086#1085#1094#1072
         Color = clBtnFace
       end
     end

@@ -11,6 +11,7 @@ WITH daily_work AS (
     JOIN trip t ON d.id = t.driver_id
     JOIN trip_request tr ON t.trip_request_id = tr.id
     WHERE tr.status_id = 2                     --поездки в процессе. Надо только заверщенные. (я нигде не ставлю статус завершенный)
+    AND TRUNC(tr.start_datetime) BETWEEN :startDate and :endDate  --по периоду
     GROUP BY d.id, d.full_name, tr.required_vehicle_type_id, TRUNC(tr.start_datetime)
 )
 
@@ -20,7 +21,7 @@ SELECT
     ROUND(SUM(dw.sum_hours), 2) AS total_hours,
     ROUND(AVG(dw.sum_hours), 2) AS avg_hours_per_day,
 
-    --
+    --??
     ROUND(SUM(CASE WHEN dw.vehicle_type = 1 THEN dw.sum_hours ELSE 0 END), 2) AS vehicle_type_1,
     ROUND(SUM(CASE WHEN dw.vehicle_type = 2 THEN dw.sum_hours ELSE 0 END), 2) AS vehicle_type_2,
     ROUND(SUM(CASE WHEN dw.vehicle_type = 3 THEN dw.sum_hours ELSE 0 END), 2) AS vehicle_type_3,

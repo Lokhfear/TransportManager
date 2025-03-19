@@ -6,7 +6,7 @@ uses
   System.SysUtils, Vcl.Mask, Vcl.Dialogs;
 
 function ExtractDigits(const Input: string): string;
-procedure ValidateDateTime(MaskEdit: TMaskEdit; var OutDateTime: TDateTime);
+function ValidateDateTime(MaskEdit: TMaskEdit; var OutDateTime: TDateTime): Boolean;
 function ValidateDate(MaskEdit: TMaskEdit; var OutDate: TDate): Boolean;
 
 implementation
@@ -23,12 +23,12 @@ begin
   end;
 end;
 
-procedure ValidateDateTime(MaskEdit: TMaskEdit; var OutDateTime: TDateTime);
+function ValidateDateTime(MaskEdit: TMaskEdit; var OutDateTime: TDateTime): Boolean;
 begin
   if MaskEdit.Text = '' then
   begin
     OutDateTime := 0;
-    Exit;
+    Exit(True);
   end;
 
   try
@@ -37,10 +37,14 @@ begin
     on E: EConvertError do
     begin
       MaskEdit.Clear;
-      ShowMessage('Неверный формат даты и времени');
+      ShowMessage('Неверный формат даты и времени' + MaskEdit.Text);
+      Exit(False);
     end;
   end;
+
+  Exit(True);
 end;
+
 
 function ValidateDate(MaskEdit: TMaskEdit; var OutDate: TDate): Boolean;
 begin

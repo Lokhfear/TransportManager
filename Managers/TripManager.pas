@@ -13,6 +13,9 @@ type
     procedure Add(TripRequestID: Integer; TransportID: String; DriverID: Integer);
     procedure UpdateTrip(AID: Integer; TransportID: String; DriverID: Integer);
     procedure Delete(AID: Integer; ShowDeleteMessage: Boolean);
+    procedure SearchByParam(
+      NumberPlate, RouteName, DriverName, VehicleType: string;
+      StartDateFrom, StartDateTo, EndDateFrom, EndDateTo: TDateTime);
   end;
 
 implementation
@@ -104,6 +107,47 @@ except
 
 end;
 end;
+
+
+
+
+procedure TTripManager.SearchByParam(
+  NumberPlate, RouteName, DriverName, VehicleType: string;
+  StartDateFrom, StartDateTo, EndDateFrom, EndDateTo: TDateTime);
+var
+  FilterString, DateTimeFilter: string;
+begin
+  try
+    FQuery.Filtered := False;
+    FQuery.Filter := '';
+    FQuery.FilterOptions := [foCaseInsensitive];
+
+FilterString := Format(
+  'transport_id LIKE ''%%%s%%'' AND route_name LIKE ''%%%s%%'' AND full_name LIKE ''%%%s%%''',
+  [NumberPlate, RouteName, DriverName]
+);
+
+    if VehicleType <> '' then
+      FilterString := FilterString + ' AND ' + Format('type_name = ''%s''', [VehicleType]);
+
+    DateTimeFilter := AddDateFilter('start_datetime', StartDateFrom, StartDateTo);
+    if DateTimeFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateTimeFilter;
+
+    DateTimeFilter := AddDateFilter('end_datetime', EndDateFrom, EndDateTo);
+    if DateTimeFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateTimeFilter;
+
+    FQuery.Filter := FilterString;
+    FQuery.Filtered := True;
+  except
+    on E: Exception do
+      ShowMessage('Ошибка при фильтрации данных: ' + E.Message);
+  end;
+end;
+
+
+
 
 end.
 

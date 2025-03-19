@@ -121,7 +121,6 @@ object TransportFr: TTransportFr
       ParentBackground = False
       ParentColor = False
       TabOrder = 0
-      ExplicitLeft = -5
       ExplicitTop = -4
       object VehicleTypeCreateLabel: TLabel
         Left = 132
@@ -181,7 +180,7 @@ object TransportFr: TTransportFr
       end
       object NumberPlateSearchEdit: TEdit
         Left = 12
-        Top = 45
+        Top = 43
         Width = 84
         Height = 21
         TabOrder = 0
@@ -189,7 +188,7 @@ object TransportFr: TTransportFr
       end
       object VehicleTypeSearchComboBox: TDBLookupComboBox
         Left = 127
-        Top = 45
+        Top = 43
         Width = 165
         Height = 21
         KeyField = 'ID'
@@ -231,7 +230,7 @@ object TransportFr: TTransportFr
       end
       object SearchStartExploitationFrom: TMaskEdit
         AlignWithMargins = True
-        Left = 8
+        Left = 12
         Top = 86
         Width = 60
         Height = 21
@@ -309,9 +308,9 @@ object TransportFr: TTransportFr
         195
         119)
       object LoadButton: TButton
-        Left = 24
-        Top = 22
-        Width = 161
+        Left = 23
+        Top = 17
+        Width = 163
         Height = 25
         Anchors = [akTop, akRight, akBottom]
         Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1076#1072#1085#1085#1099#1077
@@ -319,8 +318,8 @@ object TransportFr: TTransportFr
         OnClick = LoadButtonClick
       end
       object CreateButton: TButton
-        Left = 24
-        Top = 53
+        Left = 23
+        Top = 48
         Width = 163
         Height = 25
         Caption = #1057#1086#1079#1076#1072#1090#1100
@@ -328,8 +327,8 @@ object TransportFr: TTransportFr
         OnClick = CreateButtonClick
       end
       object ChangeButton: TButton
-        Left = 24
-        Top = 84
+        Left = 29
+        Top = 79
         Width = 163
         Height = 25
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100

@@ -56,14 +56,14 @@ begin
     DBConnect.DriverLicensesQuery, DBConnect.licenseCategoryQuery);
   PendingTriptRequestFrame := TPendingTripRequestFr.Create(Self, DBConnect.pendingRequest,
     DBConnect.AvaibleTransportQuery, DBConnect.AvaibleDriverQuery, DBConnect.tripQuery);
-  TripRequestFrame := TTripRequestFr.Create(Self);
+  TripRequestFrame := TTripRequestFr.Create(Self, DBConnect.pendingRequest);
 
 
   TripFrame.Parent := TripPage;
   TransportFrame.Parent := transportPage;
   DriverFrame.Parent := driverPage;
   PendingTriptRequestFrame.Parent := PendingRequestPage;
-  TripRequestFrame.Parent := AllRequestPage;   //?
+  TripRequestFrame.Parent := AllRequestPage;
   VehicleTypeFrame.Parent := VehicleTypePage;
 
 end;
@@ -92,7 +92,7 @@ begin
     0:
       TPendingTripRequestFr(PendingRequestPage.Controls[0]).ReloadData;
     1:
-     // TDriverFr(driverPage.Controls[0]).ReloadData;
+      TDriverFr(driverPage.Controls[0]).ReloadData;
 
   end;
 end;

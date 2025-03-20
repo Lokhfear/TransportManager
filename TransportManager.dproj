@@ -149,10 +149,6 @@
             <Form>CreateDriver</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Frames\TripRequestFrame.pas">
-            <Form>TripRequestFr</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Frames\DriverLicensesFrame.pas">
             <Form>DriverLicensesFr</Form>
             <FormType>dfm</FormType>
@@ -160,6 +156,11 @@
         </DCCReference>
         <DCCReference Include="Helper.pas"/>
         <DCCReference Include="Managers\LicenseCategoriesCheckboxManager.pas"/>
+        <DCCReference Include="Frames\TripRequestFrame.pas">
+            <Form>TripRequestFr</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

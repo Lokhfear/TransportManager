@@ -1,0 +1,117 @@
+unit TripRequestFrame;
+
+interface
+
+uses DBConnection, FireDAC.Comp.Client, TripRequestManager, helper,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls;
+
+type
+  TTripRequestFr = class(TFrame)
+
+    TopPanel: TPanel;
+    BottomPanel: TPanel;
+    SearchGroupBox: TGroupBox;
+    PendingRequestDBGrid: TDBGrid;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label8: TLabel;
+    VehicleTypeSearchComboBox: TDBLookupComboBox;
+    TripNameSearchEdit: TEdit;
+    FullNameSearchEdit: TEdit;
+    CreateTimeSearchEditFrom: TMaskEdit;
+    SearchTripStartTo: TMaskEdit;
+    SearchTripStartFrom: TMaskEdit;
+    SearchTripEndFrom: TMaskEdit;
+    SearchTripEndTo: TMaskEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label7: TLabel;
+    ClearButton: TButton;
+    LoadButton: TButton;
+    CreateTimeSearchEditTo: TMaskEdit;
+    Label9: TLabel;
+    procedure ClearButtonClick(Sender: TObject);
+    procedure LoadButtonClick(Sender: TObject);
+  private
+     ManagerCRUD: TTripRequestManager;
+    { Private declarations }
+  public
+     constructor Create(Owner: TComponent; TripRequestQuery : TFDQuery);
+
+     procedure ReloadData;
+  published
+    procedure SearchByParam(Sender: TObject);
+
+  end;
+
+implementation
+
+{$R *.dfm}
+
+{ TTripRequestFr }
+
+procedure TTripRequestFr.ClearButtonClick(Sender: TObject);
+begin
+  FullNameSearchEdit.Clear;
+  TripNameSearchEdit.Clear;
+  CreateTimeSearchEditTo.Clear;
+  CreateTimeSearchEditFrom.Clear;
+  VehicleTypeSearchComboBox.KeyValue := -1;
+  SearchTripStartFrom.Clear;
+  SearchTripStartTo.Clear;
+  SearchTripEndFrom.Clear;
+  SearchTripEndTo.Clear;
+end;
+
+constructor TTripRequestFr.Create(Owner: TComponent; TripRequestQuery : TFDQuery);
+begin
+    inherited Create(Owner);
+    ManagerCRUD := TTripRequestManager.Create(TripRequestQuery);
+    ManagerCRUD.LoadAllTripRequest;
+end;
+
+
+
+procedure TTripRequestFr.LoadButtonClick(Sender: TObject);
+begin
+ReloadData;
+end;
+
+procedure TTripRequestFr.ReloadData;
+begin
+ ManagerCRUD.LoadAllTripRequest;
+end;
+
+procedure TTripRequestFr.SearchByParam(Sender: TObject);
+var
+  CreateDateFrom, CreateDateTo,
+  TripStartFrom, TripStartTo,
+  TripEndFrom, TripEndTo: TDate;
+begin
+
+  if ValidateDate(CreateTimeSearchEditFrom, CreateDateFrom) and
+     ValidateDate(CreateTimeSearchEditTo, CreateDateTo) and
+     ValidateDate(SearchTripStartFrom, TripStartFrom) and
+     ValidateDate(SearchTripStartTo, TripStartTo) and
+     ValidateDate(SearchTripEndFrom, TripEndFrom) and
+     ValidateDate(SearchTripEndTo, TripEndTo) then
+  begin
+    ManagerCRUD.SearchByParams(
+      TripNameSearchEdit.Text,
+      VehicleTypeSearchComboBox.Text,
+      FullNameSearchEdit.Text,
+      CreateDateFrom, CreateDateTo,
+      TripStartFrom, TripStartTo,
+      TripEndFrom, TripEndTo
+    );
+  end
+  else
+  begin
+    ShowMessage('Ошибка в формате даты. Пожалуйста, проверьте введённые данные.');
+  end;
+end;
+end.

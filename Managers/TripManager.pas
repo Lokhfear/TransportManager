@@ -130,11 +130,11 @@ FilterString := Format(
     if VehicleType <> '' then
       FilterString := FilterString + ' AND ' + Format('type_name = ''%s''', [VehicleType]);
 
-    DateTimeFilter := AddDateFilter('start_datetime', StartDateFrom, StartDateTo);
+    DateTimeFilter := AddDateTimeFilter('start_datetime', StartDateFrom, StartDateTo);
     if DateTimeFilter <> '' then
       FilterString := FilterString + ' AND ' + DateTimeFilter;
 
-    DateTimeFilter := AddDateFilter('end_datetime', EndDateFrom, EndDateTo);
+    DateTimeFilter := AddDateTimeFilter('end_datetime', EndDateFrom, EndDateTo);
     if DateTimeFilter <> '' then
       FilterString := FilterString + ' AND ' + DateTimeFilter;
 

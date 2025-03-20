@@ -18,10 +18,10 @@ uses
   CreateVehicleTypeModal in 'CreateFroms\CreateVehicleTypeModal.pas' {CreateVhicleType},
   CreateTransportModal in 'CreateFroms\CreateTransportModal.pas' {CreateTransport},
   CreateDriverModal in 'CreateFroms\CreateDriverModal.pas' {CreateDriver},
-  TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr},
   DriverLicensesFrame in 'Frames\DriverLicensesFrame.pas' {DriverLicensesFr: TFrame},
   Helper in 'Helper.pas',
-  LicenseCategoriesCheckBoxManager in 'Managers\LicenseCategoriesCheckboxManager.pas';
+  LicenseCategoriesCheckboxManager in 'Managers\LicenseCategoriesCheckboxManager.pas',
+  TripRequestFrame in 'Frames\TripRequestFrame.pas' {TripRequestFr: TFrame};
 
 {$R *.res}
 
@@ -30,7 +30,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TDBConnect, DBConnect);
-  Application.CreateForm(TTripRequestFr, TripRequestFr);
   //Application.CreateForm(TCreateDriver, CreateDriver);
   //Application.CreateForm(TCreateVhicleType, CreateVhicleType);
   //Application.CreateForm(TCreateTransport, CreateTransport);

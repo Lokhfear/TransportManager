@@ -14,7 +14,15 @@ type
     procedure Delete(AID: integer; ShowDeleteMessage: Boolean);
     procedure UpdateStatus(AID: integer; NewStatusID: Integer);
     procedure Add(RouteName: String; Distance: Double; RequiredVehicleTypeID: Integer; StartDateTime, EndDateTime: TDateTime);
+
+   procedure LoadAllTripRequest;
     //procedure UpdateTimes(AID: Integer; StartTime, EndTime: TDateTime);
+
+procedure SearchByParams(
+  const ATripName, AVehicleType: string;
+  const ACreateDateFrom, ACreateDateTo, ATripStartFrom,
+  ATripStartTo, ATripEndFrom, ATripEndTo: TDate);
+
   end;
 
 implementation
@@ -84,6 +92,34 @@ end;
 
 end;
 
+
+procedure TTripRequestManager.LoadAllTripRequest;
+begin
+try
+  FQuery.SQL.Text := 'SELECT ' +
+    'tr.id, ' +
+    'route_name, ' +
+    'distance, '  +
+    'creation_date, ' +
+    'tr.status_id, ' +
+    'status_name, '  +
+    'tr.required_vehicle_type_id, ' +
+    'vh.type_name, '  +
+    'TO_CHAR(start_datetime, ''DD.MM.YYYY HH24:MI'') AS start_datetime, ' +
+    'TO_CHAR(end_datetime, ''DD.MM.YYYY HH24:MI'') AS end_datetime ' +
+'FROM trip_request tr ' +
+'LEFT JOIN vehicle_type vh ON tr.required_vehicle_type_id = vh.id ' +
+'join status s on tr.status_id = s.id ' +
+'ORDER BY creation_date, start_datetime';
+
+  FQuery.Open;
+  except
+  on E: Exception do
+    ShowMessage('Ошибка. Не удалось загрузить данные запросов: ' + E.Message);
+end;
+end;
+
+
 procedure TTripRequestManager.LoadAll;
 begin
 try
@@ -148,6 +184,47 @@ begin
  // FQuery.Filter := 'status = ''Ожидает''';
   FQuery.Filtered := True;
 end;
+
+
+
+procedure TTripRequestManager.SearchByParams(
+  const ATripName, AVehicleType: string;
+  const ACreateDateFrom, ACreateDateTo, ATripStartFrom, ATripStartTo, ATripEndFrom, ATripEndTo: TDate);
+var
+  FilterString, DateFilter: string;
+begin
+  try
+    FQuery.Filtered := False;
+    FQuery.Filter := '';
+    FQuery.FilterOptions := [foCaseInsensitive];
+
+
+    FilterString := Format(
+      'route_name LIKE ''%%%s%%'' AND type_name LIKE ''%%%s%%''',
+      [ATripName, AVehicleType]
+    );
+
+
+    DateFilter := AddDateFilter('creation_date', ACreateDateFrom, ACreateDateTo);
+    if DateFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateFilter;
+
+    DateFilter := AddDateFilter('start_datetime', ATripStartFrom, ATripStartTo);
+    if DateFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateFilter;
+
+    DateFilter := AddDateFilter('end_datetime', ATripEndFrom, ATripEndTo);
+    if DateFilter <> '' then
+      FilterString := FilterString + ' AND ' + DateFilter;
+
+    FQuery.Filter := FilterString;
+    FQuery.Filtered := True;
+  except
+    on E: Exception do
+      ShowMessage('Ошибка при фильтрации данных: ' + E.Message);
+  end;
+end;
+
 
 end.
 

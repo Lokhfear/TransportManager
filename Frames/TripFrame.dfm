@@ -12,8 +12,6 @@ object TripFr: TTripFr
     Height = 349
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 153
-    ExplicitHeight = 327
     object TripGrid: TDBGrid
       Left = 1
       Top = 39
@@ -35,7 +33,6 @@ object TripFr: TTripFr
         item
           Expanded = False
           FieldName = 'ID'
-          Width = -1
           Visible = False
         end
         item
@@ -106,8 +103,6 @@ object TripFr: TTripFr
       Align = alTop
       Caption = 'GroupBox5'
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 5
       object SelectedTripNameEdit: TEdit
         AlignWithMargins = True
         Left = 159
@@ -121,7 +116,6 @@ object TripFr: TTripFr
         Align = alLeft
         Enabled = False
         TabOrder = 0
-        ExplicitTop = 14
       end
       object SelectedDistanceEdit: TEdit
         AlignWithMargins = True
@@ -136,7 +130,6 @@ object TripFr: TTripFr
         Align = alLeft
         Enabled = False
         TabOrder = 1
-        ExplicitLeft = 410
       end
       object SelectedFullNameComboBox: TDBLookupComboBox
         AlignWithMargins = True
@@ -154,7 +147,6 @@ object TripFr: TTripFr
         ListField = 'FULL_NAME'
         ListSource = DBConnect.AvaibleDriverDataSource
         TabOrder = 2
-        ExplicitLeft = 73
       end
       object SelectedNuberPlateComboBox: TDBLookupComboBox
         AlignWithMargins = True
@@ -171,7 +163,6 @@ object TripFr: TTripFr
         ListField = 'NUMBER_PLATE'
         ListSource = DBConnect.AvaibleTransportDataSource
         TabOrder = 3
-        ExplicitLeft = 463
       end
       object SelectedVehicleTypeEdit: TEdit
         AlignWithMargins = True
@@ -186,7 +177,6 @@ object TripFr: TTripFr
         Align = alLeft
         Enabled = False
         TabOrder = 4
-        ExplicitLeft = 549
       end
       object SelectedStartDateTimeEdit: TMaskEdit
         AlignWithMargins = True
@@ -204,7 +194,6 @@ object TripFr: TTripFr
         TabOrder = 5
         Text = ''
         OnExit = SelectedStartDateTimeEditExit
-        ExplicitLeft = 630
       end
       object SelectedEndDateTimeEdit: TMaskEdit
         AlignWithMargins = True
@@ -222,7 +211,6 @@ object TripFr: TTripFr
         TabOrder = 6
         Text = ''
         OnExit = SelectedEndDateTimeEditExit
-        ExplicitLeft = 755
       end
     end
   end
@@ -241,8 +229,6 @@ object TripFr: TTripFr
       Align = alRight
       Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077
       TabOrder = 0
-      ExplicitLeft = 670
-      ExplicitTop = -3
       DesignSize = (
         195
         129)
@@ -284,8 +270,6 @@ object TripFr: TTripFr
       Align = alClient
       Caption = #1055#1086#1080#1089#1082
       TabOrder = 1
-      ExplicitLeft = -5
-      ExplicitTop = -3
       object Label1: TLabel
         Left = 16
         Top = 69
@@ -367,7 +351,7 @@ object TripFr: TTripFr
         OnChange = SearchByParam
       end
       object ClearButton: TButton
-        Left = 486
+        Left = 479
         Top = 84
         Width = 120
         Height = 21
